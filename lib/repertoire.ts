@@ -10,15 +10,12 @@ export type ScheduledRole = {
   role: string;
   type: PerformanceType;
   date: string;
-  venue: string;
-  city: string;
   addToRepertoire: boolean;
 };
 
 const CATEGORY_BY_TYPE: Record<PerformanceType, RepertoireCategory> = {
   opera: 'opera',
   concert: 'concert',
-  recital: 'song',
 };
 
 const normalize = (s: string) =>
@@ -33,20 +30,17 @@ const normalize = (s: string) =>
 export const repertoireKey = (work: string, composer: string, role: string) =>
   [work, composer, role].map(normalize).join('|');
 
-const performanceLabel = (p: ScheduledRole) =>
-  [[p.venue, p.city].filter(Boolean).join(', '), p.date.slice(0, 4)].filter(Boolean).join(' ');
-
 /**
  * Builds the public repertoire from the hand-made entries plus every role in
  * the schedule, so a role is entered once (in the schedule) and listed once.
+ * Each entry is just composer, work and role (client request: no venues or dates).
  *
  * - Schedule entries with a role (and "add to repertoire" ticked) become entries.
- * - Several performances of the same role collapse into one entry whose
- *   details list the venues and years, newest first.
+ * - Several performances of the same role collapse into one entry.
  * - A role counts as performed once any of its dates is before `today`;
  *   with only future dates it is "in preparation".
- * - A matching manual entry keeps its own details and recording; the
- *   scheduled performances are appended, and it is performed if either says so.
+ * - A matching manual entry keeps its recording, and it is performed if
+ *   either the manual status or a past performance says so.
  */
 export function mergeRepertoire(manual: RepertoireItem[], scheduled: ScheduledRole[], today: string): RepertoireItem[] {
   const groups = new Map<string, ScheduledRole[]>();
@@ -61,7 +55,6 @@ export function mergeRepertoire(manual: RepertoireItem[], scheduled: ScheduledRo
 
   for (const [key, performances] of groups) {
     const sorted = [...performances].sort((a, b) => b.date.localeCompare(a.date));
-    const labels = [...new Set(sorted.map(performanceLabel).filter(Boolean))];
     const performed = sorted.some((p) => p.date < today);
     const latest = sorted[0];
     const existing = result.get(key);
@@ -70,7 +63,6 @@ export function mergeRepertoire(manual: RepertoireItem[], scheduled: ScheduledRo
       result.set(key, {
         ...existing,
         inPreparation: existing.inPreparation && !performed,
-        details: [existing.details, ...labels.filter((l) => !existing.details.includes(l))].filter(Boolean).join(' · '),
         fromSchedule: true,
       });
     } else {
@@ -81,7 +73,6 @@ export function mergeRepertoire(manual: RepertoireItem[], scheduled: ScheduledRo
         role: latest.role,
         category: CATEGORY_BY_TYPE[latest.type],
         inPreparation: !performed,
-        details: labels.join(' · '),
         recording: null,
         recordingUrl: null,
         fromSchedule: true,

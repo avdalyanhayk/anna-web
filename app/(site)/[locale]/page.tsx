@@ -82,7 +82,7 @@ export default async function HomePage(props: LocaleParams) {
               performances={upcoming}
               labels={{
                 tickets: t.common.tickets,
-                types: { opera: t.schedule.opera, concert: t.schedule.concert, recital: t.schedule.recital },
+                types: { opera: t.schedule.opera, concert: t.schedule.concert },
               }}
             />
           ) : (

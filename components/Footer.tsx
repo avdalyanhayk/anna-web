@@ -4,7 +4,7 @@ import type { Settings } from '@/lib/content';
 import { localePath, type Dictionary, type Locale } from '@/lib/i18n';
 import { SocialIcon } from './SocialIcon';
 
-/** Dark footer bookending the photo-led hero: wordmark, navigation, management, legal links. */
+/** Dark footer bookending the photo-led hero: wordmark, navigation, social links, legal links. */
 export function Footer({
   locale,
   settings,
@@ -17,9 +17,7 @@ export function Footer({
   nav: { label: string; href: string }[];
 }) {
   const year = new Date().getFullYear();
-  const hasManagement = Boolean(settings.managementAgency || settings.managementName || settings.managementEmail || settings.managementPhone);
   const legal = [
-    { label: t.common.pressKit, href: `${localePath(locale, '/about')}#press-kit` },
     { label: t.common.imprint, href: localePath(locale, '/imprint') },
     { label: t.common.privacy, href: localePath(locale, '/privacy') },
   ];
@@ -30,7 +28,7 @@ export function Footer({
         <p className="wordmark text-[clamp(2.25rem,6vw,4.5rem)] text-balance">Anna Avdalyan</p>
         <span aria-hidden className="mt-8 block h-px w-16 bg-champagne" />
 
-        <div className="mt-12 grid gap-12 md:grid-cols-[1.4fr_1fr_auto]">
+        <div className="mt-12 grid gap-12 md:grid-cols-[1fr_auto]">
           <nav aria-label="Footer">
             <ul className="grid grid-cols-2 gap-x-8 gap-y-3 sm:grid-cols-3">
               {nav.map((item) => (
@@ -42,30 +40,6 @@ export function Footer({
               ))}
             </ul>
           </nav>
-
-          {hasManagement && (
-            <address className="not-italic">
-              <p className="eyebrow text-champagne">{t.contact.management}</p>
-              <div className="mt-4 space-y-1 text-paper/85">
-                {settings.managementAgency && <p className="font-semibold text-paper">{settings.managementAgency}</p>}
-                {settings.managementName && <p>{settings.managementName}</p>}
-                {settings.managementEmail && (
-                  <p>
-                    <a href={`mailto:${settings.managementEmail}`} className="link-draw hover:text-paper">
-                      {settings.managementEmail}
-                    </a>
-                  </p>
-                )}
-                {settings.managementPhone && (
-                  <p>
-                    <a href={`tel:${settings.managementPhone.replace(/[^\d+]/g, '')}`} className="link-draw tabular-nums hover:text-paper">
-                      {settings.managementPhone}
-                    </a>
-                  </p>
-                )}
-              </div>
-            </address>
-          )}
 
           {settings.socials.length > 0 && (
             <ul className="flex gap-2 md:self-start" aria-label="Social media">

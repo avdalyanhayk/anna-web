@@ -1,24 +1,22 @@
 'use client';
 
-import { useDeferredValue, useMemo, useState } from 'react';
-import { ArrowUpRight, Pause, Play, Search, X } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { ArrowUpRight, Pause, Play } from 'lucide-react';
 import type { RepertoireCategory, RepertoireItem } from '@/lib/content';
 import { RecordingEmbed } from './RecordingEmbed';
 import { cn } from './ui/cn';
 
 type Labels = Record<RepertoireCategory, string> & {
-  search: string;
   performed: string;
   inPreparation: string;
   listen: string;
   closeRecording: string;
   openRecording: string;
-  noResults: string;
 };
 
 type Status = 'performed' | 'preparation';
 
-const CATEGORY_ORDER: RepertoireCategory[] = ['opera', 'concert', 'song'];
+const CATEGORY_ORDER: RepertoireCategory[] = ['opera', 'concert'];
 
 const normalize = (s: string) =>
   s
@@ -51,54 +49,23 @@ function groupByCategory(items: RepertoireItem[]) {
 }
 
 export function RepertoireIndex({ items, labels }: { items: RepertoireItem[]; labels: Labels }) {
-  const [query, setQuery] = useState('');
   const [playing, setPlaying] = useState<string | null>(null);
-  const deferred = useDeferredValue(query);
 
-  const groups = useMemo(() => {
-    const q = normalize(deferred.trim());
-    const filtered = q
-      ? items.filter((i) => normalize(`${i.work} ${i.composer} ${i.role}`).includes(q))
-      : items;
-    // Performed roles first, roles in development in their own section (client brief).
-    return (['performed', 'preparation'] as Status[])
-      .map((status) => ({
-        status,
-        categories: groupByCategory(filtered.filter((i) => i.inPreparation === (status === 'preparation'))),
-      }))
-      .filter((g) => g.categories.length > 0);
-  }, [items, deferred]);
+  // Performed roles first, roles in development in their own section (client brief).
+  const groups = useMemo(
+    () =>
+      (['performed', 'preparation'] as Status[])
+        .map((status) => ({
+          status,
+          categories: groupByCategory(items.filter((i) => i.inPreparation === (status === 'preparation'))),
+        }))
+        .filter((g) => g.categories.length > 0),
+    [items],
+  );
 
   return (
     <div>
-      <div className="relative max-w-xl">
-        <label htmlFor="repertoire-search" className="sr-only">
-          {labels.search}
-        </label>
-        <Search aria-hidden className="pointer-events-none absolute top-1/2 left-0 size-5 -translate-y-1/2 text-muted" strokeWidth={1.75} />
-        <input
-          id="repertoire-search"
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={labels.search}
-          autoComplete="off"
-          className="w-full appearance-none border-0 border-b border-ink/30 bg-transparent py-4 pr-10 pl-9 text-lg placeholder:text-muted focus:border-accent focus:outline-none [&::-webkit-search-cancel-button]:hidden"
-        />
-        {query && (
-          <button
-            type="button"
-            onClick={() => setQuery('')}
-            className="absolute top-1/2 right-0 flex size-10 -translate-y-1/2 items-center justify-center text-muted hover:text-ink"
-          >
-            <X aria-hidden className="size-4" strokeWidth={1.75} />
-            <span className="sr-only">Clear</span>
-          </button>
-        )}
-      </div>
-
-      <div aria-live="polite" className="mt-16 space-y-24">
-        {groups.length === 0 && <p className="text-lg text-muted">{labels.noResults}</p>}
+      <div className="space-y-24">
         {groups.map(({ status, categories }) => (
           <section key={status} aria-labelledby={`rep-${status}`}>
             <div className="flex items-center gap-5">
@@ -133,7 +100,6 @@ export function RepertoireIndex({ items, labels }: { items: RepertoireItem[]; la
                                       <span className="font-display text-xl font-semibold">{w.work}</span>
                                       {w.role && <span className="text-ink-soft"> — {w.role}</span>}
                                     </p>
-                                    {w.details && <p className="mt-1 text-sm text-muted">{w.details}</p>}
                                   </div>
                                   {w.recording ? (
                                     <button

@@ -74,13 +74,13 @@ Changes go live about **1 minute after you click Save**, once the website has re
 
 **Add a performance**
 1. Go to **Performances → Schedule** and click **Add**.
-2. Fill in the production, date, time (e.g. `19:30`), type (opera, concert or recital), role, composer, venue, city and country.
+2. Fill in the production, date, time (e.g. `19:30`), type (opera or concert), role, composer, venue, city and country.
    - Add a **tickets link** if there is one.
-   - Add a **venue / production page** to link the theatre's official page.
+   - Add a **venue / production page**: the theatre's official page for this production.
 3. The *File name* must be unique. For several dates of one production, add the date, e.g. `la-traviata-2027-03-14`.
 4. Click **Create**.
 
-The website sorts everything automatically. Past dates move to the **Past** tab by themselves, grouped by season (e.g. 2025/26).
+The website sorts everything automatically. After the date has passed, the performance moves to the **Past** tab by itself, grouped by season (e.g. 2025/26). There it shows only the production and the venue, without dates. If you filled in the **venue / production page**, visitors can click the entry to open that page.
 
 **Add a video**
 1. Go to **Media → Videos**.
@@ -101,19 +101,19 @@ Recommended size: about **2000 px** on the longest side and **under 5 MB**. Expo
 1. Go to **Pages → About / Biography**.
 2. Edit the **full biography** as in a word processor. You can use **bold**, *italic*, headings and links.
 3. Write a **short biography** (about 80–120 words) as well. Visitors can switch between short and full, and presenters can copy the short one with one click.
-4. Upload your **CV (PDF)** and high-resolution **press photos**. They appear together in the "Press kit" section of the About page, with your management details.
+4. Optionally upload your **CV (PDF)**; visitors get a "Download CV" button under the biography.
 
 **Repertoire**
 
-Roles come **automatically from your Schedule**: any performance with a role is added to the Repertoire once the site rebuilds, so you never type a role twice.
-- The same role in several performances is listed **once**, with the venues and years as details (newest first).
+Each entry shows just the **composer, the work and the role**. Roles come **automatically from your Schedule**: any performance with a role is added to the Repertoire once the site rebuilds, so you never type a role twice.
+- The same role in several performances is listed **once**.
 - A role with a past date is shown as *Performed*. A role whose dates are all still upcoming is shown as *In preparation*, and moves to *Performed* by itself once the date has passed.
 - In a schedule entry, untick **Add this role to my Repertoire** to leave it out, e.g. a one-off cover.
 - If the production title is not the name of the work, fill in **Work (for Repertoire)**, e.g. "Ein deutsches Requiem".
 
 Use **Performances → Repertoire (extra roles)** only for:
-- roles you have sung that are not in the Schedule, or songs and concert works without a role;
-- adding **Performance details** or a **Recording** link (YouTube, Spotify or SoundCloud) to a scheduled role. Use the same work, composer and role; your text comes first and the scheduled venues are added after it.
+- roles you have sung that are not in the Schedule, or concert works without a role;
+- adding a **Recording** link (YouTube, Spotify or SoundCloud) to a scheduled role. Use the same work, composer and role.
 
 **Quotes**
 1. Go to **Performances → Quotes (press)**.
@@ -124,7 +124,7 @@ Use **Performances → Repertoire (extra roles)** only for:
 - Edit these in **Settings → Imprint & privacy**.
 - The seed text is a placeholder and not legal advice: replace it with your own details and have it checked.
 
-**Management details and social links**
+**Social links**
 - Edit these in **Settings → Site settings & contact**.
 - Your personal email address is **never shown** on the website. Messages from the contact form go to the private address set as `CONTACT_TO` on the server (see section 6).
 

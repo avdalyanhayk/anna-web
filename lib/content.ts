@@ -11,17 +11,13 @@ import { mergeRepertoire } from './repertoire';
 // not been created yet, so a missing singleton never breaks the build.
 
 export type RichDocument = DocumentRendererProps['document'];
-export type PerformanceType = 'opera' | 'concert' | 'recital';
-export type RepertoireCategory = 'opera' | 'concert' | 'song';
+export type PerformanceType = 'opera' | 'concert';
+export type RepertoireCategory = 'opera' | 'concert';
 export type PhotoCategory = 'portrait' | 'stage';
 
 export type Settings = {
   siteTitle: string;
   seoDescription: string;
-  managementName: string;
-  managementAgency: string;
-  managementEmail: string;
-  managementPhone: string;
   socials: { label: 'Instagram' | 'Facebook' | 'YouTube' | 'Spotify'; url: string }[];
   ogImage: string | null;
 };
@@ -49,7 +45,6 @@ export type RepertoireItem = {
   role: string;
   category: RepertoireCategory;
   inPreparation: boolean;
-  details: string;
   recording: Recording | null;
   /** Original link, for recordings that cannot be embedded. */
   recordingUrl: string | null;
@@ -92,10 +87,6 @@ export const getSettings = cache(async (locale: Locale): Promise<Settings> => {
   return {
     siteTitle: s?.siteTitle || 'Anna Avdalyan',
     seoDescription: localized(locale, s?.seoDescription, s?.seoDescriptionDe),
-    managementName: s?.managementName ?? '',
-    managementAgency: s?.managementAgency ?? '',
-    managementEmail: s?.managementEmail ?? '',
-    managementPhone: s?.managementPhone ?? '',
     socials,
     ogImage: s?.ogImage ?? null,
   };
@@ -125,7 +116,6 @@ export const getAbout = cache(async (locale: Locale) => {
     bio: isEmptyDocument(bio) ? null : bio,
     shortBio: localized(locale, a?.shortBio, a?.shortBioDe),
     cvPdf: a?.cvPdf ?? null,
-    pressPhotos: (a?.pressPhotos ?? []).map((p) => ({ src: p.image, caption: p.caption })),
   };
 });
 
@@ -193,7 +183,6 @@ export const getRepertoire = cache(async (): Promise<RepertoireItem[]> => {
     role: entry.role,
     category: entry.category,
     inPreparation: entry.status === 'preparation',
-    details: entry.details,
     recording: parseRecording(entry.recordingUrl),
     recordingUrl: entry.recordingUrl,
     fromSchedule: false,
@@ -208,8 +197,6 @@ export const getRepertoire = cache(async (): Promise<RepertoireItem[]> => {
       role: entry.role,
       type: entry.type,
       date: entry.date as string,
-      venue: entry.venue,
-      city: entry.city,
       addToRepertoire: entry.addToRepertoire,
     }));
   return mergeRepertoire(manual, scheduled, todayIso());

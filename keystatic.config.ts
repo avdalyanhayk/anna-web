@@ -61,7 +61,7 @@ export default config({
         }),
         subheadline: fields.text({
           label: 'Sub-headline',
-          description: 'One more short line, e.g. "Opera · Concert · Recital".',
+          description: 'One more short line, e.g. "Opera · Concert".',
         }),
         intro: fields.text({
           label: 'Introduction',
@@ -123,23 +123,6 @@ export default config({
           directory: 'public/files',
           publicPath: '/files/',
         }),
-        pressPhotos: fields.array(
-          fields.object({
-            image: fields.image({
-              label: 'Photo',
-              description: 'Use the full-resolution file, journalists download it as is.',
-              directory: 'public/images/press',
-              publicPath: '/images/press/',
-              validation: { isRequired: true },
-            }),
-            caption: fields.text({ label: 'Caption & photographer', description: 'e.g. "Portrait — © Jane Doe"' }),
-          }),
-          {
-            label: 'Press photos',
-            description: 'High-resolution photos journalists can download.',
-            itemLabel: (props) => props.fields.caption.value || 'Press photo',
-          },
-        ),
       },
     }),
 
@@ -231,10 +214,6 @@ export default config({
           multiline: true,
         }),
         seoDescriptionDe: fields.text({ label: 'Search engine description (German)', multiline: true }),
-        managementName: fields.text({ label: 'Manager name' }),
-        managementAgency: fields.text({ label: 'Agency' }),
-        managementEmail: fields.text({ label: 'Manager email' }),
-        managementPhone: fields.text({ label: 'Manager phone' }),
         instagram: fields.url({ label: 'Instagram link' }),
         facebook: fields.url({ label: 'Facebook link' }),
         youtube: fields.url({ label: 'YouTube channel link' }),
@@ -272,7 +251,6 @@ export default config({
           options: [
             { label: 'Opera', value: 'opera' },
             { label: 'Concert', value: 'concert' },
-            { label: 'Recital', value: 'recital' },
           ],
           defaultValue: 'opera',
         }),
@@ -312,17 +290,16 @@ export default config({
           name: {
             label: 'Work',
             description:
-              'Roles from your Schedule appear in the Repertoire automatically. Add an entry here only for roles not in the Schedule, or to add details or a recording to a scheduled role (same work, composer and role).',
+              'Roles from your Schedule appear in the Repertoire automatically. Add an entry here only for roles not in the Schedule, or to add a recording to a scheduled role (same work, composer and role).',
           },
         }),
         composer: fields.text({ label: 'Composer', description: 'Full name, e.g. Giacomo Puccini' }),
-        role: fields.text({ label: 'Role', description: 'e.g. Mimì. Leave empty for songs or concert works.' }),
+        role: fields.text({ label: 'Role', description: 'e.g. Mimì. Leave empty for concert works without a role.' }),
         category: fields.select({
           label: 'Category',
           options: [
             { label: 'Opera', value: 'opera' },
             { label: 'Concert / Oratorio', value: 'concert' },
-            { label: 'Song / Recital', value: 'song' },
           ],
           defaultValue: 'opera',
         }),
@@ -333,10 +310,6 @@ export default config({
             { label: 'In preparation', value: 'preparation' },
           ],
           defaultValue: 'performed',
-        }),
-        details: fields.text({
-          label: 'Performance details',
-          description: 'Optional, e.g. "Oper Frankfurt, 2025 · cond. Jane Doe"',
         }),
         recordingUrl: fields.url({
           label: 'Recording (video or audio)',

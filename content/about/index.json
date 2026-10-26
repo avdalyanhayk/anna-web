@@ -2,17 +2,7 @@
   "portrait": "/images/about/portrait.jpg",
   "voiceType": "Soprano",
   "voiceTypeDe": "Sopran",
-  "shortBio": "[Placeholder] Soprano Anna Avdalyan is praised for the luminous warmth of her voice and the dramatic truth of her portrayals. Her repertoire ranges from Mozart and Puccini heroines to the great roles of Verdi, including Violetta, Mimì and the Contessa Almaviva. She appears regularly on opera stages, in concert and in song recitals across Europe.\n\nIn the coming season she prepares the title role of Dvořák’s Rusalka.",
-  "shortBioDe": "[Platzhalter] Die Sopranistin Anna Avdalyan wird für die leuchtende Wärme ihrer Stimme und die dramatische Wahrhaftigkeit ihrer Rollengestaltung gerühmt. Ihr Repertoire reicht von Mozart- und Puccini-Heldinnen bis zu den großen Partien Verdis, darunter Violetta, Mimì und die Gräfin Almaviva. Sie ist regelmäßig auf Opernbühnen, im Konzert und im Liederabend in ganz Europa zu erleben.\n\nIn der kommenden Saison erarbeitet sie die Titelpartie in Dvořáks Rusalka.",
-  "cvPdf": "/files/cvPdf.pdf",
-  "pressPhotos": [
-    {
-      "image": "/images/press/press-1.jpg",
-      "caption": "Portrait (placeholder) — © Photographer"
-    },
-    {
-      "image": "/images/press/press-2.jpg",
-      "caption": "On stage (placeholder) — © Photographer"
-    }
-  ]
+  "shortBio": "[Placeholder] Soprano Anna Avdalyan is praised for the luminous warmth of her voice and the dramatic truth of her portrayals. Her repertoire ranges from Mozart and Puccini heroines to the great roles of Verdi, including Violetta, Mimì and the Contessa Almaviva. She appears regularly on opera stages and in concert across Europe.\n\nIn the coming season she prepares the title role of Dvořák’s Rusalka.",
+  "shortBioDe": "[Platzhalter] Die Sopranistin Anna Avdalyan wird für die leuchtende Wärme ihrer Stimme und die dramatische Wahrhaftigkeit ihrer Rollengestaltung gerühmt. Ihr Repertoire reicht von Mozart- und Puccini-Heldinnen bis zu den großen Partien Verdis, darunter Violetta, Mimì und die Gräfin Almaviva. Sie ist regelmäßig auf Opernbühnen und im Konzert in ganz Europa zu erleben.\n\nIn der kommenden Saison erarbeitet sie die Titelpartie in Dvořáks Rusalka.",
+  "cvPdf": "/files/cvPdf.pdf"
 }
