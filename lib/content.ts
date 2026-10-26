@@ -5,6 +5,7 @@ import { localized, type Locale } from './i18n';
 import { dateParts, formatLongDate, seasonOf, todayIso } from './dates';
 import { parseYouTubeId } from './youtube';
 import { parseRecording, type Recording } from './media';
+import { mergeRepertoire } from './repertoire';
 
 // Every loader returns plain, localized data and tolerates content that has
 // not been created yet, so a missing singleton never breaks the build.
@@ -52,6 +53,8 @@ export type RepertoireItem = {
   recording: Recording | null;
   /** Original link, for recordings that cannot be embedded. */
   recordingUrl: string | null;
+  /** True when (also) derived from the Schedule. */
+  fromSchedule: boolean;
 };
 
 export type Review = {
@@ -177,9 +180,13 @@ export async function getSchedule(locale: Locale) {
   };
 }
 
+/**
+ * Repertoire = hand-made entries + every role in the Schedule (merged, one
+ * entry per role). Depends on today's date for performed vs. in preparation.
+ */
 export const getRepertoire = cache(async (): Promise<RepertoireItem[]> => {
-  const entries = await reader.collections.repertoire.all();
-  return entries.map(({ slug, entry }) => ({
+  const [entries, schedule] = await Promise.all([reader.collections.repertoire.all(), reader.collections.schedule.all()]);
+  const manual: RepertoireItem[] = entries.map(({ slug, entry }) => ({
     slug,
     work: entry.work,
     composer: entry.composer,
@@ -189,7 +196,23 @@ export const getRepertoire = cache(async (): Promise<RepertoireItem[]> => {
     details: entry.details,
     recording: parseRecording(entry.recordingUrl),
     recordingUrl: entry.recordingUrl,
+    fromSchedule: false,
   }));
+  const scheduled = schedule
+    .filter(({ entry }) => entry.date)
+    .map(({ slug, entry }) => ({
+      slug,
+      title: entry.title,
+      work: entry.work,
+      composer: entry.composer,
+      role: entry.role,
+      type: entry.type,
+      date: entry.date as string,
+      venue: entry.venue,
+      city: entry.city,
+      addToRepertoire: entry.addToRepertoire,
+    }));
+  return mergeRepertoire(manual, scheduled, todayIso());
 });
 
 export const getReviews = cache(async (): Promise<Review[]> => {

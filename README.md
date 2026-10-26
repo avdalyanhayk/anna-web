@@ -104,9 +104,16 @@ Recommended size: about **2000 px** on the longest side and **under 5 MB**. Expo
 4. Upload your **CV (PDF)** and high-resolution **press photos**. They appear together in the "Press kit" section of the About page, with your management details.
 
 **Repertoire**
-1. Go to **Performances → Repertoire**.
-2. Set **Status** to *Performed* or *In preparation*; the two are shown as separate groups.
-3. Optionally add **Performance details** (house, year, conductor) and a **Recording** link (YouTube, Spotify or SoundCloud). The recording plays right on the page.
+
+Roles come **automatically from your Schedule**: any performance with a role is added to the Repertoire once the site rebuilds, so you never type a role twice.
+- The same role in several performances is listed **once**, with the venues and years as details (newest first).
+- A role with a past date is shown as *Performed*. A role whose dates are all still upcoming is shown as *In preparation*, and moves to *Performed* by itself once the date has passed.
+- In a schedule entry, untick **Add this role to my Repertoire** to leave it out, e.g. a one-off cover.
+- If the production title is not the name of the work, fill in **Work (for Repertoire)**, e.g. "Ein deutsches Requiem".
+
+Use **Performances → Repertoire (extra roles)** only for:
+- roles you have sung that are not in the Schedule, or songs and concert works without a role;
+- adding **Performance details** or a **Recording** link (YouTube, Spotify or SoundCloud) to a scheduled role. Use the same work, composer and role; your text comes first and the scheduled venues are added after it.
 
 **Quotes**
 1. Go to **Performances → Quotes (press)**.

@@ -6,6 +6,9 @@ import { getRepertoire } from '@/lib/content';
 import { getDictionary, resolveLocale, type LocaleParams } from '@/lib/i18n';
 import { pageMetadata } from '@/lib/metadata';
 
+// Roles move from "in preparation" to "performed" once a scheduled date has passed.
+export const revalidate = 86400;
+
 export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
   const locale = await resolveLocale(props);
   return pageMetadata(locale, '/repertoire', { title: getDictionary(locale).nav.repertoire });

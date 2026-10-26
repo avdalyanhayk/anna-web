@@ -276,8 +276,21 @@ export default config({
           ],
           defaultValue: 'opera',
         }),
-        role: fields.text({ label: 'Role', description: 'e.g. Violetta Valéry. Leave empty for concerts.' }),
+        role: fields.text({
+          label: 'Role',
+          description: 'e.g. Violetta Valéry. Roles are added to your Repertoire automatically. Leave empty for galas.',
+        }),
         composer: fields.text({ label: 'Composer', description: 'e.g. Giuseppe Verdi' }),
+        work: fields.text({
+          label: 'Work (for Repertoire)',
+          description:
+            'Only if the production title is not the name of the work, e.g. "Brahms Requiem" → "Ein deutsches Requiem". Empty = Production.',
+        }),
+        addToRepertoire: fields.checkbox({
+          label: 'Add this role to my Repertoire',
+          description: 'Untick for one-off covers or gala numbers you do not want listed.',
+          defaultValue: true,
+        }),
         venue: fields.text({ label: 'Venue', description: 'e.g. Wiener Staatsoper' }),
         venueUrl: fields.url({ label: 'Venue / production page', description: "Optional. Link to the theatre's official page for this production." }),
         city: fields.text({ label: 'City' }),
@@ -289,13 +302,19 @@ export default config({
     }),
 
     repertoire: collection({
-      label: 'Repertoire',
+      label: 'Repertoire (extra roles)',
       path: 'content/repertoire/*',
       format: { data: 'json' },
       slugField: 'work',
       columns: ['work', 'composer'],
       schema: {
-        work: fields.slug({ name: { label: 'Work', description: 'e.g. "La bohème" or "Vier letzte Lieder"' } }),
+        work: fields.slug({
+          name: {
+            label: 'Work',
+            description:
+              'Roles from your Schedule appear in the Repertoire automatically. Add an entry here only for roles not in the Schedule, or to add details or a recording to a scheduled role (same work, composer and role).',
+          },
+        }),
         composer: fields.text({ label: 'Composer', description: 'Full name, e.g. Giacomo Puccini' }),
         role: fields.text({ label: 'Role', description: 'e.g. Mimì. Leave empty for songs or concert works.' }),
         category: fields.select({
