@@ -2,10 +2,17 @@ import { collection, config, fields, singleton } from '@keystatic/core';
 
 // Content lives in this repository. Locally Keystatic writes straight to disk;
 // in production it commits to GitHub, which triggers a Vercel redeploy.
-const storage =
-  process.env.NODE_ENV === 'production'
-    ? ({ kind: 'github', repo: 'avdalyanhayk/anna-web' } as const)
-    : ({ kind: 'local' } as const);
+// GitHub mode switches on once the GitHub App is set up (its slug env var is
+// present), so builds without those secrets still work. Force a mode with
+// NEXT_PUBLIC_KEYSTATIC_STORAGE=github|local (e.g. for the setup wizard).
+const useGitHub =
+  (process.env.NEXT_PUBLIC_KEYSTATIC_STORAGE ??
+    (process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG ? 'github' : 'local')) ===
+  'github';
+
+const storage = useGitHub
+  ? ({ kind: 'github', repo: 'avdalyanhayk/anna-web' } as const)
+  : ({ kind: 'local' } as const);
 
 const germanHint = 'Optional. Leave empty and the German site shows the English text.';
 
