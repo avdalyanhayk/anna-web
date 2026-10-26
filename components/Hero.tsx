@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import type { PerformanceView } from '@/lib/content';
 
 /**
- * Asymmetric split hero: name and season details on the left, a tall
- * portrait cropped to the right edge with a slow Ken Burns settle.
+ * Photo-led hero: a full-bleed portrait with a warm dark scrim, the name as a
+ * solid capitals wordmark, and the next performance one tap away.
  */
 export function Hero({
   image,
@@ -22,74 +22,65 @@ export function Hero({
   subheadline: string;
   next: PerformanceView | null;
   scheduleHref: string;
-  labels: { nextPerformance: string; scroll: string };
+  labels: { nextPerformance: string; schedule: string };
 }) {
   return (
-    <section className="relative isolate min-h-svh overflow-hidden bg-paper pt-16 md:pt-20">
-      {/* Vertical running title on the left edge, like a catalogue spine. */}
-      <p
-        aria-hidden
-        className="eyebrow absolute top-1/2 left-3 hidden -translate-y-1/2 rotate-180 text-stone [writing-mode:vertical-rl] xl:block"
-      >
-        Anna Avdalyan — {voiceType}
-      </p>
+    <section className="on-dark relative isolate flex min-h-[92svh] items-end overflow-hidden bg-night text-paper">
+      {image && (
+        <Image
+          src={image}
+          alt="Anna Avdalyan, soprano"
+          fill
+          preload
+          sizes="100vw"
+          className="-z-20 animate-ken-burns object-cover object-[50%_25%]"
+        />
+      )}
+      {/* Scrim keeps the type at AA contrast on any photo. */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-night via-night/55 to-night/10" />
 
-      <div className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-[1200px] grid-cols-1 px-4 sm:px-6 md:min-h-[calc(100svh-5rem)] md:grid-cols-[1fr_1.05fr] md:px-10">
-        <div className="relative z-10 flex flex-col justify-end pt-8 pb-12 md:justify-center md:py-20 md:pr-12">
-          <p className="eyebrow text-lapis">{voiceType}</p>
-          <h1 className="mt-6 font-display text-[clamp(4rem,10vw,9rem)] leading-[0.86] font-normal tracking-[-0.03em]">
-            Anna
-            <br />
-            <span className="italic">Avdalyan</span>
-          </h1>
-          {headline && <p className="mt-8 max-w-md font-display text-2xl leading-snug italic text-ink-soft md:text-[1.75rem]">{headline}</p>}
-          {subheadline && <p className="eyebrow mt-5 text-muted">{subheadline}</p>}
+      <div className="mx-auto w-full max-w-[1200px] px-4 pt-32 pb-12 sm:px-6 md:px-10 md:pb-20">
+        <p className="eyebrow text-paper">{voiceType}</p>
+        <h1 className="wordmark mt-4 text-[clamp(3rem,9vw,7rem)] text-balance">Anna Avdalyan</h1>
+        {headline && (
+          <p className="mt-6 max-w-2xl font-display text-[clamp(1.375rem,2.4vw,1.875rem)] leading-snug font-medium text-paper">
+            {headline}
+          </p>
+        )}
+        {subheadline && <p className="eyebrow mt-4 text-paper/85">{subheadline}</p>}
 
+        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-stretch">
           {next && (
             <Link
               href={next.ticketsUrl ?? scheduleHref}
               {...(next.ticketsUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              className="group mt-10 inline-flex max-w-full items-center gap-4 self-start border border-rule bg-paper/80 py-3 pr-4 pl-5 backdrop-blur transition-colors duration-300 hover:border-lapis"
+              className="group flex min-w-0 items-center justify-between gap-6 bg-paper py-4 pr-5 pl-6 text-ink transition-colors duration-300 hover:bg-paper-deep sm:max-w-md"
             >
               <span className="min-w-0">
-                <span className="eyebrow block text-[0.625rem] text-lapis">{labels.nextPerformance}</span>
-                <span className="mt-1 block truncate text-sm">
-                  {next.day} {next.month} · <span className="italic">{next.role || next.title}</span> · {next.venue}
+                <span className="eyebrow block text-accent">{labels.nextPerformance}</span>
+                <span className="mt-1 block truncate font-semibold">
+                  {next.day} {next.month} · {next.title}
+                </span>
+                <span className="block truncate text-sm text-muted">
+                  {[next.role, next.venue].filter(Boolean).join(' · ')}
                 </span>
               </span>
               <ArrowUpRight
                 aria-hidden
-                className="size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                strokeWidth={1.25}
+                className="size-5 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={1.75}
               />
             </Link>
           )}
-        </div>
-
-        <div className="relative -mx-4 order-first h-[56svh] min-h-[22rem] overflow-hidden bg-paper-deep sm:-mx-6 md:order-none md:mx-0 md:mr-[min(-2.5rem,calc(600px_-_50vw_-_2.5rem))] md:h-auto md:min-h-0">
-          {image && (
-            <Image
-              src={image}
-              alt="Anna Avdalyan, soprano"
-              fill
-              preload
-              sizes="(min-width: 768px) 55vw, 100vw"
-              className="animate-ken-burns object-cover object-[50%_25%]"
-            />
-          )}
-          <span aria-hidden className="absolute inset-y-0 left-0 hidden w-px bg-rule md:block" />
+          <a
+            href="#schedule"
+            className="inline-flex min-h-12 items-center justify-center gap-3 border border-paper/60 px-6 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase transition-colors hover:border-paper hover:bg-paper/10"
+          >
+            {labels.schedule}
+            <ArrowDown aria-hidden className="size-4" strokeWidth={1.75} />
+          </a>
         </div>
       </div>
-
-      <a
-        href="#intro"
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-muted md:left-10 md:flex md:translate-x-0 lg:left-[max(2.5rem,calc((100vw-1200px)/2+2.5rem))]"
-      >
-        <span className="eyebrow text-[0.625rem]">{labels.scroll}</span>
-        <span aria-hidden className="relative h-12 w-px overflow-hidden bg-rule">
-          <span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_2.4s_ease-in-out_infinite] bg-ink" />
-        </span>
-      </a>
     </section>
   );
 }

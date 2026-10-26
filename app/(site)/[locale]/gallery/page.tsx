@@ -36,7 +36,7 @@ export default async function GalleryPage(props: LocaleParams) {
         {videos.length > 0 ? (
           <VideoFilmstrip videos={videos} labels={{ playVideo: t.gallery.playVideo, moreVideos: t.gallery.moreVideos }} />
         ) : (
-          <p className="font-display text-2xl text-paper/60 italic">{t.gallery.noVideos}</p>
+          <p className="font-display text-2xl text-paper/85">{t.gallery.noVideos}</p>
         )}
       </Section>
 
@@ -47,7 +47,7 @@ export default async function GalleryPage(props: LocaleParams) {
         {photos.length > 0 ? (
           <PhotoGallery photos={photos} openLabel={t.gallery.openPhoto} />
         ) : (
-          <p className="font-display text-2xl text-muted italic">{t.gallery.noPhotos}</p>
+          <p className="font-display text-2xl text-muted">{t.gallery.noPhotos}</p>
         )}
       </Section>
     </>

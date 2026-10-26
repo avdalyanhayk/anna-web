@@ -71,7 +71,7 @@ export function ScheduleList({
               onClick={() => setTab(t.key)}
               className={cn(
                 'relative -mb-px border-b py-4 font-display text-2xl transition-colors md:text-3xl',
-                tab === t.key ? 'border-ink text-ink italic' : 'border-transparent text-muted hover:text-ink',
+                tab === t.key ? 'border-ink text-ink' : 'border-transparent text-muted hover:text-ink',
               )}
             >
               {t.label}
@@ -88,8 +88,8 @@ export function ScheduleList({
               aria-pressed={filter === f}
               onClick={() => setFilter(f)}
               className={cn(
-                'min-h-10 shrink-0 rounded-full border px-4 text-xs tracking-[0.16em] uppercase transition-colors',
-                filter === f ? 'border-lapis bg-lapis text-paper' : 'border-rule text-ink-soft hover:border-ink',
+                'min-h-10 shrink-0 rounded-full border px-4 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase transition-colors',
+                filter === f ? 'border-accent bg-accent text-paper' : 'border-rule text-ink-soft hover:border-ink',
               )}
             >
               {labels[f]}
@@ -100,7 +100,7 @@ export function ScheduleList({
 
       <div id={`${baseId}-panel`} role="tabpanel" aria-labelledby={`${baseId}-tab-${tab}`}>
         {list.length === 0 ? (
-          <p className="py-20 text-center font-display text-2xl text-muted italic">
+          <p className="py-20 text-center font-display text-2xl text-muted">
             {tab === 'upcoming' ? labels.emptyUpcoming : labels.emptyPast}
           </p>
         ) : (
@@ -114,19 +114,19 @@ export function ScheduleList({
                 )}
               >
                 <div className="row-span-2 md:row-span-1">
-                  <p className="font-display text-5xl leading-none tabular-nums transition-colors group-hover:text-lapis md:text-6xl">{p.day}</p>
+                  <p className="font-display text-5xl leading-none tabular-nums transition-colors group-hover:text-accent md:text-6xl">{p.day}</p>
                   <p className="eyebrow mt-2 text-ink">
                     {p.month} <span className="text-muted">{p.year}</span>
                   </p>
-                  <p className="mt-1 text-xs text-muted">
+                  <p className="mt-1 text-sm text-muted">
                     {p.weekday}
                     {p.time && ` · ${p.time}`}
                   </p>
                 </div>
 
                 <div>
-                  <p className="eyebrow text-lapis">{labels[p.type]}</p>
-                  <h2 className="mt-2 font-display text-2xl leading-tight italic md:text-[1.75rem]">{p.title}</h2>
+                  <p className="eyebrow text-accent">{labels[p.type]}</p>
+                  <h2 className="mt-2 font-display text-2xl leading-tight md:text-[1.75rem]">{p.title}</h2>
                   {p.composer && <p className="mt-1 text-sm text-muted">{p.composer}</p>}
                   {p.role && (
                     <p className="mt-2 text-sm">
@@ -139,7 +139,7 @@ export function ScheduleList({
                 <div className="col-start-2 md:col-start-auto">
                   {p.venue && <p className="text-[0.9375rem]">{p.venue}</p>}
                   {p.place && <p className="text-sm text-muted">{p.place}</p>}
-                  {p.notes && <p className="mt-2 text-xs leading-relaxed text-muted">{p.notes}</p>}
+                  {p.notes && <p className="mt-2 text-sm leading-relaxed text-muted">{p.notes}</p>}
                   <p className="sr-only">{p.longDate}</p>
                 </div>
 
@@ -150,7 +150,7 @@ export function ScheduleList({
                         href={p.ticketsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex min-h-10 items-center gap-2 border border-lapis px-4 text-xs tracking-[0.16em] text-lapis uppercase transition-colors hover:bg-lapis hover:text-paper"
+                        className="inline-flex min-h-11 items-center gap-2 bg-accent px-5 text-[0.8125rem] font-semibold tracking-[0.12em] text-paper uppercase transition-colors hover:bg-accent-soft"
                       >
                         {labels.tickets}
                         <ArrowUpRight aria-hidden className="size-3.5" strokeWidth={1.5} />

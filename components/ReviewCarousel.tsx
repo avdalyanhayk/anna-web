@@ -52,7 +52,7 @@ export function ReviewCarousel({
         if (e.key === 'ArrowLeft') go(-1);
       }}
     >
-      <span aria-hidden className="block font-display text-8xl leading-[0.5] text-lapis md:text-9xl">
+      <span aria-hidden className="block font-display text-8xl leading-[0.5] text-accent md:text-9xl">
         &ldquo;
       </span>
       <div className="relative mt-6 grid min-h-[20rem] md:min-h-[16rem]">
@@ -77,7 +77,7 @@ export function ReviewCarousel({
             <figcaption className="mt-8 flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <span className="eyebrow text-ink">{review.source}</span>
               {review.critic && <span className="text-sm text-muted">— {review.critic}</span>}
-              {review.production && <span className="text-sm text-muted italic">{review.production}</span>}
+              {review.production && <span className="text-sm text-muted">{review.production}</span>}
             </figcaption>
           </motion.figure>
         </AnimatePresence>
@@ -89,21 +89,21 @@ export function ReviewCarousel({
             {reviews.map((r, i) => (
               <span
                 key={r.slug}
-                className={cn('h-px transition-all duration-500', i === index ? 'w-10 bg-lapis' : 'w-4 bg-stone/50')}
+                className={cn('h-px transition-all duration-500', i === index ? 'w-10 bg-accent' : 'w-4 bg-stone/50')}
               />
             ))}
           </div>
           <div className="flex items-center gap-1">
             <button type="button" onClick={() => setPaused((p) => !p)} className="flex size-12 items-center justify-center text-muted hover:text-ink">
-              {paused ? <Play aria-hidden className="size-4" strokeWidth={1.25} /> : <Pause aria-hidden className="size-4" strokeWidth={1.25} />}
+              {paused ? <Play aria-hidden className="size-4" strokeWidth={1.75} /> : <Pause aria-hidden className="size-4" strokeWidth={1.75} />}
               <span className="sr-only">{paused ? labels.play : labels.pause}</span>
             </button>
             <button type="button" onClick={() => go(-1)} className="flex size-12 items-center justify-center rounded-full border border-rule hover:border-ink">
-              <ChevronLeft aria-hidden className="size-5" strokeWidth={1.25} />
+              <ChevronLeft aria-hidden className="size-5" strokeWidth={1.75} />
               <span className="sr-only">{labels.previous}</span>
             </button>
             <button type="button" onClick={() => go(1)} className="flex size-12 items-center justify-center rounded-full border border-rule hover:border-ink">
-              <ChevronRight aria-hidden className="size-5" strokeWidth={1.25} />
+              <ChevronRight aria-hidden className="size-5" strokeWidth={1.75} />
               <span className="sr-only">{labels.next}</span>
             </button>
           </div>

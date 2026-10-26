@@ -72,18 +72,18 @@ export function Header({
     const path = stripLocale(href);
     return current === path || current.startsWith(`${path}/`);
   };
+  // On the home page the header floats over the hero photo in light text.
+  const overHero = current === '/' && !solid && !open;
   const otherLocale: Locale = locale === 'en' ? 'de' : 'en';
   const switchHref = localePath(otherLocale, current);
 
   const languageSwitch = (className?: string) => (
-    <div className={cn('flex items-center gap-2 text-xs tracking-[0.2em] uppercase', className)} aria-label={labels.language} role="group">
-      <span aria-current="true" className="text-ink">
-        {locale}
-      </span>
-      <span aria-hidden className="text-stone">
+    <div className={cn('flex items-center gap-2 text-[0.8125rem] font-semibold tracking-[0.14em] uppercase', className)} aria-label={labels.language} role="group">
+      <span aria-current="true">{locale}</span>
+      <span aria-hidden className="opacity-50">
         /
       </span>
-      <Link href={switchHref} hrefLang={otherLocale} lang={otherLocale} className="link-draw text-muted hover:text-ink">
+      <Link href={switchHref} hrefLang={otherLocale} lang={otherLocale} className="link-draw opacity-75 hover:opacity-100">
         {otherLocale}
       </Link>
     </div>
@@ -94,13 +94,17 @@ export function Header({
       <header
         className={cn(
           'fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-500 ease-(--ease-out-soft)',
-          solid ? 'border-b border-rule bg-paper/85 backdrop-blur-md' : 'border-b border-transparent bg-transparent',
+          overHero
+            ? 'border-b border-transparent bg-gradient-to-b from-night/60 to-transparent text-paper'
+            : solid
+              ? 'border-b border-rule bg-paper/90 text-ink backdrop-blur-md'
+              : 'border-b border-transparent bg-transparent text-ink',
           hidden && !open ? '-translate-y-full' : 'translate-y-0',
         )}
       >
         <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 sm:px-6 md:h-20 md:px-10">
-          <Link href={homeHref} className="font-display text-xl tracking-[-0.01em] md:text-2xl" aria-label="Anna Avdalyan — Home">
-            Anna <span className="italic">Avdalyan</span>
+          <Link href={homeHref} className="wordmark text-lg md:text-xl" aria-label="Anna Avdalyan — Home">
+            Anna Avdalyan
           </Link>
 
           <nav aria-label="Main" className="hidden lg:block">
@@ -113,15 +117,15 @@ export function Header({
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
                       className={cn(
-                        'relative py-2 text-[0.8125rem] tracking-[0.14em] uppercase transition-colors',
-                        active ? 'text-ink' : 'text-muted hover:text-ink',
+                        'relative py-2 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase transition-opacity',
+                        active ? 'opacity-100' : 'opacity-75 hover:opacity-100',
                       )}
                     >
                       {item.label}
                       <span
                         aria-hidden
                         className={cn(
-                          'absolute inset-x-0 -bottom-0.5 h-px origin-left bg-lapis transition-transform duration-500 ease-(--ease-out-soft)',
+                          'absolute inset-x-0 -bottom-0.5 h-0.5 origin-left bg-current transition-transform duration-500 ease-(--ease-out-soft)',
                           active ? 'scale-x-100' : 'scale-x-0',
                         )}
                       />
@@ -143,7 +147,7 @@ export function Header({
               className="-mr-3 flex size-12 items-center justify-center lg:hidden"
             >
               <span className="sr-only">{open ? labels.close : labels.menu}</span>
-              {open ? <X aria-hidden strokeWidth={1.25} /> : <Menu aria-hidden strokeWidth={1.25} />}
+              {open ? <X aria-hidden strokeWidth={1.5} /> : <Menu aria-hidden strokeWidth={1.5} />}
             </button>
           </div>
         </div>
@@ -176,8 +180,8 @@ export function Header({
                       autoFocus={i === 0}
                       aria-current={stripLocale(item.href) === current ? 'page' : undefined}
                       className={cn(
-                        'block py-2 font-display text-[2.5rem] leading-tight',
-                        stripLocale(item.href) === current ? 'italic text-lapis' : 'text-ink',
+                        'block py-2 font-display text-[2.25rem] font-semibold leading-tight',
+                        stripLocale(item.href) === current ? 'text-accent' : 'text-ink',
                       )}
                     >
                       {item.label}

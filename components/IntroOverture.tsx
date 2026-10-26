@@ -33,8 +33,8 @@ export function IntroOverture({ name }: { name: string }) {
   const [first, ...rest] = name.split(' ');
   return (
     <div className="overture" aria-hidden>
-      <p className="overture-name font-display text-[clamp(3rem,10vw,8rem)] leading-none tracking-[-0.02em]">
-        <span>{first}</span> <span className="italic">{rest.join(' ')}</span>
+      <p className="overture-name wordmark text-center text-[clamp(2.5rem,8vw,6rem)]">
+        <span>{first}</span> {rest.join(' ')}
       </p>
       <span className="overture-rule" />
     </div>

@@ -38,22 +38,22 @@ export default async function AboutPage(props: LocaleParams) {
         <div>
           <Eyebrow>{t.about.eyebrow}</Eyebrow>
           <DisplayHeading as="h1" size="lg" className="mt-6">
-            Anna <span className="italic">Avdalyan</span>
+            Anna Avdalyan
           </DisplayHeading>
-          <p className="eyebrow mt-6 text-lapis">{about.voiceType}</p>
+          <p className="eyebrow mt-6 text-accent">{about.voiceType}</p>
           <GoldRule tone="accent" className="mt-10" />
 
-          <div className="rich-text mt-10 max-w-[38rem] text-[1.0625rem] leading-[1.8] text-ink-soft">
+          <div className="rich-text mt-10 max-w-[38rem] text-[1.125rem] leading-[1.75] text-ink-soft">
             {about.bio ? (
               <DocumentRenderer document={about.bio} />
             ) : (
-              <p className="font-display text-2xl text-muted italic">{t.about.empty}</p>
+              <p className="font-display text-2xl text-muted">{t.about.empty}</p>
             )}
           </div>
 
           {about.cvPdf && (
             <Button href={about.cvPdf} variant="ghost" className="mt-12" download>
-              <Download aria-hidden className="size-4" strokeWidth={1.25} />
+              <Download aria-hidden className="size-4" strokeWidth={1.75} />
               {t.about.downloadCv}
             </Button>
           )}
@@ -75,13 +75,13 @@ export default async function AboutPage(props: LocaleParams) {
                   {/* eslint-disable-next-line @next/next/no-img-element -- original file is served for download */}
                   <img src={photo.src} alt={photo.caption || 'Anna Avdalyan'} loading="lazy" className="size-full object-cover" />
                 </div>
-                {photo.caption && <p className="mt-3 text-xs leading-snug text-muted">{photo.caption}</p>}
+                {photo.caption && <p className="mt-3 text-sm leading-snug text-muted">{photo.caption}</p>}
                 <a
                   href={photo.src}
                   download
-                  className="link-draw mt-2 inline-flex items-center gap-2 text-xs tracking-[0.16em] uppercase"
+                  className="link-draw mt-2 inline-flex items-center gap-2 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase"
                 >
-                  <Download aria-hidden className="size-3.5" strokeWidth={1.25} />
+                  <Download aria-hidden className="size-3.5" strokeWidth={1.75} />
                   {t.about.download}
                 </a>
               </Reveal>

@@ -26,9 +26,9 @@ export default async function ContactPage(props: LocaleParams) {
             // Engraved business card: double hairline frame, centred small caps.
             <address className="border border-ink p-1.5 not-italic">
               <div className="border border-ink/40 px-6 py-10 text-center md:px-10 md:py-14">
-                <Eyebrow className="text-lapis">{t.contact.management}</Eyebrow>
+                <Eyebrow className="text-accent">{t.contact.management}</Eyebrow>
                 {s.managementAgency && <p className="mt-6 font-display text-3xl leading-tight">{s.managementAgency}</p>}
-                {s.managementName && <p className="mt-3 italic text-ink-soft">{s.managementName}</p>}
+                {s.managementName && <p className="mt-3 text-ink-soft">{s.managementName}</p>}
                 <span aria-hidden className="mx-auto mt-8 block h-px w-10 bg-ink/40" />
                 <div className="mt-8 space-y-2 text-[0.9375rem]">
                   {s.managementEmail && (

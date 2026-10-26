@@ -23,7 +23,7 @@ export default async function RepertoirePage(props: LocaleParams) {
         {items.length > 0 ? (
           <RepertoireIndex items={items} labels={t.repertoire} />
         ) : (
-          <p className="font-display text-2xl text-muted italic">{t.repertoire.empty}</p>
+          <p className="font-display text-2xl text-muted">{t.repertoire.empty}</p>
         )}
       </Section>
     </>

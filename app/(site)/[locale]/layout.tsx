@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
-import { Bodoni_Moda, DM_Sans } from 'next/font/google';
+import { DM_Sans, Playfair_Display } from 'next/font/google';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { IntroOverture, overtureScript } from '@/components/IntroOverture';
@@ -13,11 +13,10 @@ import '../../globals.css';
 
 // `subsets` only controls preloading: Latin-1 (incl. German umlauts) is
 // preloaded, Latin Extended (e.g. "ř" in Dvořák) still loads on demand.
-const bodoni = Bodoni_Moda({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  style: ['normal', 'italic'],
-  axes: ['opsz'],
-  variable: '--font-bodoni',
+  weight: ['500', '600'],
+  variable: '--font-playfair',
   display: 'swap',
 });
 
@@ -39,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#faf8f5',
+  themeColor: '#faf7f2',
   colorScheme: 'light',
 };
 
@@ -58,7 +57,7 @@ export default async function SiteLayout({
   const nav = navItems.map((item) => ({ label: t.nav[item.key], href: localePath(locale, item.path) }));
 
   return (
-    <html lang={locale} className={`${bodoni.variable} ${dmSans.variable}`} suppressHydrationWarning>
+    <html lang={locale} className={`${playfair.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: overtureScript }} />
       </head>

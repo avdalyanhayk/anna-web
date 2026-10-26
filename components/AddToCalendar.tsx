@@ -30,9 +30,9 @@ export function AddToCalendar({ performance: p, label, className }: { performanc
     <button
       type="button"
       onClick={download}
-      className={cn('link-draw inline-flex items-center gap-2 text-xs tracking-[0.16em] uppercase text-ink-soft hover:text-ink', className)}
+      className={cn('link-draw inline-flex items-center gap-2 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase text-ink-soft hover:text-ink', className)}
     >
-      <CalendarPlus aria-hidden className="size-4" strokeWidth={1.25} />
+      <CalendarPlus aria-hidden className="size-4" strokeWidth={1.75} />
       {label}
     </button>
   );

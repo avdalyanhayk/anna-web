@@ -85,9 +85,9 @@ export function YouTube({
           <span className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/0 to-black/0" aria-hidden />
           <span
             aria-hidden
-            className="absolute top-1/2 left-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-black/25 text-white backdrop-blur-sm transition-[transform,background-color] duration-300 group-hover:scale-105 group-hover:bg-lapis/80 md:size-20"
+            className="absolute top-1/2 left-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-black/25 text-white backdrop-blur-sm transition-[transform,background-color] duration-300 group-hover:scale-105 group-hover:bg-accent/80 md:size-20"
           >
-            <Play className="ml-1 size-6 md:size-7" strokeWidth={1.25} fill="currentColor" />
+            <Play className="ml-1 size-6 md:size-7" strokeWidth={1.75} fill="currentColor" />
           </span>
         </button>
       )}

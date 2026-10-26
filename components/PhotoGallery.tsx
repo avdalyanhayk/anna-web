@@ -35,8 +35,8 @@ export function PhotoGallery({ photos, openLabel }: { photos: Photo[]; openLabel
               </button>
               {(photo.caption || photo.credit) && (
                 <figcaption className="mt-4 flex items-baseline justify-between gap-4 border-t border-rule pt-3">
-                  <span className="font-display text-lg leading-snug italic">{photo.caption}</span>
-                  {photo.credit && <span className="shrink-0 text-xs text-muted">{photo.credit}</span>}
+                  <span className="font-display text-lg leading-snug">{photo.caption}</span>
+                  {photo.credit && <span className="shrink-0 text-sm text-muted">{photo.credit}</span>}
                 </figcaption>
               )}
             </figure>

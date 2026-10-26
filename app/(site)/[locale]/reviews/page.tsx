@@ -22,13 +22,13 @@ export default async function ReviewsPage(props: LocaleParams) {
       <PageIntro eyebrow={t.reviews.eyebrow} title={t.reviews.title} />
       <Section className="pt-0 md:pt-0">
         {reviews.length === 0 ? (
-          <p className="font-display text-2xl text-muted italic">{t.reviews.empty}</p>
+          <p className="font-display text-2xl text-muted">{t.reviews.empty}</p>
         ) : (
           <ul className="gap-x-12 md:columns-2">
             {reviews.map((r, i) => (
               <Reveal as="li" key={r.slug} delay={(i % 2) * 0.08} className="mb-12 break-inside-avoid border-t border-ink pt-8">
                 <figure>
-                  <span aria-hidden className="block font-display text-8xl leading-[0.55] text-lapis">
+                  <span aria-hidden className="block font-display text-8xl leading-[0.55] text-accent">
                     &ldquo;
                   </span>
                   <blockquote
@@ -46,7 +46,7 @@ export default async function ReviewsPage(props: LocaleParams) {
                       {[r.critic, r.production, r.date && formatMonthYear(r.date, locale)].filter(Boolean).join(' · ')}
                     </p>
                     {r.link && (
-                      <a href={r.link} target="_blank" rel="noopener noreferrer" className="link-draw mt-3 inline-flex items-center gap-2 text-xs tracking-[0.16em] text-lapis uppercase">
+                      <a href={r.link} target="_blank" rel="noopener noreferrer" className="link-draw mt-3 inline-flex items-center gap-2 text-[0.8125rem] font-semibold tracking-[0.12em] text-accent uppercase">
                         {t.reviews.readArticle}
                         <ArrowUpRight aria-hidden className="size-3.5" strokeWidth={1.5} />
                       </a>

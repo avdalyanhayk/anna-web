@@ -7,7 +7,7 @@ const base =
   'group inline-flex min-h-12 items-center justify-center gap-3 px-7 text-[0.8125rem] font-medium uppercase tracking-[0.18em] transition-[background-color,color,border-color,box-shadow] duration-300 ease-(--ease-out-soft)';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-ink text-paper hover:bg-lapis hover:shadow-[0_12px_32px_-16px_rgba(30,58,95,0.6)]',
+  primary: 'bg-ink text-paper hover:bg-accent hover:shadow-[0_12px_32px_-16px_rgba(30,58,95,0.6)]',
   ghost: 'border border-current/30 text-current hover:border-current',
 };
 

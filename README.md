@@ -123,40 +123,46 @@ Replies go straight to the visitor, because `replyTo` is set to their address. S
 
 **Alternative: Formspree.** Create a form at [formspree.io](https://formspree.io). In [`components/ContactForm.tsx`](components/ContactForm.tsx), change the `fetch('/api/contact', …)` URL to your Formspree endpoint (`https://formspree.io/f/xxxx`). Add the header `Accept: application/json`; Formspree accepts the same JSON fields.
 
-## 7. Design system: "Carnegie White"
+## 7. Design system: "Carnegie White" (photo-led revision)
 
-The design is luminous, modern and refined, like a gallery catalogue. It uses warm paper, ink-black type and a single lapis accent.
+The design is photo-led and easy to read, following what the leading singer sites do (Davidsen, Netrebko, Garanča). The portrait carries the hero. The name is a solid capitals wordmark. The schedule sits right under the hero. Headings use a sturdy serif with no hairline italics, body text is large and near-black, and one warm garnet accent ties it together.
 
-**Tokens.** All colours and font stacks live in **one place**: the `@theme` block in [`app/globals.css`](app/globals.css). Change a hex value there and the whole site follows. Tailwind exposes them as `bg-paper`, `text-ink`, `text-muted`, `border-rule`, `bg-lapis` and so on.
+**Tokens.** All colours and font stacks live in **one place**: the `@theme` block in [`app/globals.css`](app/globals.css). Change a hex value there and the whole site follows. Tailwind exposes them as `bg-paper`, `text-ink`, `text-muted`, `border-rule`, `bg-accent` and so on.
 
 | Token | Hex | Use |
 | --- | --- | --- |
-| `paper` | `#FAF8F5` | page background |
-| `paper-deep` | `#F1EDE7` | alternate sections |
-| `ink` | `#141414` | text, primary buttons |
-| `ink-soft` | `#3A3631` | body copy |
-| `muted` | `#6B655E` | secondary text (AA on paper) |
-| `stone` | `#8C857D` | decorative only (large type, rules) |
-| `rule` | `#E2DDD5` | hairlines |
-| `lapis` | `#1E3A5F` | the single accent: active nav, links, chips, focus ring |
-| `night` | `#121212` | dark video stage |
+| `paper` | `#FAF7F2` | page background |
+| `paper-deep` | `#F2ECE3` | alternate sections |
+| `ink` | `#161412` | headings, primary buttons |
+| `ink-soft` | `#2B2723` | body copy (14:1 on paper) |
+| `muted` | `#5B544C` | secondary text (7:1 on paper) |
+| `stone` | `#8A8178` | decorative only |
+| `rule` | `#E3DCD1` | hairlines |
+| `accent` | `#8E1F35` | garnet signature colour: tickets, labels, links, focus ring |
+| `night` | `#15110F` | photo scrim and video stage |
 
-**Fonts.** The display face is **Bodoni Moda**, a variable font with an optical-size axis. The body face is **DM Sans**. Both load through `next/font/google` in [`app/(site)/[locale]/layout.tsx`](app/(site)/[locale]/layout.tsx). To swap a font, change the import there; the CSS variables `--font-bodoni` and `--font-dm-sans` feed `--font-display` and `--font-sans` in `globals.css`.
+**Fonts.**
+- Headings and the wordmark use **Playfair Display** at weights 500 and 600, with no italics.
+- Body text uses **DM Sans** at 17px.
+- Both load through `next/font/google` in [`app/(site)/[locale]/layout.tsx`](app/(site)/[locale]/layout.tsx).
+- To swap a font, change the import there; `--font-playfair` and `--font-dm-sans` feed `--font-display` and `--font-sans` in `globals.css`.
 
 **Primitives** live in [`components/ui/`](components/ui):
 - `Section`: light, deep or dark variant, with the 1200px column and vertical rhythm.
-- `Eyebrow`: small-caps label.
-- `DisplayHeading`: Bodoni heading in sizes `xl`, `lg`, `md` or `sm`.
-- `GoldRule`: accent hairline, drawn in lapis in this direction.
+- `Eyebrow`: small-caps label at 13px, semibold.
+- `DisplayHeading`: semibold Playfair heading in sizes `xl`, `lg`, `md` or `sm`.
+- `GoldRule`: accent hairline.
 - `Button`: primary or ghost; renders a link or a button.
 - `Card`.
 - `Reveal`: scroll fade-up.
 
-Utility classes are `.eyebrow`, `.link-draw` (underline that draws in on hover) and `.rich-text` (biography typography).
+Utility classes are `.wordmark` (capitals name), `.eyebrow`, `.link-draw` (underline that draws in on hover) and `.rich-text` (biography typography).
 
-**Motion.** Movement is kept gentle and always respects `prefers-reduced-motion`. Scroll reveals use `motion` with `<MotionConfig reducedMotion="user">`, and CSS animations are disabled under reduced motion.
-- **The Overture** (first visit per session, ≤ 1.2 s): the name rises and the paper curtain lifts. It's pure CSS, switched on by a tiny inline script, and skippable with a click, scroll or key press.
-- **Hero:** a slow Ken Burns settle.
+**Motion.** Movement is kept gentle and always respects `prefers-reduced-motion`.
+- **The Overture** (first visit per session, ≤ 1.2 s): the wordmark rises and the paper curtain lifts. It's skippable with a click, scroll or key press.
+- **Hero photo:** a slow Ken Burns settle.
+
+For the best result, use a **high-quality portrait** as the hero image: at least 2400px wide, with the subject's face in the upper third. The text sits on a dark gradient at the bottom, so any photo stays readable.
 
 ## Project structure
 

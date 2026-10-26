@@ -76,7 +76,7 @@ export function ContactForm({ t }: { t: Dictionary['contact'] }) {
       'aria-describedby': error ? `${id}-error` : undefined,
       className: cn(
         'peer block w-full resize-none appearance-none rounded-none border-0 border-b bg-transparent pt-7 pb-3 text-base text-ink transition-colors focus:outline-none',
-        error ? 'border-red-800' : 'border-ink/25 focus:border-lapis',
+        error ? 'border-red-800' : 'border-ink/25 focus:border-accent',
       ),
     };
     return (
@@ -84,7 +84,7 @@ export function ContactForm({ t }: { t: Dictionary['contact'] }) {
         {opts.multiline ? <textarea rows={5} {...common} /> : <input type={opts.type ?? 'text'} {...common} />}
         <label
           htmlFor={id}
-          className="pointer-events-none absolute top-1 left-0 origin-left text-xs tracking-[0.16em] text-muted uppercase transition-all duration-300 peer-placeholder-shown:top-7 peer-placeholder-shown:text-base peer-placeholder-shown:tracking-normal peer-placeholder-shown:normal-case peer-focus:top-1 peer-focus:text-xs peer-focus:tracking-[0.16em] peer-focus:text-lapis peer-focus:uppercase"
+          className="pointer-events-none absolute top-1 left-0 origin-left text-[0.8125rem] font-semibold tracking-[0.12em] text-muted uppercase transition-all duration-300 peer-placeholder-shown:top-7 peer-placeholder-shown:text-base peer-placeholder-shown:tracking-normal peer-placeholder-shown:normal-case peer-focus:top-1 peer-focus:text-[0.8125rem] peer-focus:tracking-[0.12em] peer-focus:text-accent peer-focus:uppercase"
         >
           {label}
         </label>
@@ -109,12 +109,12 @@ export function ContactForm({ t }: { t: Dictionary['contact'] }) {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="flex min-h-[28rem] flex-col items-start justify-center"
         >
-          <span className="flex size-14 items-center justify-center rounded-full border border-lapis text-lapis">
-            <Check aria-hidden strokeWidth={1.25} />
+          <span className="flex size-14 items-center justify-center rounded-full border border-accent text-accent">
+            <Check aria-hidden strokeWidth={1.75} />
           </span>
           <p className="mt-8 font-display text-[clamp(1.75rem,3vw,2.5rem)] leading-tight">{t.success}</p>
           <p className="mt-4 text-muted">{t.successHint}</p>
-          <button type="button" onClick={() => setStatus('idle')} className="link-draw mt-10 text-sm tracking-[0.14em] uppercase">
+          <button type="button" onClick={() => setStatus('idle')} className="link-draw mt-10 text-sm font-semibold tracking-[0.12em] uppercase">
             {t.sendAnother}
           </button>
         </motion.div>
