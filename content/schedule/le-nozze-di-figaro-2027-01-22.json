@@ -1,0 +1,14 @@
+{
+  "title": "Le nozze di Figaro",
+  "date": "2027-01-22",
+  "time": "19:00",
+  "type": "opera",
+  "role": "La Contessa Almaviva",
+  "composer": "Wolfgang Amadeus Mozart",
+  "venue": "Bayerische Staatsoper (placeholder)",
+  "city": "Munich",
+  "country": "Germany",
+  "notes": "Placeholder entry — replace in the site admin.",
+  "notesDe": "Platzhalter — im Admin-Bereich ersetzen.",
+  "ticketsUrl": "https://example.com/tickets"
+}

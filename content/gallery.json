@@ -1,0 +1,12 @@
+{
+  "photos": [
+    { "image": "/images/gallery/gallery-1.jpg", "caption": "Portrait session (placeholder)", "credit": "© Photographer", "alt": "Placeholder image: soft ivory drapery" },
+    { "image": "/images/gallery/gallery-2.jpg", "caption": "La traviata, Act III (placeholder)", "credit": "© Photographer", "alt": "Placeholder image: dark stage with a pool of light" },
+    { "image": "/images/gallery/gallery-3.jpg", "caption": "Rusalka rehearsal (placeholder)", "credit": "© Photographer", "alt": "Placeholder image: deep blue drapery" },
+    { "image": "/images/gallery/gallery-4.jpg", "caption": "Backstage (placeholder)", "credit": "© Photographer", "alt": "Placeholder image: warm grey fabric folds" },
+    { "image": "/images/gallery/gallery-5.jpg", "caption": "Song recital (placeholder)", "credit": "© Photographer", "alt": "Placeholder image: pale curtain lit from the side" },
+    { "image": "/images/gallery/gallery-6.jpg", "caption": "La bohème, Act I (placeholder)", "credit": "© Photographer", "alt": "Placeholder image: dark velvet with a soft spotlight" },
+    { "image": "/images/gallery/gallery-7.jpg", "caption": "Studio portrait (placeholder)", "credit": "© Photographer", "alt": "Placeholder image: light ivory backdrop" },
+    { "image": "/images/gallery/gallery-8.jpg", "caption": "Gala concert (placeholder)", "credit": "© Photographer", "alt": "Placeholder image: burgundy stage curtain" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "La bohème",
+  "date": "2026-11-14",
+  "time": "19:00",
+  "type": "opera",
+  "role": "Mimì",
+  "composer": "Giacomo Puccini",
+  "venue": "Opernhaus (placeholder)",
+  "city": "Zurich",
+  "country": "Switzerland",
+  "notes": "Placeholder entry — replace in the site admin.",
+  "notesDe": "Platzhalter — im Admin-Bereich ersetzen.",
+  "ticketsUrl": "https://example.com/tickets"
+}

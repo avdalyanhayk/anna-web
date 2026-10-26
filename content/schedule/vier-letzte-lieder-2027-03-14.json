@@ -1,0 +1,14 @@
+{
+  "title": "Vier letzte Lieder",
+  "date": "2027-03-14",
+  "time": "20:00",
+  "type": "concert",
+  "role": "",
+  "composer": "Richard Strauss",
+  "venue": "Elbphilharmonie (placeholder)",
+  "city": "Hamburg",
+  "country": "Germany",
+  "notes": "Placeholder entry — replace in the site admin.",
+  "notesDe": "Platzhalter — im Admin-Bereich ersetzen.",
+  "ticketsUrl": "https://example.com/tickets"
+}

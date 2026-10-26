@@ -1,0 +1,9 @@
+{
+  "portrait": "/images/about/portrait.jpg",
+  "voiceType": "Soprano",
+  "voiceTypeDe": "Sopran",
+  "pressPhotos": [
+    { "image": "/images/press/press-1.jpg", "caption": "Portrait (placeholder) — © Photographer" },
+    { "image": "/images/press/press-2.jpg", "caption": "On stage (placeholder) — © Photographer" }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "heroImage": "/images/home/heroImage.jpg",
+  "headline": "A voice of luminous warmth and dramatic truth",
+  "subheadline": "Opera · Concert · Recital",
+  "intro": "[Placeholder] Soprano Anna Avdalyan brings a rare combination of lyric radiance and theatrical intensity to the great heroines of Mozart, Verdi and Puccini — on the opera stage, in the concert hall and in intimate song recitals.",
+  "featuredVideoUrl": "https://www.youtube.com/watch?v=bfozlHuZD3c",
+  "ctaText": "For engagements and press enquiries",
+  "ctaLink": "/contact",
+  "de": {
+    "headline": "Eine Stimme von leuchtender Wärme und dramatischer Wahrhaftigkeit",
+    "subheadline": "Oper · Konzert · Liederabend",
+    "intro": "[Platzhalter] Die Sopranistin Anna Avdalyan verbindet lyrischen Glanz mit theatralischer Intensität — in den großen Partien von Mozart, Verdi und Puccini, auf der Opernbühne, im Konzertsaal und im Liederabend.",
+    "ctaText": "Für Engagements und Presseanfragen"
+  }
+}

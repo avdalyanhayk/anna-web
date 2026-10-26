@@ -1,0 +1,14 @@
+{
+  "title": "New Year Gala",
+  "date": "2026-12-31",
+  "time": "19:30",
+  "type": "concert",
+  "role": "",
+  "composer": "Verdi · Puccini · Lehár",
+  "venue": "Gewandhaus (placeholder)",
+  "city": "Leipzig",
+  "country": "Germany",
+  "notes": "Placeholder entry — replace in the site admin.",
+  "notesDe": "Platzhalter — im Admin-Bereich ersetzen.",
+  "ticketsUrl": "https://example.com/tickets"
+}

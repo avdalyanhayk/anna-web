@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "title": "Si, mi chiamano Mimì — La bohème",
+      "youtubeUrl": "https://www.youtube.com/watch?v=bfozlHuZD3c",
+      "description": "Placeholder video (Nicole Car, The Royal Opera) — replace with Anna's own recordings in the site admin.",
+      "production": "Puccini · La bohème"
+    },
+    {
+      "title": "Song to the Moon — Rusalka",
+      "youtubeUrl": "https://youtu.be/asyrg_RL6HU",
+      "description": "Placeholder video (Renée Fleming, Metropolitan Opera).",
+      "production": "Dvořák · Rusalka"
+    },
+    {
+      "title": "Der Hölle Rache — Die Zauberflöte",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YuBeBjqKSGQ&list=PL0&t=12s",
+      "description": "Placeholder video (Diana Damrau, The Royal Opera).",
+      "production": "Mozart · Die Zauberflöte"
+    },
+    {
+      "title": "Casta Diva — Norma",
+      "youtubeUrl": "https://www.youtube.com/embed/s-TwMfgaDC8",
+      "description": "Placeholder video (Maria Callas, Warner Classics).",
+      "production": "Bellini · Norma"
+    }
+  ]
+}
