@@ -83,9 +83,11 @@ export function Header({
       <span aria-hidden className="opacity-50">
         /
       </span>
-      <Link href={switchHref} hrefLang={otherLocale} lang={otherLocale} className="link-draw opacity-75 hover:opacity-100">
+      {/* A plain <a> on purpose: the locale is a root-layout param, so switching it should load a
+          fresh document (new <html lang>, server-rendered <head>) instead of a client transition. */}
+      <a href={switchHref} hrefLang={otherLocale} lang={otherLocale} className="link-draw opacity-75 hover:opacity-100">
         {otherLocale}
-      </Link>
+      </a>
     </div>
   );
 
