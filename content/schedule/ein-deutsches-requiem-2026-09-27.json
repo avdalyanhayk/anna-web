@@ -1,10 +1,11 @@
 {
-  "title": "Ein deutsches Requiem",
+  "title": "La Boheme",
   "date": "2026-09-27",
   "time": "18:00",
   "type": "concert",
   "role": "Soprano solo",
   "composer": "Johannes Brahms",
+  "addToRepertoire": true,
   "venue": "Philharmonie (placeholder)",
   "city": "Berlin",
   "country": "Germany",
