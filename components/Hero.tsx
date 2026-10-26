@@ -41,9 +41,10 @@ export function Hero({
 
       <div className="mx-auto w-full max-w-[1200px] px-4 pt-32 pb-12 sm:px-6 md:px-10 md:pb-20">
         <p className="eyebrow text-champagne">{voiceType}</p>
-        <h1 className="wordmark mt-4 text-[clamp(3rem,9vw,7rem)] text-balance">Anna Avdalyan</h1>
+        {/* Kept moderate so the name sits below the portrait's face instead of over it. */}
+        <h1 className="wordmark mt-3 text-[clamp(2.25rem,5vw,4.25rem)] text-balance">Anna Avdalyan</h1>
         {headline && (
-          <p className="mt-6 max-w-2xl font-display text-[clamp(1.375rem,2.4vw,1.875rem)] leading-snug font-medium text-paper">
+          <p className="mt-4 max-w-xl font-display text-[clamp(1.125rem,1.7vw,1.5rem)] leading-snug font-medium text-paper">
             {headline}
           </p>
         )}
