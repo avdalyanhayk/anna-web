@@ -106,7 +106,7 @@ export function RepertoireIndex({ items, labels }: { items: RepertoireItem[]; la
                         {w.role && <span className="text-muted italic">— {w.role}</span>}
                         {w.inPreparation && (
                           <span className="group relative inline-flex translate-y-[-2px] items-center">
-                            <span tabIndex={0} aria-label={labels.inPreparation} className="block size-2 rounded-full bg-lapis" />
+                            <span tabIndex={0} role="img" aria-label={labels.inPreparation} className="block size-2 rounded-full bg-lapis" />
                             <span
                               role="tooltip"
                               className="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 bg-ink px-2 py-1 text-[0.6875rem] whitespace-nowrap text-paper opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"

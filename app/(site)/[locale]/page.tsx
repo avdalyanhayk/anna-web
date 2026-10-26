@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { preconnect } from 'react-dom';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Hero } from '@/components/Hero';
@@ -36,6 +37,7 @@ export default async function HomePage(props: LocaleParams) {
   const featuredVideo = home.featuredVideoId
     ? (videos.find((v) => v.id === home.featuredVideoId) ?? { id: home.featuredVideoId, title: ARTIST_NAME, description: '', production: '' })
     : null;
+  if (featuredVideo) preconnect('https://i.ytimg.com');
   const scheduleHref = localePath(locale, '/schedule');
   const ctaHref = home.ctaLink.startsWith('/') ? localePath(locale, home.ctaLink) : home.ctaLink;
 
@@ -72,6 +74,7 @@ export default async function HomePage(props: LocaleParams) {
               <p className="font-display text-[clamp(1.5rem,3vw,2.375rem)] leading-[1.3] text-balance">{home.intro}</p>
               <Link href={localePath(locale, '/about')} className="link-draw mt-10 inline-flex items-center gap-3 text-sm tracking-[0.14em] uppercase">
                 {t.common.readMore}
+                <span className="sr-only">: {t.nav.about}</span>
                 <ArrowRight aria-hidden className="size-4" strokeWidth={1.25} />
               </Link>
             </div>
@@ -89,6 +92,7 @@ export default async function HomePage(props: LocaleParams) {
           </div>
           <Link href={scheduleHref} className="link-draw inline-flex items-center gap-3 text-sm tracking-[0.14em] uppercase">
             {t.common.viewAll}
+            <span className="sr-only">: {t.nav.schedule}</span>
             <ArrowRight aria-hidden className="size-4" strokeWidth={1.25} />
           </Link>
         </div>
@@ -134,7 +138,7 @@ export default async function HomePage(props: LocaleParams) {
           <Eyebrow as="h2">
             <span id="press-title">{t.home.press}</span>
           </Eyebrow>
-          <div className="mt-20">
+          <div className="mt-14">
             <ReviewCarousel reviews={featured} labels={t.reviews} />
           </div>
           <Link href={localePath(locale, '/reviews')} className="link-draw mt-12 inline-flex items-center gap-3 text-sm tracking-[0.14em] uppercase">

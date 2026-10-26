@@ -51,7 +51,7 @@ export function SeasonTimeline({
       onPointerUp={endDrag}
       onPointerLeave={endDrag}
       onClickCapture={onClickCapture}
-      className="no-scrollbar -mx-4 flex cursor-grab snap-x gap-0 overflow-x-auto px-4 select-none active:cursor-grabbing sm:-mx-6 sm:px-6 md:-mx-10 md:px-10"
+      className="no-scrollbar -mx-4 flex cursor-grab snap-x scroll-px-4 gap-0 overflow-x-auto px-4 select-none sm:scroll-px-6 md:scroll-px-10 active:cursor-grabbing sm:-mx-6 sm:px-6 md:-mx-10 md:px-10"
     >
       {performances.map((p, i) => {
         const prev = performances[i - 1];

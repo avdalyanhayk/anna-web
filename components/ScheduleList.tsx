@@ -126,7 +126,7 @@ export function ScheduleList({
 
                 <div>
                   <p className="eyebrow text-lapis">{labels[p.type]}</p>
-                  <h3 className="mt-2 font-display text-2xl leading-tight italic md:text-[1.75rem]">{p.title}</h3>
+                  <h2 className="mt-2 font-display text-2xl leading-tight italic md:text-[1.75rem]">{p.title}</h2>
                   {p.composer && <p className="mt-1 text-sm text-muted">{p.composer}</p>}
                   {p.role && (
                     <p className="mt-2 text-sm">

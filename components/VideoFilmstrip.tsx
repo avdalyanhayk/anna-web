@@ -35,6 +35,7 @@ export function VideoFilmstrip({
           title={active.title}
           playLabel={labels.playVideo}
           autoStart={started}
+          priority
         />
         <div className="mt-6 grid gap-2 md:grid-cols-[1fr_1fr] md:gap-10" aria-live="polite">
           <div>
@@ -48,7 +49,7 @@ export function VideoFilmstrip({
       {videos.length > 1 && (
         <div className="mt-12">
           <h3 className="eyebrow text-paper/60">{labels.moreVideos}</h3>
-          <ul className="no-scrollbar -mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 md:mx-0 md:px-0">
+          <ul className="no-scrollbar -mx-4 mt-4 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:scroll-px-6 sm:px-6 md:mx-0 md:scroll-px-0 md:px-0">
             {videos.map((video, i) => (
               <li key={video.id} className="w-[70%] shrink-0 snap-start sm:w-[42%] md:w-[calc((100%-3rem)/4)]">
                 <button

@@ -28,7 +28,7 @@ export default async function ReviewsPage(props: LocaleParams) {
             {reviews.map((r, i) => (
               <Reveal as="li" key={r.slug} delay={(i % 2) * 0.08} className="mb-12 break-inside-avoid border-t border-ink pt-8">
                 <figure>
-                  <span aria-hidden className="block font-display text-7xl leading-[0.6] text-lapis">
+                  <span aria-hidden className="block font-display text-8xl leading-[0.55] text-lapis">
                     &ldquo;
                   </span>
                   <blockquote

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import { Bodoni_Moda, DM_Sans } from 'next/font/google';
-import { ReaderRefresh } from '@keystatic/next/reader-refresh';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { IntroOverture, overtureScript } from '@/components/IntroOverture';
@@ -9,12 +8,13 @@ import { MotionProvider } from '@/components/MotionProvider';
 import { getDictionary, isLocale, localePath, locales } from '@/lib/i18n';
 import { getSettings } from '@/lib/content';
 import { metadataBase } from '@/lib/metadata';
-import { reader } from '@/lib/reader';
 import { ARTIST_NAME, navItems } from '@/lib/site';
 import '../../globals.css';
 
+// `subsets` only controls preloading: Latin-1 (incl. German umlauts) is
+// preloaded, Latin Extended (e.g. "ř" in Dvořák) still loads on demand.
 const bodoni = Bodoni_Moda({
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   style: ['normal', 'italic'],
   axes: ['opsz'],
   variable: '--font-bodoni',
@@ -22,7 +22,7 @@ const bodoni = Bodoni_Moda({
 });
 
 const dmSans = DM_Sans({
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   variable: '--font-dm-sans',
   display: 'swap',
 });
@@ -80,7 +80,6 @@ export default async function SiteLayout({
           <main id="main">{children}</main>
           <Footer locale={locale} settings={settings} t={t} nav={nav} />
         </MotionProvider>
-        <ReaderRefresh reader={reader} />
       </body>
     </html>
   );

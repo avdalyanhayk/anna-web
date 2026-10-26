@@ -35,7 +35,7 @@ export function Hero({
       </p>
 
       <div className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-[1200px] grid-cols-1 px-4 sm:px-6 md:min-h-[calc(100svh-5rem)] md:grid-cols-[1fr_1.05fr] md:px-10">
-        <div className="relative z-10 flex flex-col justify-end pt-10 pb-10 md:justify-center md:py-20 md:pr-12">
+        <div className="relative z-10 flex flex-col justify-end pt-8 pb-12 md:justify-center md:py-20 md:pr-12">
           <p className="eyebrow text-lapis">{voiceType}</p>
           <h1 className="mt-6 font-display text-[clamp(4rem,10vw,9rem)] leading-[0.86] font-normal tracking-[-0.03em]">
             Anna
@@ -66,13 +66,13 @@ export function Hero({
           )}
         </div>
 
-        <div className="relative -mx-4 order-first aspect-[4/5] overflow-hidden bg-paper-deep sm:-mx-6 md:order-none md:mx-0 md:-mr-10 md:aspect-auto md:h-full min-[1200px]:-mr-[calc((100vw-1200px)/2+2.5rem)]">
+        <div className="relative -mx-4 order-first h-[56svh] min-h-[22rem] overflow-hidden bg-paper-deep sm:-mx-6 md:order-none md:mx-0 md:mr-[min(-2.5rem,calc(600px_-_50vw_-_2.5rem))] md:h-auto md:min-h-0">
           {image && (
             <Image
               src={image}
               alt="Anna Avdalyan, soprano"
               fill
-              priority
+              preload
               sizes="(min-width: 768px) 55vw, 100vw"
               className="animate-ken-burns object-cover object-[50%_25%]"
             />

@@ -2,11 +2,9 @@
 
 import Lightbox from 'yet-another-react-lightbox';
 import Captions from 'yet-another-react-lightbox/plugins/captions';
-import Counter from 'yet-another-react-lightbox/plugins/counter';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/captions.css';
-import 'yet-another-react-lightbox/plugins/counter.css';
 import type { Photo } from '@/lib/content';
 
 export default function PhotoLightbox({
@@ -23,7 +21,7 @@ export default function PhotoLightbox({
       open
       index={index}
       close={onClose}
-      plugins={[Captions, Counter, Zoom]}
+      plugins={[Captions, Zoom]}
       slides={photos.map((p) => ({ src: p.src, alt: p.alt, title: p.caption, description: p.credit }))}
       captions={{ descriptionTextAlign: 'center' }}
       zoom={{ maxZoomPixelRatio: 2.5, scrollToZoom: true }}

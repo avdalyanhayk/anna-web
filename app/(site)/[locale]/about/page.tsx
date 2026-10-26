@@ -27,7 +27,7 @@ export default async function AboutPage(props: LocaleParams) {
                 src={about.portrait}
                 alt={`Anna Avdalyan, ${about.voiceType}`}
                 fill
-                priority
+                preload
                 sizes="(min-width: 768px) 45vw, 100vw"
                 className="object-cover"
               />

@@ -52,10 +52,10 @@ export function ReviewCarousel({
         if (e.key === 'ArrowLeft') go(-1);
       }}
     >
-      <div className="relative grid min-h-[22rem] md:min-h-[20rem]">
-        <span aria-hidden className="pointer-events-none absolute -top-10 left-0 font-display text-[9rem] leading-none text-lapis/15 md:-top-16 md:-left-4 md:text-[14rem]">
-          &ldquo;
-        </span>
+      <span aria-hidden className="block font-display text-8xl leading-[0.5] text-lapis md:text-9xl">
+        &ldquo;
+      </span>
+      <div className="relative mt-6 grid min-h-[20rem] md:min-h-[16rem]">
         <AnimatePresence mode="wait" initial={false}>
           <motion.figure
             key={review.slug}

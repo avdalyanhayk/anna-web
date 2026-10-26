@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
 import { parseYouTubeId, youTubeEmbedUrl, youTubeThumbnail } from '@/lib/youtube';
@@ -15,6 +16,7 @@ export function YouTube({
   title,
   playLabel = 'Play video',
   autoStart = false,
+  priority = false,
   className,
 }: {
   url: string;
@@ -22,18 +24,21 @@ export function YouTube({
   playLabel?: string;
   /** Start the player immediately (only after a user gesture, e.g. a filmstrip click). */
   autoStart?: boolean;
+  /** Load the thumbnail eagerly (for a player above the fold). */
+  priority?: boolean;
   className?: string;
 }) {
   const id = parseYouTubeId(url);
   const [playing, setPlaying] = useState(autoStart);
-  const [quality, setQuality] = useState<'maxresdefault' | 'hqdefault'>('maxresdefault');
-  const imgRef = useRef<HTMLImageElement>(null);
+  const [hiRes, setHiRes] = useState(false);
+  const hiResRef = useRef<HTMLImageElement>(null);
 
-  // YouTube answers a missing maxres thumbnail with a 120×90 grey image.
-  const checkThumb = (img: HTMLImageElement | null) => {
-    if (img && img.complete && img.naturalWidth > 0 && img.naturalWidth <= 120) setQuality('hqdefault');
+  // hqdefault always exists; maxresdefault is layered on top only if it really
+  // loaded (YouTube answers a missing one with a 120×90 placeholder).
+  const acceptHiRes = (img: HTMLImageElement | null) => {
+    if (img?.complete && img.naturalWidth > 120) setHiRes(true);
   };
-  useEffect(() => checkThumb(imgRef.current), []);
+  useEffect(() => acceptHiRes(hiResRef.current), []);
 
   if (!id) return null;
 
@@ -43,7 +48,7 @@ export function YouTube({
         <iframe
           src={youTubeEmbedUrl(id)}
           title={title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
           className="absolute inset-0 size-full border-0"
@@ -55,16 +60,27 @@ export function YouTube({
           className="group absolute inset-0 size-full cursor-pointer"
           aria-label={`${playLabel}: ${title}`}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element -- external thumbnail, keeps image-optimisation quota free */}
+          {/* Served through next/image so an above-the-fold player can be preloaded from our own origin. */}
+          <Image
+            src={youTubeThumbnail(id, 'hqdefault')}
+            alt=""
+            fill
+            preload={priority}
+            sizes="(min-width: 1200px) 1120px, 100vw"
+            className="object-cover opacity-90 transition-[transform,opacity] duration-700 ease-(--ease-out-soft) group-hover:scale-[1.02] group-hover:opacity-100"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element -- external thumbnail */}
           <img
-            ref={imgRef}
-            src={youTubeThumbnail(id, quality)}
+            ref={hiResRef}
+            src={youTubeThumbnail(id, 'maxresdefault')}
             alt=""
             loading="lazy"
             decoding="async"
-            onLoad={(e) => checkThumb(e.currentTarget)}
-            onError={() => setQuality('hqdefault')}
-            className="absolute inset-0 size-full object-cover opacity-90 transition-[transform,opacity] duration-700 ease-(--ease-out-soft) group-hover:scale-[1.02] group-hover:opacity-100"
+            onLoad={(e) => acceptHiRes(e.currentTarget)}
+            className={cn(
+              'absolute inset-0 size-full object-cover transition-[transform,opacity] duration-700 ease-(--ease-out-soft) group-hover:scale-[1.02]',
+              hiRes ? 'opacity-90 group-hover:opacity-100' : 'opacity-0',
+            )}
           />
           <span className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/0 to-black/0" aria-hidden />
           <span
