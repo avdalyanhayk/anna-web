@@ -52,7 +52,7 @@ export function ReviewCarousel({
         if (e.key === 'ArrowLeft') go(-1);
       }}
     >
-      <span aria-hidden className="block font-display text-8xl leading-[0.5] text-accent md:text-9xl">
+      <span aria-hidden className="block font-display text-8xl leading-[0.5] text-champagne md:text-9xl">
         &ldquo;
       </span>
       <div className="relative mt-6 grid min-h-[20rem] md:min-h-[16rem]">
@@ -75,7 +75,7 @@ export function ReviewCarousel({
               {review.quote}
             </blockquote>
             <figcaption className="mt-8 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="eyebrow text-ink">{review.source}</span>
+              {review.source && <span className="eyebrow text-ink">{review.source}</span>}
               {review.critic && <span className="text-sm text-muted">— {review.critic}</span>}
               {review.production && <span className="text-sm text-muted">{review.production}</span>}
             </figcaption>

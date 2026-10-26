@@ -3,5 +3,7 @@
   "composer": "Giacomo Puccini",
   "role": "Mimì",
   "category": "opera",
-  "status": "performed"
+  "status": "performed",
+  "details": "Opernhaus Zürich, 2026 (placeholder)",
+  "recordingUrl": "https://www.youtube.com/watch?v=bfozlHuZD3c"
 }

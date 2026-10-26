@@ -49,7 +49,6 @@ export default async function HomePage(props: LocaleParams) {
     description: settings.seoDescription || undefined,
     url: absoluteUrl(localePath(locale, '/')),
     image: home.heroImage ? absoluteUrl(home.heroImage) : undefined,
-    email: settings.contactEmail ? `mailto:${settings.contactEmail}` : undefined,
     sameAs: settings.socials.map((s) => s.url),
   };
 

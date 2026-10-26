@@ -40,7 +40,7 @@ export function Hero({
       <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-night via-night/55 to-night/10" />
 
       <div className="mx-auto w-full max-w-[1200px] px-4 pt-32 pb-12 sm:px-6 md:px-10 md:pb-20">
-        <p className="eyebrow text-paper">{voiceType}</p>
+        <p className="eyebrow text-champagne">{voiceType}</p>
         <h1 className="wordmark mt-4 text-[clamp(3rem,9vw,7rem)] text-balance">Anna Avdalyan</h1>
         {headline && (
           <p className="mt-6 max-w-2xl font-display text-[clamp(1.375rem,2.4vw,1.875rem)] leading-snug font-medium text-paper">

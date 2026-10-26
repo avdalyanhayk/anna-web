@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Check } from 'lucide-react';
@@ -7,21 +8,23 @@ import type { Dictionary } from '@/lib/i18n';
 import { Button } from './ui/Button';
 import { cn } from './ui/cn';
 
-type Field = 'name' | 'email' | 'subject' | 'message';
-type Values = Record<Field, string>;
+type TextField = 'name' | 'email' | 'subject' | 'message';
+type Field = TextField | 'consent';
+type Values = Record<TextField, string>;
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const empty: Values = { name: '', email: '', subject: '', message: '' };
 
-export function ContactForm({ t }: { t: Dictionary['contact'] }) {
+export function ContactForm({ t, privacyHref }: { t: Dictionary['contact']; privacyHref: string }) {
   const [values, setValues] = useState<Values>(empty);
+  const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [status, setStatus] = useState<Status>('idle');
   const honeypot = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const validate = (v: Values) => {
+  const validate = (v: Values, agreed = consent) => {
     const e: Partial<Record<Field, string>> = {};
     if (!v.name.trim()) e.name = t.required;
     if (!v.email.trim()) e.email = t.required;
@@ -29,10 +32,11 @@ export function ContactForm({ t }: { t: Dictionary['contact'] }) {
     if (!v.subject.trim()) e.subject = t.required;
     if (!v.message.trim()) e.message = t.required;
     else if (v.message.trim().length < 10) e.message = t.tooShort;
+    if (!agreed) e.consent = t.consentRequired;
     return e;
   };
 
-  const update = (field: Field) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const update = (field: TextField) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const next = { ...values, [field]: e.target.value };
     setValues(next);
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: validate(next)[field] }));
@@ -52,17 +56,18 @@ export function ContactForm({ t }: { t: Dictionary['contact'] }) {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...values, website: honeypot.current?.value ?? '' }),
+        body: JSON.stringify({ ...values, consent, website: honeypot.current?.value ?? '' }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setStatus('success');
       setValues(empty);
+      setConsent(false);
     } catch {
       setStatus('error');
     }
   };
 
-  const field = (name: Field, label: string, opts: { type?: string; multiline?: boolean; autoComplete?: string } = {}) => {
+  const field = (name: TextField, label: string, opts: { type?: string; multiline?: boolean; autoComplete?: string } = {}) => {
     const id = `contact-${name}`;
     const error = errors[name];
     const common = {
@@ -135,6 +140,36 @@ export function ContactForm({ t }: { t: Dictionary['contact'] }) {
           </div>
           {field('subject', t.subject)}
           {field('message', t.message, { multiline: true })}
+
+          <div>
+            <label className="flex cursor-pointer items-start gap-3 text-[0.9375rem] leading-snug text-ink-soft">
+              <input
+                type="checkbox"
+                name="consent"
+                checked={consent}
+                onChange={(e) => {
+                  setConsent(e.target.checked);
+                  if (errors.consent) setErrors((prev) => ({ ...prev, consent: validate(values, e.target.checked).consent }));
+                }}
+                aria-invalid={errors.consent ? true : undefined}
+                aria-describedby={errors.consent ? 'contact-consent-error' : 'contact-privacy-note'}
+                className="mt-0.5 size-5 shrink-0 cursor-pointer accent-ink"
+              />
+              {t.consent}
+            </label>
+            {errors.consent && (
+              <p id="contact-consent-error" className="mt-2 text-sm text-red-800">
+                {errors.consent}
+              </p>
+            )}
+            <p id="contact-privacy-note" className="mt-3 text-sm text-muted">
+              {t.privacyNote}{' '}
+              <Link href={privacyHref} className="text-accent underline underline-offset-2 hover:text-ink">
+                {t.privacyLink}
+              </Link>
+              .
+            </p>
+          </div>
 
           {/* Honeypot: invisible to people, tempting to bots. */}
           <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">

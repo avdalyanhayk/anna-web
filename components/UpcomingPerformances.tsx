@@ -10,7 +10,7 @@ export function UpcomingPerformances({
   labels: { tickets: string; types: Record<PerformanceView['type'], string> };
 }) {
   return (
-    <ol className="border-t border-ink">
+    <ol className="border-t border-champagne">
       {performances.map((p) => (
         <li
           key={p.slug}
@@ -39,7 +39,7 @@ export function UpcomingPerformances({
               href={p.ticketsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="col-start-2 inline-flex min-h-11 items-center justify-center gap-2 justify-self-start bg-accent px-5 text-[0.8125rem] font-semibold tracking-[0.12em] text-paper uppercase transition-colors hover:bg-accent-soft md:col-start-auto md:justify-self-end"
+              className="col-start-2 inline-flex min-h-11 items-center justify-center gap-2 justify-self-start bg-ink px-5 text-[0.8125rem] font-semibold tracking-[0.12em] text-paper uppercase transition-colors hover:bg-accent md:col-start-auto md:justify-self-end"
             >
               {labels.tickets}
               <ArrowUpRight aria-hidden className="size-4" strokeWidth={1.75} />

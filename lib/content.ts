@@ -2,8 +2,9 @@ import { cache } from 'react';
 import type { DocumentRendererProps } from '@keystatic/core/renderer';
 import { reader } from './reader';
 import { localized, type Locale } from './i18n';
-import { dateParts, formatLongDate, todayIso } from './dates';
+import { dateParts, formatLongDate, seasonOf, todayIso } from './dates';
 import { parseYouTubeId } from './youtube';
+import { parseRecording, type Recording } from './media';
 
 // Every loader returns plain, localized data and tolerates content that has
 // not been created yet, so a missing singleton never breaks the build.
@@ -11,11 +12,11 @@ import { parseYouTubeId } from './youtube';
 export type RichDocument = DocumentRendererProps['document'];
 export type PerformanceType = 'opera' | 'concert' | 'recital';
 export type RepertoireCategory = 'opera' | 'concert' | 'song';
+export type PhotoCategory = 'portrait' | 'stage';
 
 export type Settings = {
   siteTitle: string;
   seoDescription: string;
-  contactEmail: string;
   managementName: string;
   managementAgency: string;
   managementEmail: string;
@@ -33,6 +34,7 @@ export type Performance = {
   role: string;
   composer: string;
   venue: string;
+  venueUrl: string | null;
   city: string;
   country: string;
   ticketsUrl: string | null;
@@ -46,10 +48,15 @@ export type RepertoireItem = {
   role: string;
   category: RepertoireCategory;
   inPreparation: boolean;
+  details: string;
+  recording: Recording | null;
+  /** Original link, for recordings that cannot be embedded. */
+  recordingUrl: string | null;
 };
 
 export type Review = {
   slug: string;
+  /** Empty when the editor chose not to name the publication. */
   source: string;
   quote: string;
   critic: string;
@@ -60,7 +67,7 @@ export type Review = {
 };
 
 export type Video = { id: string; title: string; description: string; production: string };
-export type Photo = { src: string; caption: string; credit: string; alt: string };
+export type Photo = { src: string; caption: string; credit: string; alt: string; category: PhotoCategory };
 
 const isEmptyDocument = (doc: RichDocument) =>
   doc.length === 0 ||
@@ -82,7 +89,6 @@ export const getSettings = cache(async (locale: Locale): Promise<Settings> => {
   return {
     siteTitle: s?.siteTitle || 'Anna Avdalyan',
     seoDescription: localized(locale, s?.seoDescription, s?.seoDescriptionDe),
-    contactEmail: s?.contactEmail ?? '',
     managementName: s?.managementName ?? '',
     managementAgency: s?.managementAgency ?? '',
     managementEmail: s?.managementEmail ?? '',
@@ -114,6 +120,7 @@ export const getAbout = cache(async (locale: Locale) => {
     portrait: a?.portrait ?? null,
     voiceType: localized(locale, a?.voiceType, a?.voiceTypeDe) || (locale === 'de' ? 'Sopran' : 'Soprano'),
     bio: isEmptyDocument(bio) ? null : bio,
+    shortBio: localized(locale, a?.shortBio, a?.shortBioDe),
     cvPdf: a?.cvPdf ?? null,
     pressPhotos: (a?.pressPhotos ?? []).map((p) => ({ src: p.image, caption: p.caption })),
   };
@@ -126,6 +133,7 @@ export const getPhotos = cache(async (): Promise<Photo[]> => {
     caption: p.caption,
     credit: p.credit,
     alt: p.alt || p.caption || 'Anna Avdalyan',
+    category: p.category,
   }));
 });
 
@@ -150,6 +158,7 @@ export const getPerformances = cache(async (locale: Locale): Promise<Performance
       role: entry.role,
       composer: entry.composer,
       venue: entry.venue,
+      venueUrl: entry.venueUrl,
       city: entry.city,
       country: entry.country,
       ticketsUrl: entry.ticketsUrl,
@@ -177,6 +186,9 @@ export const getRepertoire = cache(async (): Promise<RepertoireItem[]> => {
     role: entry.role,
     category: entry.category,
     inPreparation: entry.status === 'preparation',
+    details: entry.details,
+    recording: parseRecording(entry.recordingUrl),
+    recordingUrl: entry.recordingUrl,
   }));
 });
 
@@ -185,7 +197,7 @@ export const getReviews = cache(async (): Promise<Review[]> => {
   return entries
     .map(({ slug, entry }) => ({
       slug,
-      source: entry.source,
+      source: entry.showSource ? entry.source : '',
       quote: entry.quote,
       critic: entry.critic,
       production: entry.production,
@@ -196,6 +208,17 @@ export const getReviews = cache(async (): Promise<Review[]> => {
     .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
 });
 
+const readLegal = cache(() => reader.singletons.legal.read({ resolveLinkedFiles: true }));
+
+export const getLegal = cache(async (locale: Locale) => {
+  const l = await readLegal();
+  const pick = (en: RichDocument | undefined, de: RichDocument | undefined) => {
+    const doc = locale === 'de' && de && !isEmptyDocument(de) ? de : (en ?? []);
+    return isEmptyDocument(doc) ? null : doc;
+  };
+  return { imprint: pick(l?.imprint, l?.imprintDe), privacy: pick(l?.privacy, l?.privacyDe) };
+});
+
 export type PerformanceView = Performance & {
   longDate: string;
   day: string;
@@ -203,6 +226,7 @@ export type PerformanceView = Performance & {
   weekday: string;
   year: string;
   place: string;
+  season: string;
 };
 
 /** Pre-formats dates on the server so client components never re-format (no hydration drift). */
@@ -216,5 +240,6 @@ export function toPerformanceView(p: Performance, locale: Locale): PerformanceVi
     weekday: parts.weekday,
     year: parts.year,
     place: [p.city, p.country].filter(Boolean).join(', '),
+    season: seasonOf(p.date),
   };
 }

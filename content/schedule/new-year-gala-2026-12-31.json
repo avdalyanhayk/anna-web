@@ -6,6 +6,7 @@
   "role": "",
   "composer": "Verdi · Puccini · Lehár",
   "venue": "Gewandhaus (placeholder)",
+  "venueUrl": "https://example.com/venue",
   "city": "Leipzig",
   "country": "Germany",
   "notes": "Placeholder entry — replace in the site admin.",

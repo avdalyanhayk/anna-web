@@ -1,14 +1,22 @@
 'use client';
 
 import { useDeferredValue, useMemo, useState } from 'react';
-import { Search, X } from 'lucide-react';
+import { ArrowUpRight, Pause, Play, Search, X } from 'lucide-react';
 import type { RepertoireCategory, RepertoireItem } from '@/lib/content';
+import { RecordingEmbed } from './RecordingEmbed';
+import { cn } from './ui/cn';
 
 type Labels = Record<RepertoireCategory, string> & {
   search: string;
+  performed: string;
   inPreparation: string;
+  listen: string;
+  closeRecording: string;
+  openRecording: string;
   noResults: string;
 };
+
+type Status = 'performed' | 'preparation';
 
 const CATEGORY_ORDER: RepertoireCategory[] = ['opera', 'concert', 'song'];
 
@@ -23,7 +31,7 @@ const surname = (composer: string) => composer.trim().split(/\s+/).pop() ?? comp
 
 type ComposerGroup = { composer: string; letter: string; works: RepertoireItem[] };
 
-function group(items: RepertoireItem[]) {
+function groupByCategory(items: RepertoireItem[]) {
   return CATEGORY_ORDER.map((category) => {
     const byComposer = new Map<string, RepertoireItem[]>();
     for (const item of items.filter((i) => i.category === category)) {
@@ -44,6 +52,7 @@ function group(items: RepertoireItem[]) {
 
 export function RepertoireIndex({ items, labels }: { items: RepertoireItem[]; labels: Labels }) {
   const [query, setQuery] = useState('');
+  const [playing, setPlaying] = useState<string | null>(null);
   const deferred = useDeferredValue(query);
 
   const groups = useMemo(() => {
@@ -51,7 +60,13 @@ export function RepertoireIndex({ items, labels }: { items: RepertoireItem[]; la
     const filtered = q
       ? items.filter((i) => normalize(`${i.work} ${i.composer} ${i.role}`).includes(q))
       : items;
-    return group(filtered);
+    // Performed roles first, roles in development in their own section (client brief).
+    return (['performed', 'preparation'] as Status[])
+      .map((status) => ({
+        status,
+        categories: groupByCategory(filtered.filter((i) => i.inPreparation === (status === 'preparation'))),
+      }))
+      .filter((g) => g.categories.length > 0);
   }, [items, deferred]);
 
   return (
@@ -82,55 +97,97 @@ export function RepertoireIndex({ items, labels }: { items: RepertoireItem[]; la
         )}
       </div>
 
-      <div aria-live="polite" className="mt-16 space-y-20">
-        {groups.length === 0 && <p className="font-display text-2xl text-muted">{labels.noResults}</p>}
-        {groups.map(({ category, composers }) => (
-          <section key={category} aria-labelledby={`rep-${category}`}>
-            <h2 id={`rep-${category}`} className="border-b border-ink pb-4 font-display text-3xl md:text-4xl">
-              {labels[category]}
-            </h2>
-            <div className="mt-10 gap-16 md:columns-2">
-              {composers.map((c, i) => (
-                <div key={c.composer} className="mb-10 break-inside-avoid">
-                  {(i === 0 || composers[i - 1].letter !== c.letter) && (
-                    <p aria-hidden className="mb-4 flex items-center gap-4 font-display text-xl text-muted">
-                      {c.letter}
-                      <span className="h-px flex-1 bg-rule" />
-                    </p>
-                  )}
-                  <h3 className="eyebrow text-ink">{c.composer}</h3>
-                  <ul className="mt-3 space-y-2">
-                    {c.works.map((w) => (
-                      <li key={w.slug} className="flex items-baseline gap-2 leading-snug">
-                        <span className="font-display text-xl">{w.work}</span>
-                        {w.role && <span className="text-muted">— {w.role}</span>}
-                        {w.inPreparation && (
-                          <span className="group relative inline-flex translate-y-[-2px] items-center">
-                            <span tabIndex={0} role="img" aria-label={labels.inPreparation} className="block size-2 rounded-full bg-accent" />
-                            <span
-                              role="tooltip"
-                              className="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 bg-ink px-2 py-1 text-[0.6875rem] whitespace-nowrap text-paper opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
-                            >
-                              {labels.inPreparation}
-                            </span>
-                          </span>
+      <div aria-live="polite" className="mt-16 space-y-24">
+        {groups.length === 0 && <p className="text-lg text-muted">{labels.noResults}</p>}
+        {groups.map(({ status, categories }) => (
+          <section key={status} aria-labelledby={`rep-${status}`}>
+            <div className="flex items-center gap-5">
+              <h2 id={`rep-${status}`} className="font-display text-3xl font-semibold md:text-4xl">
+                {status === 'performed' ? labels.performed : labels.inPreparation}
+              </h2>
+              <span aria-hidden className="h-px flex-1 bg-champagne" />
+            </div>
+
+            <div className="mt-10 space-y-14">
+              {categories.map(({ category, composers }) => (
+                <div key={category}>
+                  <h3 className="eyebrow border-b border-rule pb-3 text-accent">{labels[category]}</h3>
+                  <div className="mt-8 gap-16 md:columns-2">
+                    {composers.map((c, i) => (
+                      <div key={c.composer} className="mb-10 break-inside-avoid">
+                        {(i === 0 || composers[i - 1].letter !== c.letter) && (
+                          <p aria-hidden className="mb-4 flex items-center gap-4 font-display text-xl text-muted">
+                            {c.letter}
+                            <span className="h-px flex-1 bg-rule" />
+                          </p>
                         )}
-                      </li>
+                        <h4 className="eyebrow text-ink">{c.composer}</h4>
+                        <ul className="mt-3 space-y-4">
+                          {c.works.map((w) => {
+                            const open = playing === w.slug;
+                            return (
+                              <li key={w.slug} className="leading-snug">
+                                <div className="flex items-start justify-between gap-4">
+                                  <div>
+                                    <p>
+                                      <span className="font-display text-xl font-semibold">{w.work}</span>
+                                      {w.role && <span className="text-ink-soft"> — {w.role}</span>}
+                                    </p>
+                                    {w.details && <p className="mt-1 text-sm text-muted">{w.details}</p>}
+                                  </div>
+                                  {w.recording ? (
+                                    <button
+                                      type="button"
+                                      onClick={() => setPlaying(open ? null : w.slug)}
+                                      aria-expanded={open}
+                                      className={cn(
+                                        'flex size-10 shrink-0 items-center justify-center rounded-full border transition-colors',
+                                        open ? 'border-ink bg-ink text-paper' : 'border-champagne text-ink hover:border-ink',
+                                      )}
+                                    >
+                                      {open ? (
+                                        <Pause aria-hidden className="size-4" strokeWidth={1.75} />
+                                      ) : (
+                                        <Play aria-hidden className="ml-0.5 size-4" strokeWidth={1.75} />
+                                      )}
+                                      <span className="sr-only">
+                                        {open ? labels.closeRecording : labels.listen}: {w.work}
+                                      </span>
+                                    </button>
+                                  ) : (
+                                    w.recordingUrl && (
+                                      <a
+                                        href={w.recordingUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex size-10 shrink-0 items-center justify-center rounded-full border border-champagne hover:border-ink"
+                                      >
+                                        <ArrowUpRight aria-hidden className="size-4" strokeWidth={1.75} />
+                                        <span className="sr-only">
+                                          {labels.openRecording}: {w.work}
+                                        </span>
+                                      </a>
+                                    )
+                                  )}
+                                </div>
+                                {open && w.recording && (
+                                  <div className="mt-4">
+                                    <RecordingEmbed recording={w.recording} title={`${w.work} — ${w.role || c.composer}`} />
+                                  </div>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               ))}
             </div>
           </section>
         ))}
       </div>
-
-      {items.some((i) => i.inPreparation) && (
-        <p className="mt-16 flex items-center gap-3 text-sm text-muted">
-          <span aria-hidden className="block size-2 rounded-full bg-accent" />
-          {labels.inPreparation}
-        </p>
-      )}
     </div>
   );
 }

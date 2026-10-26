@@ -45,7 +45,7 @@ export default async function GalleryPage(props: LocaleParams) {
           {t.gallery.photos}
         </DisplayHeading>
         {photos.length > 0 ? (
-          <PhotoGallery photos={photos} openLabel={t.gallery.openPhoto} />
+          <PhotoGallery photos={photos} labels={t.gallery} />
         ) : (
           <p className="font-display text-2xl text-muted">{t.gallery.noPhotos}</p>
         )}

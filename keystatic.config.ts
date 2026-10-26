@@ -39,7 +39,7 @@ export default config({
       Pages: ['home', 'about'],
       Performances: ['schedule', 'repertoire', 'reviews'],
       Media: ['gallery', 'videos'],
-      Settings: ['settings'],
+      Settings: ['settings', 'legal'],
     },
   },
   singletons: {
@@ -109,6 +109,12 @@ export default config({
           defaultValue: 'Soprano',
         }),
         voiceTypeDe: fields.text({ label: 'Voice type (German)', description: 'e.g. Sopran.', defaultValue: 'Sopran' }),
+        shortBio: fields.text({
+          label: 'Short biography',
+          description: 'About 80–120 words, for programme books and presenters. Visitors can switch between short and full biography and copy it.',
+          multiline: true,
+        }),
+        shortBioDe: fields.text({ label: 'Short biography (German)', description: germanHint, multiline: true }),
         bio: richText('Biography', 'Your biography. Use bold, italic and links as you like.'),
         bioDe: richText('Biography (German)', germanHint),
         cvPdf: fields.file({
@@ -151,6 +157,15 @@ export default config({
               publicPath: '/images/gallery/',
               validation: { isRequired: true },
             }),
+            category: fields.select({
+              label: 'Type of photo',
+              description: 'Used for the "Portraits / On stage" filter.',
+              options: [
+                { label: 'Portrait', value: 'portrait' },
+                { label: 'On stage', value: 'stage' },
+              ],
+              defaultValue: 'portrait',
+            }),
             caption: fields.text({ label: 'Caption', description: 'e.g. "Violetta — La traviata, Staatsoper"' }),
             credit: fields.text({ label: 'Photo credit', description: 'e.g. "© Jane Doe"' }),
             alt: fields.text({
@@ -192,6 +207,18 @@ export default config({
       },
     }),
 
+    legal: singleton({
+      label: 'Imprint & privacy',
+      path: 'content/legal/',
+      format: { data: 'json' },
+      schema: {
+        imprint: richText('Imprint (Impressum)', 'Legal notice: name, postal address, contact. Required for German-speaking audiences.'),
+        imprintDe: richText('Impressum (German)', germanHint),
+        privacy: richText('Privacy policy', 'Explains what data the website and contact form process.'),
+        privacyDe: richText('Datenschutzerklärung (German)', germanHint),
+      },
+    }),
+
     settings: singleton({
       label: 'Site settings & contact',
       path: 'content/settings',
@@ -204,7 +231,6 @@ export default config({
           multiline: true,
         }),
         seoDescriptionDe: fields.text({ label: 'Search engine description (German)', multiline: true }),
-        contactEmail: fields.text({ label: 'Your contact email', description: 'Shown on the Contact page.' }),
         managementName: fields.text({ label: 'Manager name' }),
         managementAgency: fields.text({ label: 'Agency' }),
         managementEmail: fields.text({ label: 'Manager email' }),
@@ -253,6 +279,7 @@ export default config({
         role: fields.text({ label: 'Role', description: 'e.g. Violetta Valéry. Leave empty for concerts.' }),
         composer: fields.text({ label: 'Composer', description: 'e.g. Giuseppe Verdi' }),
         venue: fields.text({ label: 'Venue', description: 'e.g. Wiener Staatsoper' }),
+        venueUrl: fields.url({ label: 'Venue / production page', description: "Optional. Link to the theatre's official page for this production." }),
         city: fields.text({ label: 'City' }),
         country: fields.text({ label: 'Country' }),
         ticketsUrl: fields.url({ label: 'Tickets link', description: 'Optional. Adds a "Tickets" button.' }),
@@ -288,11 +315,19 @@ export default config({
           ],
           defaultValue: 'performed',
         }),
+        details: fields.text({
+          label: 'Performance details',
+          description: 'Optional, e.g. "Oper Frankfurt, 2025 · cond. Jane Doe"',
+        }),
+        recordingUrl: fields.url({
+          label: 'Recording (video or audio)',
+          description: 'Optional. A YouTube, Spotify or SoundCloud link. Visitors can play it right on the page.',
+        }),
       },
     }),
 
     reviews: collection({
-      label: 'Press reviews',
+      label: 'Quotes (press)',
       path: 'content/reviews/*',
       format: { data: 'json' },
       slugField: 'source',
@@ -301,6 +336,11 @@ export default config({
         source: fields.slug({
           name: { label: 'Publication', description: 'e.g. "Opernwelt" or "The Guardian"' },
           slug: { label: 'File name', description: 'Must be unique, e.g. "opernwelt-2026-traviata".' },
+        }),
+        showSource: fields.checkbox({
+          label: 'Show the publication name',
+          description: 'Untick if you may quote the review but not name the publication.',
+          defaultValue: true,
         }),
         quote: fields.text({ label: 'Quote', multiline: true, validation: { length: { min: 1 } } }),
         critic: fields.text({ label: 'Critic', description: 'Name of the writer (optional).' }),

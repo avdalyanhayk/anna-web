@@ -74,11 +74,13 @@ Changes go live about **1 minute after you click Save**, once the website has re
 
 **Add a performance**
 1. Go to **Performances → Schedule** and click **Add**.
-2. Fill in the production, date, time (e.g. `19:30`), type (opera, concert or recital), role, composer, venue, city and country. Add a tickets link if you have one.
+2. Fill in the production, date, time (e.g. `19:30`), type (opera, concert or recital), role, composer, venue, city and country.
+   - Add a **tickets link** if there is one.
+   - Add a **venue / production page** to link the theatre's official page.
 3. The *File name* must be unique. For several dates of one production, add the date, e.g. `la-traviata-2027-03-14`.
 4. Click **Create**.
 
-The website sorts everything automatically. Past dates move to the **Past** tab by themselves.
+The website sorts everything automatically. Past dates move to the **Past** tab by themselves, grouped by season (e.g. 2025/26).
 
 **Add a video**
 1. Go to **Media → Videos**.
@@ -89,24 +91,39 @@ To show a video on the home page, paste its link into **Pages → Home page → 
 
 **Add or reorder photos**
 1. Go to **Media → Photo gallery** and click **Add**.
-2. Choose the image and fill in a caption, a photo credit, and a short description for blind visitors.
-3. Drag the items to change the order.
+2. Choose the image and set **Type of photo** (Portrait or On stage); visitors can filter by type.
+3. Fill in a caption, a photo credit, and a short description for blind visitors.
+4. Drag the items to change the order. Use the bin icon to delete a photo, or choose a new file to replace it. The first photo, and every fifth after it, is shown large.
 
 Recommended size: about **2000 px** on the longest side and **under 5 MB**. Export from your photo app as JPEG at around 80% quality.
 
 **Edit your biography**
 1. Go to **Pages → About / Biography**.
-2. Edit the text as in a word processor. You can use **bold**, *italic*, headings and links.
-3. You can also upload a CV as a PDF and high-resolution press photos.
+2. Edit the **full biography** as in a word processor. You can use **bold**, *italic*, headings and links.
+3. Write a **short biography** (about 80–120 words) as well. Visitors can switch between short and full, and presenters can copy the short one with one click.
+4. Upload your **CV (PDF)** and high-resolution **press photos**. They appear together in the "Press kit" section of the About page, with your management details.
 
-**Press reviews**
-1. Go to **Performances → Press reviews**.
+**Repertoire**
+1. Go to **Performances → Repertoire**.
+2. Set **Status** to *Performed* or *In preparation*; the two are shown as separate groups.
+3. Optionally add **Performance details** (house, year, conductor) and a **Recording** link (YouTube, Spotify or SoundCloud). The recording plays right on the page.
+
+**Quotes**
+1. Go to **Performances → Quotes (press)**.
 2. Tick **Show on home page** to feature a quote in the home-page carousel.
+3. Untick **Show the publication name** if you may quote a review but not name the publication.
 
-**Contact details and social links**
+**Imprint and privacy policy**
+- Edit these in **Settings → Imprint & privacy**.
+- The seed text is a placeholder and not legal advice: replace it with your own details and have it checked.
+
+**Management details and social links**
 - Edit these in **Settings → Site settings & contact**.
+- Your personal email address is **never shown** on the website. Messages from the contact form go to the private address set as `CONTACT_TO` on the server (see section 6).
 
 ## 6. Contact form email (Resend)
+
+All services used are free; the only cost is the domain (about €10–20 per year). Hosting is free on Vercel Hobby, email is Resend's free tier (3,000 emails per month), and the code and content live on GitHub for free.
 
 The form posts to `/api/contact`, which sends an email through [Resend](https://resend.com). The free tier covers 3,000 emails per month.
 
@@ -123,23 +140,24 @@ Replies go straight to the visitor, because `replyTo` is set to their address. S
 
 **Alternative: Formspree.** Create a form at [formspree.io](https://formspree.io). In [`components/ContactForm.tsx`](components/ContactForm.tsx), change the `fetch('/api/contact', …)` URL to your Formspree endpoint (`https://formspree.io/f/xxxx`). Add the header `Accept: application/json`; Formspree accepts the same JSON fields.
 
-## 7. Design system: "Carnegie White" (photo-led revision)
+## 7. Design system: black, ivory, charcoal and champagne
 
-The design is photo-led and easy to read, following what the leading singer sites do (Davidsen, Netrebko, Garanča). The portrait carries the hero. The name is a solid capitals wordmark. The schedule sits right under the hero. Headings use a sturdy serif with no hairline italics, body text is large and near-black, and one warm garnet accent ties it together.
+The design is photo-led and easy to read, following what the leading singer sites do (Davidsen, Netrebko, Garanča). The portrait carries the hero, and the name is a solid capitals wordmark. The schedule sits right under the hero. Headings use a sturdy serif with no hairline italics. The palette is black, ivory and charcoal with subtle champagne details, as requested in the client brief.
 
-**Tokens.** All colours and font stacks live in **one place**: the `@theme` block in [`app/globals.css`](app/globals.css). Change a hex value there and the whole site follows. Tailwind exposes them as `bg-paper`, `text-ink`, `text-muted`, `border-rule`, `bg-accent` and so on.
+**Tokens.** All colours and font stacks live in **one place**: the `@theme` block in [`app/globals.css`](app/globals.css). Change a hex value there and the whole site follows. Tailwind exposes them as `bg-paper`, `text-ink`, `text-muted`, `border-champagne`, `text-accent` and so on.
 
 | Token | Hex | Use |
 | --- | --- | --- |
-| `paper` | `#FAF7F2` | page background |
-| `paper-deep` | `#F2ECE3` | alternate sections |
-| `ink` | `#161412` | headings, primary buttons |
-| `ink-soft` | `#2B2723` | body copy (14:1 on paper) |
-| `muted` | `#5B544C` | secondary text (7:1 on paper) |
-| `stone` | `#8A8178` | decorative only |
-| `rule` | `#E3DCD1` | hairlines |
-| `accent` | `#8E1F35` | garnet signature colour: tickets, labels, links, focus ring |
-| `night` | `#15110F` | photo scrim and video stage |
+| `paper` | `#F7F3EC` | ivory page background |
+| `paper-deep` | `#EFE8DC` | alternate sections |
+| `ink` | `#0E0D0C` | black: headings, primary and ticket buttons |
+| `ink-soft` | `#2E2C29` | charcoal body copy (13:1 on ivory) |
+| `muted` | `#5C5750` | secondary text (6.6:1) |
+| `stone` | `#9A8F7E` | decorative only |
+| `rule` | `#E2D9C9` | hairlines |
+| `champagne` | `#C9B48A` | hairline dividers, quote marks, accents on dark backgrounds |
+| `accent` | `#7A6338` | deep champagne for small text on ivory (5.1:1) |
+| `night` | `#121110` | photo scrim, video stage, footer |
 
 **Fonts.**
 - Headings and the wordmark use **Playfair Display** at weights 500 and 600, with no italics.

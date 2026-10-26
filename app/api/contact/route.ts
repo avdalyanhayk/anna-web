@@ -5,6 +5,8 @@ const LIMITS = { name: 120, email: 200, subject: 200, message: 5000 } as const;
 
 type Payload = { name: string; email: string; subject: string; message: string; website?: string };
 
+// The form requires explicit consent before personal data is processed (GDPR).
+
 function parse(body: unknown): { data: Payload } | { error: string } {
   if (!body || typeof body !== 'object') return { error: 'Invalid request body.' };
   const raw = body as Record<string, unknown>;
@@ -17,6 +19,7 @@ function parse(body: unknown): { data: Payload } | { error: string } {
   }
   if (!EMAIL.test(data.email!)) return { error: 'Invalid email address.' };
   if (data.message!.length < 10) return { error: 'Message is too short.' };
+  if (raw.consent !== true) return { error: 'Consent is required.' };
   return { data: { ...(data as Payload), website: typeof raw.website === 'string' ? raw.website : '' } };
 }
 

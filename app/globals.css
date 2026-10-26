@@ -6,16 +6,18 @@
  * --font-playfair / --font-dm-sans.
  */
 @theme {
-  --color-paper: #faf7f2;
-  --color-paper-deep: #f2ece3;
-  --color-ink: #161412;
-  --color-ink-soft: #2b2723; /* body copy: 14:1 on paper */
-  --color-muted: #5b544c; /* secondary text: 7:1 on paper */
-  --color-stone: #8a8178; /* decorative only (rules, icons) */
-  --color-rule: #e3dcd1;
-  --color-accent: #8e1f35; /* garnet: the single signature colour */
-  --color-accent-soft: #a8324a;
-  --color-night: #15110f; /* warm black for photo scrims and the video stage */
+  /* Black, ivory, charcoal and a subtle champagne accent (client brief). */
+  --color-paper: #f7f3ec; /* ivory */
+  --color-paper-deep: #efe8dc;
+  --color-ink: #0e0d0c; /* black: headings, primary buttons */
+  --color-ink-soft: #2e2c29; /* charcoal: body copy, 13:1 on ivory */
+  --color-muted: #5c5750; /* secondary text: 6.6:1 on ivory */
+  --color-stone: #9a8f7e; /* decorative only (icons) */
+  --color-rule: #e2d9c9;
+  --color-champagne: #c9b48a; /* hairlines, quote marks, accents on dark */
+  --color-accent: #7a6338; /* deep champagne for small text on ivory: 5.1:1 */
+  --color-accent-soft: #8a7245;
+  --color-night: #121110; /* photo scrims, video stage, footer */
 
   --font-display: var(--font-playfair), "Playfair Display", Georgia, serif;
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
@@ -60,7 +62,7 @@
   }
 
   .on-dark :focus-visible {
-    outline-color: var(--color-paper);
+    outline-color: var(--color-champagne);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -111,7 +113,8 @@
     background-size: 100% 1px;
   }
 
-  .rich-text > * + * {
+  /* Works for nested markup too (e.g. inside the biography switcher). */
+  .rich-text :where(p, ul, ol, blockquote, h2, h3, hr) + :where(p, ul, ol, blockquote, h2, h3, hr) {
     margin-top: 1.25em;
   }
   .rich-text h2,
@@ -131,7 +134,7 @@
   }
   .rich-text a:hover { text-decoration-thickness: 2px; }
   .rich-text blockquote {
-    border-left: 1px solid var(--color-accent);
+    border-left: 1px solid var(--color-champagne);
     padding-left: 1.5rem;
     font-family: var(--font-display);
     font-weight: 500;
@@ -148,13 +151,13 @@
 
 /* Lightbox tuned to the palette */
 .yarl__root {
-  --yarl__color_backdrop: rgba(250, 248, 245, 0.98);
+  --yarl__color_backdrop: rgba(247, 243, 236, 0.98);
   --yarl__color_button: var(--color-ink);
   --yarl__color_button_active: var(--color-accent);
   --yarl__color_button_disabled: var(--color-stone);
   --yarl__slide_title_color: var(--color-ink);
   --yarl__slide_description_color: var(--color-muted);
-  --yarl__slide_captions_container_background: rgba(250, 248, 245, 0.92);
+  --yarl__slide_captions_container_background: rgba(247, 243, 236, 0.92);
   --yarl__button_filter: none;
 }
 .yarl__slide_title {
@@ -191,7 +194,7 @@ html[data-overture="play"] .overture-name > span + span {
 html[data-overture="play"] .overture-rule {
   height: 1px;
   width: 4rem;
-  background: var(--color-accent);
+  background: var(--color-champagne);
   transform: scaleX(0);
   animation: overture-draw 0.45s var(--ease-out-soft) 0.25s forwards;
 }

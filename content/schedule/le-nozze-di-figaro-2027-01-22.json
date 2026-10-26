@@ -6,6 +6,7 @@
   "role": "La Contessa Almaviva",
   "composer": "Wolfgang Amadeus Mozart",
   "venue": "Bayerische Staatsoper (placeholder)",
+  "venueUrl": "https://example.com/venue",
   "city": "Munich",
   "country": "Germany",
   "notes": "Placeholder entry — replace in the site admin.",

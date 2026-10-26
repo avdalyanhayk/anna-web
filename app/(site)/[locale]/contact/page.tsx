@@ -3,7 +3,7 @@ import { ContactForm } from '@/components/ContactForm';
 import { PageIntro } from '@/components/PageIntro';
 import { Eyebrow, Section } from '@/components/ui';
 import { getSettings } from '@/lib/content';
-import { getDictionary, resolveLocale, type LocaleParams } from '@/lib/i18n';
+import { getDictionary, localePath, resolveLocale, type LocaleParams } from '@/lib/i18n';
 import { pageMetadata } from '@/lib/metadata';
 
 export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
@@ -24,12 +24,12 @@ export default async function ContactPage(props: LocaleParams) {
         <div className="space-y-8">
           {hasManagement && (
             // Engraved business card: double hairline frame, centred small caps.
-            <address className="border border-ink p-1.5 not-italic">
-              <div className="border border-ink/40 px-6 py-10 text-center md:px-10 md:py-14">
+            <address className="border border-champagne p-1.5 not-italic">
+              <div className="border border-champagne/60 px-6 py-10 text-center md:px-10 md:py-14">
                 <Eyebrow className="text-accent">{t.contact.management}</Eyebrow>
                 {s.managementAgency && <p className="mt-6 font-display text-3xl leading-tight">{s.managementAgency}</p>}
                 {s.managementName && <p className="mt-3 text-ink-soft">{s.managementName}</p>}
-                <span aria-hidden className="mx-auto mt-8 block h-px w-10 bg-ink/40" />
+                <span aria-hidden className="mx-auto mt-8 block h-px w-10 bg-champagne" />
                 <div className="mt-8 space-y-2 text-[0.9375rem]">
                   {s.managementEmail && (
                     <p>
@@ -49,20 +49,13 @@ export default async function ContactPage(props: LocaleParams) {
               </div>
             </address>
           )}
-          {s.contactEmail && (
-            <div className="border-t border-rule pt-8">
-              <Eyebrow>{t.contact.direct}</Eyebrow>
-              <a href={`mailto:${s.contactEmail}`} className="link-draw mt-4 inline-block font-display text-2xl">
-                {s.contactEmail}
-              </a>
-            </div>
-          )}
         </div>
 
         <div>
           <h2 className="font-display text-3xl">{t.contact.formTitle}</h2>
+          <p className="mt-3 text-muted">{t.contact.formHint}</p>
           <div className="mt-8">
-            <ContactForm t={t.contact} />
+            <ContactForm t={t.contact} privacyHref={localePath(locale, '/privacy')} />
           </div>
         </div>
       </Section>

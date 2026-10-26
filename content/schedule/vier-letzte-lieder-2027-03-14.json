@@ -6,6 +6,7 @@
   "role": "",
   "composer": "Richard Strauss",
   "venue": "Elbphilharmonie (placeholder)",
+  "venueUrl": "https://example.com/venue",
   "city": "Hamburg",
   "country": "Germany",
   "notes": "Placeholder entry — replace in the site admin.",

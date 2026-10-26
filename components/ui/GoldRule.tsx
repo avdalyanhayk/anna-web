@@ -8,7 +8,7 @@ export function GoldRule({ tone = 'rule', className }: { tone?: 'rule' | 'accent
   return (
     <hr
       aria-hidden
-      className={cn('h-px border-0', tone === 'accent' ? 'w-16 bg-accent' : 'w-full bg-rule', className)}
+      className={cn('h-px border-0', tone === 'accent' ? 'w-16 bg-champagne' : 'w-full bg-rule', className)}
     />
   );
 }

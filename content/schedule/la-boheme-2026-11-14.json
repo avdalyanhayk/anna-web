@@ -6,6 +6,7 @@
   "role": "Mimì",
   "composer": "Giacomo Puccini",
   "venue": "Opernhaus (placeholder)",
+  "venueUrl": "https://example.com/venue",
   "city": "Zurich",
   "country": "Switzerland",
   "notes": "Placeholder entry — replace in the site admin.",

@@ -47,3 +47,10 @@ export function formatMonthYear(iso: string, locale: Locale): string {
     toDate(iso),
   );
 }
+
+/** Opera seasons run from August to July: 2026-03-21 → "2025/26". */
+export function seasonOf(iso: string): string {
+  const [year, month] = iso.split('-').map(Number);
+  const start = month >= 8 ? year : year - 1;
+  return `${start}/${String((start + 1) % 100).padStart(2, '0')}`;
+}

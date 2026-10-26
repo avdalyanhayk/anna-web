@@ -17,12 +17,29 @@ export type ScheduleLabels = {
   concert: string;
   recital: string;
   role: string;
+  venueLink: string;
+  season: string;
   emptyUpcoming: string;
   emptyPast: string;
   filterLabel: string;
   tickets: string;
   addToCalendar: string;
 };
+
+/** Past performances are archived by opera season (newest first); upcoming stay one list. */
+function groupBySeason(
+  list: PerformanceView[],
+  bySeason: boolean,
+): { season: string | null; items: PerformanceView[] }[] {
+  if (!bySeason) return [{ season: null, items: list }];
+  const groups: { season: string; items: PerformanceView[] }[] = [];
+  for (const p of list) {
+    const last = groups[groups.length - 1];
+    if (last && last.season === p.season) last.items.push(p);
+    else groups.push({ season: p.season, items: [p] });
+  }
+  return groups;
+}
 
 export function ScheduleList({
   upcoming,
@@ -80,7 +97,11 @@ export function ScheduleList({
           ))}
         </div>
 
-        <div role="group" aria-label={labels.filterLabel} className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-4 sm:mx-0 sm:px-0">
+        <div
+          role="group"
+          aria-label={labels.filterLabel}
+          className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-4 sm:mx-0 sm:px-0"
+        >
           {filters.map((f) => (
             <button
               key={f}
@@ -89,7 +110,7 @@ export function ScheduleList({
               onClick={() => setFilter(f)}
               className={cn(
                 'min-h-10 shrink-0 rounded-full border px-4 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase transition-colors',
-                filter === f ? 'border-accent bg-accent text-paper' : 'border-rule text-ink-soft hover:border-ink',
+                filter === f ? 'border-ink bg-ink text-paper' : 'border-rule text-ink-soft hover:border-ink',
               )}
             >
               {labels[f]}
@@ -104,65 +125,102 @@ export function ScheduleList({
             {tab === 'upcoming' ? labels.emptyUpcoming : labels.emptyPast}
           </p>
         ) : (
-          <ol>
-            {list.map((p) => (
-              <li
-                key={p.slug}
-                className={cn(
-                  'group grid grid-cols-[4.5rem_1fr] gap-x-5 gap-y-4 border-b border-rule py-8 transition-colors duration-300 md:grid-cols-[7rem_1.4fr_1fr_auto] md:items-center md:gap-x-8 md:px-4 md:hover:bg-paper-deep',
-                  tab === 'past' && 'text-ink-soft',
-                )}
-              >
-                <div className="row-span-2 md:row-span-1">
-                  <p className="font-display text-5xl leading-none tabular-nums transition-colors group-hover:text-accent md:text-6xl">{p.day}</p>
-                  <p className="eyebrow mt-2 text-ink">
-                    {p.month} <span className="text-muted">{p.year}</span>
-                  </p>
-                  <p className="mt-1 text-sm text-muted">
-                    {p.weekday}
-                    {p.time && ` · ${p.time}`}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="eyebrow text-accent">{labels[p.type]}</p>
-                  <h2 className="mt-2 font-display text-2xl leading-tight md:text-[1.75rem]">{p.title}</h2>
-                  {p.composer && <p className="mt-1 text-sm text-muted">{p.composer}</p>}
-                  {p.role && (
-                    <p className="mt-2 text-sm">
-                      <span className="text-muted">{labels.role}: </span>
-                      {p.role}
-                    </p>
-                  )}
-                </div>
-
-                <div className="col-start-2 md:col-start-auto">
-                  {p.venue && <p className="text-[0.9375rem]">{p.venue}</p>}
-                  {p.place && <p className="text-sm text-muted">{p.place}</p>}
-                  {p.notes && <p className="mt-2 text-sm leading-relaxed text-muted">{p.notes}</p>}
-                  <p className="sr-only">{p.longDate}</p>
-                </div>
-
-                {tab === 'upcoming' && (
-                  <div className="col-start-2 flex flex-wrap items-center gap-x-6 gap-y-3 md:col-start-auto md:flex-col md:items-end">
-                    {p.ticketsUrl && (
-                      <a
-                        href={p.ticketsUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex min-h-11 items-center gap-2 bg-accent px-5 text-[0.8125rem] font-semibold tracking-[0.12em] text-paper uppercase transition-colors hover:bg-accent-soft"
-                      >
-                        {labels.tickets}
-                        <ArrowUpRight aria-hidden className="size-3.5" strokeWidth={1.5} />
-                        <span className="sr-only">— {p.title}, {p.longDate}</span>
-                      </a>
+          groupBySeason(list, tab === 'past').map((group) => (
+            <section
+              key={group.season ?? 'all'}
+              aria-label={group.season ? `${labels.season} ${group.season}` : undefined}
+            >
+              {group.season && (
+                <h2 className="mt-12 flex items-center gap-4 first:mt-8">
+                  <span className="eyebrow text-ink">
+                    {labels.season} {group.season}
+                  </span>
+                  <span aria-hidden className="h-px flex-1 bg-champagne/70" />
+                </h2>
+              )}
+              <ol>
+                {group.items.map((p) => (
+                  <li
+                    key={p.slug}
+                    className={cn(
+                      'group grid grid-cols-[4.5rem_1fr] gap-x-5 gap-y-4 border-b border-rule py-8 transition-colors duration-300 md:grid-cols-[7rem_1.4fr_1fr_auto] md:items-center md:gap-x-8 md:px-4 md:hover:bg-paper-deep',
+                      tab === 'past' && 'text-ink-soft',
                     )}
-                    <AddToCalendar performance={p} label={labels.addToCalendar} />
-                  </div>
-                )}
-              </li>
-            ))}
-          </ol>
+                  >
+                    <div className="row-span-2 md:row-span-1">
+                      <p className="font-display text-5xl leading-none tabular-nums transition-colors group-hover:text-accent md:text-6xl">
+                        {p.day}
+                      </p>
+                      <p className="eyebrow mt-2 text-ink">
+                        {p.month} <span className="text-muted">{p.year}</span>
+                      </p>
+                      <p className="mt-1 text-sm text-muted">
+                        {p.weekday}
+                        {p.time && ` · ${p.time}`}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="eyebrow text-accent">{labels[p.type]}</p>
+                      <h2 className="mt-2 font-display text-2xl leading-tight md:text-[1.75rem]">{p.title}</h2>
+                      {p.composer && <p className="mt-1 text-sm text-muted">{p.composer}</p>}
+                      {p.role && (
+                        <p className="mt-2 text-sm">
+                          <span className="text-muted">{labels.role}: </span>
+                          {p.role}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="col-start-2 md:col-start-auto">
+                      {p.venue &&
+                        (p.venueUrl ? (
+                          <a
+                            href={p.venueUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/venue inline-flex items-center gap-1.5 font-medium underline decoration-champagne decoration-1 underline-offset-4 hover:decoration-ink"
+                          >
+                            {p.venue}
+                            <ArrowUpRight
+                              aria-hidden
+                              className="size-3.5 transition-transform group-hover/venue:-translate-y-0.5"
+                              strokeWidth={1.75}
+                            />
+                            <span className="sr-only">({labels.venueLink})</span>
+                          </a>
+                        ) : (
+                          <p className="font-medium">{p.venue}</p>
+                        ))}
+                      {p.place && <p className="text-sm text-muted">{p.place}</p>}
+                      {p.notes && <p className="mt-2 text-sm leading-relaxed text-muted">{p.notes}</p>}
+                      <p className="sr-only">{p.longDate}</p>
+                    </div>
+
+                    {tab === 'upcoming' && (
+                      <div className="col-start-2 flex flex-wrap items-center gap-x-6 gap-y-3 md:col-start-auto md:flex-col md:items-end">
+                        {p.ticketsUrl && (
+                          <a
+                            href={p.ticketsUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex min-h-11 items-center gap-2 bg-ink px-5 text-[0.8125rem] font-semibold tracking-[0.12em] text-paper uppercase transition-colors hover:bg-accent"
+                          >
+                            {labels.tickets}
+                            <ArrowUpRight aria-hidden className="size-3.5" strokeWidth={1.5} />
+                            <span className="sr-only">
+                              — {p.title}, {p.longDate}
+                            </span>
+                          </a>
+                        )}
+                        <AddToCalendar performance={p} label={labels.addToCalendar} />
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ))
         )}
       </div>
     </div>
