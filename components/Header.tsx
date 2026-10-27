@@ -106,7 +106,7 @@ export function Header({
       >
         <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 sm:px-6 md:h-20 md:px-10">
           <Link href={homeHref} className="wordmark text-lg md:text-xl" aria-label="Anna Avdalyan — Home">
-            Anna Avdalyan
+            Anna
           </Link>
 
           <nav aria-label="Main" className="hidden lg:block">

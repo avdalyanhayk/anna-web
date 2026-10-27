@@ -319,7 +319,7 @@ export default config({
     }),
 
     reviews: collection({
-      label: 'Quotes (press)',
+      label: 'Press (quotes)',
       path: 'content/reviews/*',
       format: { data: 'json' },
       slugField: 'source',

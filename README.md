@@ -115,8 +115,8 @@ Use **Performances → Repertoire (extra roles)** only for:
 - roles you have sung that are not in the Schedule, or concert works without a role;
 - adding a **Recording** link (YouTube, Spotify or SoundCloud) to a scheduled role. Use the same work, composer and role.
 
-**Quotes**
-1. Go to **Performances → Quotes (press)**.
+**Press**
+1. Go to **Performances → Press (quotes)**.
 2. Tick **Show on home page** to feature a quote in the home-page carousel.
 3. Untick **Show the publication name** if you may quote a review but not name the publication.
 
