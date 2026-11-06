@@ -1,60 +1,10 @@
 {
   "photos": [
     {
-      "image": "/images/gallery/gallery-1.jpg",
-      "category": "portrait",
-      "caption": "Portrait session (placeholder)",
-      "credit": "© Photographer",
-      "alt": "Placeholder image: soft ivory drapery"
-    },
-    {
-      "image": "/images/gallery/gallery-2.jpg",
+      "image": "/images/gallery/photos/0/image.jpeg",
       "category": "stage",
-      "caption": "La traviata, Act III (placeholder)",
-      "credit": "© Photographer",
-      "alt": "Placeholder image: dark stage with a pool of light"
-    },
-    {
-      "image": "/images/gallery/gallery-3.jpg",
-      "category": "stage",
-      "caption": "Rusalka rehearsal (placeholder)",
-      "credit": "© Photographer",
-      "alt": "Placeholder image: deep blue drapery"
-    },
-    {
-      "image": "/images/gallery/gallery-4.jpg",
-      "category": "portrait",
-      "caption": "Backstage (placeholder)",
-      "credit": "© Photographer",
-      "alt": "Placeholder image: warm grey fabric folds"
-    },
-    {
-      "image": "/images/gallery/gallery-5.jpg",
-      "category": "stage",
-      "caption": "Gala concert (placeholder)",
-      "credit": "© Photographer",
-      "alt": "Placeholder image: pale curtain lit from the side"
-    },
-    {
-      "image": "/images/gallery/gallery-6.jpg",
-      "category": "stage",
-      "caption": "La bohème, Act I (placeholder)",
-      "credit": "© Photographer",
-      "alt": "Placeholder image: dark velvet with a soft spotlight"
-    },
-    {
-      "image": "/images/gallery/gallery-7.jpg",
-      "category": "portrait",
-      "caption": "Studio portrait (placeholder)",
-      "credit": "© Photographer",
-      "alt": "Placeholder image: light ivory backdrop"
-    },
-    {
-      "image": "/images/gallery/gallery-8.jpg",
-      "category": "stage",
-      "caption": "Gala concert (placeholder)",
-      "credit": "© Photographer",
-      "alt": "Placeholder image: burgundy stage curtain"
+      "caption": "Adele - Die Fledermaus, Schleswig-Holsteinisches Landestheater",
+      "credit": "© H. Matzen"
     }
   ]
 }
