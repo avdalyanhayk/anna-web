@@ -16,6 +16,11 @@
       "image": "/images/gallery/photos/2/image.jpeg",
       "category": "portrait",
       "credit": "© Argine Minasyan"
+    },
+    {
+      "image": "/images/gallery/photos/3/image.jpeg",
+      "category": "portrait",
+      "credit": "© Argine Minasyan"
     }
   ]
 }
