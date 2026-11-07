@@ -8,9 +8,14 @@
     },
     {
       "image": "/images/gallery/photos/1/image.jpeg",
-      "category": "portrait",
+      "category": "stage",
       "caption": "Lisa - Jekyll and Hyde, Schleswig-Holstein State Theatre",
       "credit": "©Thore Nilsson"
+    },
+    {
+      "image": "/images/gallery/photos/2/image.jpeg",
+      "category": "portrait",
+      "credit": "© Argine Minasyan"
     }
   ]
 }
