@@ -1,0 +1,13 @@
+{
+  "title": "La Bohème",
+  "date": "2026-11-29",
+  "time": "18:00",
+  "type": "opera",
+  "role": "Musetta",
+  "composer": "Giacomo Puccini",
+  "addToRepertoire": true,
+  "venue": "Schleswig-Holstein State Theatre",
+  "venueUrl": "https://www.sh-landestheater.de/produktionen/la-bohme.html",
+  "city": "Rendsburg",
+  "country": "Germany"
+}
