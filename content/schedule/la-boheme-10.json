@@ -1,0 +1,14 @@
+{
+  "title": "La Bohème ",
+  "date": "2027-03-07",
+  "time": "18:00",
+  "type": "opera",
+  "role": "Musetta",
+  "composer": "Giacomo Puccini",
+  "addToRepertoire": true,
+  "venue": "Schleswig-Holstein State Theatre",
+  "venueUrl": "https://www.sh-landestheater.de/produktionen/la-bohme.html?m=24",
+  "city": "Rendsburg",
+  "country": "Germany",
+  "ticketsUrl": "https://sh-landestheater.eventim-inhouse.de/webshop/webticket/seatmap?eventId=8075&el=true"
+}
