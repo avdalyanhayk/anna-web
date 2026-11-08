@@ -1,15 +1,14 @@
 {
-  "title": "New Year Gala",
+  "title": "La Bohème ",
   "date": "2026-12-31",
-  "time": "19:30",
-  "type": "concert",
-  "role": "",
-  "composer": "Verdi · Puccini · Lehár",
-  "venue": "Gewandhaus (placeholder)",
-  "venueUrl": "https://example.com/venue",
-  "city": "Leipzig",
+  "time": "18:00",
+  "type": "opera",
+  "role": "Musetta",
+  "composer": "Giacomo Puccini",
+  "addToRepertoire": true,
+  "venue": "Schleswig-Holstein State Theatre",
+  "venueUrl": "https://www.sh-landestheater.de/produktionen/la-bohme.html?m=24",
+  "city": "Rendsburg",
   "country": "Germany",
-  "notes": "Placeholder entry — replace in the site admin.",
-  "notesDe": "Platzhalter — im Admin-Bereich ersetzen.",
-  "ticketsUrl": "https://example.com/tickets"
+  "ticketsUrl": "https://sh-landestheater.eventim-inhouse.de/webshop/webticket/seatmap?eventId=8088&el=true"
 }
