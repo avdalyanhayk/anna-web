@@ -4,5 +4,8 @@
   "type": "opera",
   "role": "Esmeralda",
   "composer": "Bedřich Smetana",
-  "addToRepertoire": true
+  "addToRepertoire": true,
+  "venue": "Schleswig-Holstein State Theatre",
+  "city": "Flensburg",
+  "country": "Germany"
 }
