@@ -4,5 +4,8 @@
   "type": "opera",
   "role": "Molly",
   "composer": "Carl Millöcker",
-  "addToRepertoire": true
+  "addToRepertoire": true,
+  "venue": "Schleswig-Holstein State Theatre",
+  "city": "Flensburg",
+  "country": "Germany"
 }
