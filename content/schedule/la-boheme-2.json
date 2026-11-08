@@ -1,0 +1,14 @@
+{
+  "title": "La Bohème ",
+  "date": "2026-12-11",
+  "time": "19:30",
+  "type": "opera",
+  "role": "Musetta",
+  "composer": " Giacomo Puccini",
+  "addToRepertoire": true,
+  "venue": "Schleswig-Holstein State Theatre",
+  "venueUrl": "https://www.sh-landestheater.de/produktionen/la-bohme.html?m=24",
+  "city": "Flensburg",
+  "country": "Germany",
+  "ticketsUrl": "https://sh-landestheater.eventim-inhouse.de/webshop/webticket/seatmap?eventId=8042&el=true"
+}
