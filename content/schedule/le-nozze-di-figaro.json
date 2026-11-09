@@ -7,8 +7,7 @@
   "composer": "Wolfgang Amadeus Mozart",
   "addToRepertoire": true,
   "venue": "Schleswig-Holstein State Theatre",
-  "venueUrl": "https://www.sh-landestheater.de/file.php?file=uploads/Downloads/Spielzeit%202025-2026/Programmhefte/musiktheater/le_nozze_di_figaro.pdf",
+  "productionUrl": "https://www.sh-landestheater.de/file.php?file=uploads/Downloads/Spielzeit%202025-2026/Programmhefte/musiktheater/le_nozze_di_figaro.pdf",
   "city": "Flensburg",
-  "country": "Germany",
-  "ticketsUrl": "https://www.sh-landestheater.de/file.php?file=uploads/Downloads/Spielzeit%202025-2026/Programmhefte/musiktheater/le_nozze_di_figaro.pdf"
+  "country": "Germany"
 }

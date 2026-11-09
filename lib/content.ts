@@ -31,10 +31,10 @@ export type Performance = {
   role: string;
   composer: string;
   venue: string;
-  venueUrl: string | null;
   city: string;
   country: string;
-  ticketsUrl: string | null;
+  /** Official production page: details and the theatre's own ticket button. */
+  productionUrl: string | null;
   notes: string;
 };
 
@@ -151,10 +151,9 @@ export const getPerformances = cache(async (locale: Locale): Promise<Performance
       role: entry.role,
       composer: entry.composer,
       venue: entry.venue,
-      venueUrl: entry.venueUrl,
       city: entry.city,
       country: entry.country,
-      ticketsUrl: entry.ticketsUrl,
+      productionUrl: entry.productionUrl,
       notes: localized(locale, entry.notes, entry.notesDe),
     }))
     .sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time));
@@ -216,17 +215,6 @@ export const getReviews = cache(async (): Promise<Review[]> => {
       featured: entry.featured,
     }))
     .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
-});
-
-const readLegal = cache(() => reader.singletons.legal.read({ resolveLinkedFiles: true }));
-
-export const getLegal = cache(async (locale: Locale) => {
-  const l = await readLegal();
-  const pick = (en: RichDocument | undefined, de: RichDocument | undefined) => {
-    const doc = locale === 'de' && de && !isEmptyDocument(de) ? de : (en ?? []);
-    return isEmptyDocument(doc) ? null : doc;
-  };
-  return { imprint: pick(l?.imprint, l?.imprintDe), privacy: pick(l?.privacy, l?.privacyDe) };
 });
 
 export type PerformanceView = Performance & {

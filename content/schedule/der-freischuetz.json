@@ -7,10 +7,9 @@
   "composer": "Carl Maria von Weber",
   "addToRepertoire": true,
   "venue": "Schleswig-Holstein State Theatre",
-  "venueUrl": "https://www.sh-landestheater.de/produktionen/der-freischuetz.html?m=24",
+  "productionUrl": "https://www.sh-landestheater.de/produktionen/der-freischuetz.html?m=24",
   "city": "Flensburg",
   "country": "Germany",
-  "ticketsUrl": "https://sh-landestheater.eventim-inhouse.de/webshop/webticket/seatmap?eventId=7996&el=true",
   "notes": "Premiere",
   "notesDe": "Premiere"
 }

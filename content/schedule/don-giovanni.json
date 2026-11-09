@@ -6,7 +6,7 @@
   "composer": "Wolfgang Amadeus Mozart",
   "addToRepertoire": true,
   "venue": "Wilhelma Theater, Stuttgart",
-  "venueUrl": "https://www.wilhelma-theater.de/veranstaltung/don-giovanni",
+  "productionUrl": "https://www.wilhelma-theater.de/veranstaltung/don-giovanni",
   "city": "Stuttgart",
   "country": "Germany"
 }

@@ -7,7 +7,7 @@
   "composer": "Giacomo Puccini",
   "addToRepertoire": true,
   "venue": "Schleswig-Holstein State Theatre",
-  "venueUrl": "https://www.sh-landestheater.de/produktionen/la-bohme.html",
+  "productionUrl": "https://www.sh-landestheater.de/produktionen/la-bohme.html",
   "city": "Rendsburg",
   "country": "Germany"
 }

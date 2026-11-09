@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ContactForm } from '@/components/ContactForm';
 import { PageIntro } from '@/components/PageIntro';
 import { Section } from '@/components/ui';
-import { getDictionary, localePath, resolveLocale, type LocaleParams } from '@/lib/i18n';
+import { getDictionary, resolveLocale, type LocaleParams } from '@/lib/i18n';
 import { pageMetadata } from '@/lib/metadata';
 
 export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
@@ -22,7 +22,7 @@ export default async function ContactPage(props: LocaleParams) {
         <div className="max-w-[760px]">
           <h2 className="font-display text-3xl">{t.contact.formTitle}</h2>
           <div className="mt-8">
-            <ContactForm t={t.contact} privacyHref={localePath(locale, '/privacy')} />
+            <ContactForm t={t.contact} />
           </div>
         </div>
       </Section>

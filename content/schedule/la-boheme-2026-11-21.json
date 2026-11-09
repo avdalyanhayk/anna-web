@@ -7,10 +7,9 @@
   "composer": "Giacomo Puccini",
   "addToRepertoire": true,
   "venue": "Schleswig-Holstein State Theatre",
-  "venueUrl": "https://www.sh-landestheater.de/produktionen/la-bohme.html?m=24",
+  "productionUrl": "https://www.sh-landestheater.de/produktionen/la-bohme.html?m=24",
   "city": "Flensburg",
   "country": "Germany",
-  "ticketsUrl": "https://www.sh-landestheater.de/produktionen/la-bohme.html?ID_Vorstellung=1487&m=24",
   "notes": "Premiere",
   "notesDe": "Premiere"
 }

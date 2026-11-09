@@ -33,7 +33,7 @@ function musicEvent(p: Performance, url: string) {
     },
     performer: { '@type': 'Person', name: ARTIST_NAME },
     ...(p.composer ? { composer: { '@type': 'Person', name: p.composer } } : {}),
-    ...(p.ticketsUrl ? { offers: { '@type': 'Offer', url: p.ticketsUrl } } : {}),
+    ...(p.productionUrl ? { offers: { '@type': 'Offer', url: p.productionUrl } } : {}),
   };
 }
 

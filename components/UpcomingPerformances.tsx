@@ -34,9 +34,9 @@ export function UpcomingPerformances({
               {p.time && ` · ${p.weekday} ${p.time}`}
             </p>
           </div>
-          {p.ticketsUrl && (
+          {p.productionUrl && (
             <a
-              href={p.ticketsUrl}
+              href={p.productionUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="col-start-2 inline-flex min-h-11 items-center justify-center gap-2 justify-self-start bg-ink px-5 text-[0.8125rem] font-semibold tracking-[0.12em] text-paper uppercase transition-colors hover:bg-accent md:col-start-auto md:justify-self-end"

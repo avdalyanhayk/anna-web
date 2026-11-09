@@ -77,7 +77,7 @@ export default async function SiteLayout({
             labels={{ menu: t.common.menu, close: t.common.close, language: t.common.language }}
           />
           <main id="main">{children}</main>
-          <Footer locale={locale} settings={settings} t={t} nav={nav} />
+          <Footer settings={settings} t={t} nav={nav} />
         </MotionProvider>
       </body>
     </html>

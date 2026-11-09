@@ -7,8 +7,7 @@
   "composer": "Leoš Janáček",
   "addToRepertoire": true,
   "venue": "Schleswig-Holstein State Theatre",
-  "venueUrl": "https://www.sh-landestheater.de/produktionen/jenfa.html?m=24",
+  "productionUrl": "https://www.sh-landestheater.de/produktionen/jenfa.html?m=24",
   "city": "Flensburg",
-  "country": "Germany",
-  "ticketsUrl": "https://sh-landestheater.eventim-inhouse.de/webshop/webticket/seatmap?eventId=8001&el=true"
+  "country": "Germany"
 }

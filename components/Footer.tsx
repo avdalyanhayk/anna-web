@@ -1,26 +1,20 @@
 import Link from 'next/link';
 import { ArrowUp } from 'lucide-react';
 import type { Settings } from '@/lib/content';
-import { localePath, type Dictionary, type Locale } from '@/lib/i18n';
+import type { Dictionary } from '@/lib/i18n';
 import { SocialIcon } from './SocialIcon';
 
-/** Dark footer bookending the photo-led hero: wordmark, navigation, social links, legal links. */
+/** Dark footer bookending the photo-led hero: wordmark, navigation, social links. */
 export function Footer({
-  locale,
   settings,
   t,
   nav,
 }: {
-  locale: Locale;
   settings: Settings;
   t: Dictionary;
   nav: { label: string; href: string }[];
 }) {
   const year = new Date().getFullYear();
-  const legal = [
-    { label: t.common.imprint, href: localePath(locale, '/imprint') },
-    { label: t.common.privacy, href: localePath(locale, '/privacy') },
-  ];
 
   return (
     <footer className="on-dark bg-night text-paper">
@@ -64,21 +58,10 @@ export function Footer({
           <p>
             © {year} Anna Avdalyan. {t.common.rights}
           </p>
-          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            {legal.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className="link-draw hover:text-paper">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-            <li>
-              <a href="#main" className="group inline-flex items-center gap-2 hover:text-paper">
-                {t.common.backToTop}
-                <ArrowUp aria-hidden className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5" strokeWidth={1.75} />
-              </a>
-            </li>
-          </ul>
+          <a href="#main" className="group inline-flex items-center gap-2 self-start hover:text-paper md:self-auto">
+            {t.common.backToTop}
+            <ArrowUp aria-hidden className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5" strokeWidth={1.75} />
+          </a>
         </div>
       </div>
     </footer>

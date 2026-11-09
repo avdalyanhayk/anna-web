@@ -7,8 +7,7 @@
   "composer": "Frank Wildhorn",
   "addToRepertoire": true,
   "venue": "Schleswig-Holstein State Theatre",
-  "venueUrl": "https://www.sh-landestheater.de/produktionen/jekyll-hyde.html?m=24",
+  "productionUrl": "https://www.sh-landestheater.de/produktionen/jekyll-hyde.html?m=24",
   "city": "Flensburg",
-  "country": "Germany",
-  "ticketsUrl": "https://sh-landestheater.eventim-inhouse.de/webshop/webticket/seatmap?eventId=8340&el=true"
+  "country": "Germany"
 }

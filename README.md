@@ -75,12 +75,11 @@ Changes go live about **1 minute after you click Save**, once the website has re
 **Add a performance**
 1. Go to **Performances → Schedule** and click **Add**.
 2. Fill in the production, date, time (e.g. `19:30`), type (opera or concert), role, composer, venue, city and country.
-   - Add a **tickets link** if there is one.
-   - Add a **venue / production page**: the theatre's official page for this production.
+   - In **Production & Tickets – More Information**, paste one link: the theatre's official page for this production (e.g. on sh-landestheater.de). The website shows an **Info & tickets** button; visitors find all the details there and buy tickets with the theatre's own ticket button.
 3. The *File name* must be unique. For several dates of one production, add the date, e.g. `la-traviata-2027-03-14`.
 4. Click **Create**.
 
-The website sorts everything automatically. After the date has passed, the performance moves to the **Past** tab by itself, grouped by season (e.g. 2025/26). There it shows only the production and the venue, without dates. If you filled in the **venue / production page**, visitors can click the entry to open that page.
+The website sorts everything automatically. After the date has passed, the performance moves to the **Past** tab by itself, grouped by season (e.g. 2025/26). There it shows only the production and the venue, without dates. If you filled in **Production & Tickets – More Information**, visitors can click the entry to open that page.
 
 **Add a video**
 1. Go to **Media → Videos**.
@@ -119,10 +118,6 @@ Use **Performances → Repertoire (extra roles)** only for:
 1. Go to **Performances → Press (quotes)**.
 2. Tick **Show on home page** to feature a quote in the home-page carousel.
 3. Untick **Show the publication name** if you may quote a review but not name the publication.
-
-**Imprint and privacy policy**
-- Edit these in **Settings → Imprint & privacy**.
-- The seed text is a placeholder and not legal advice: replace it with your own details and have it checked.
 
 **Social links**
 - Edit these in **Settings → Site settings & contact**.

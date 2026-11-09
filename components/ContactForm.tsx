@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Check } from 'lucide-react';
@@ -16,7 +15,7 @@ type Status = 'idle' | 'sending' | 'success' | 'error';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const empty: Values = { name: '', email: '', subject: '', message: '' };
 
-export function ContactForm({ t, privacyHref }: { t: Dictionary['contact']; privacyHref: string }) {
+export function ContactForm({ t }: { t: Dictionary['contact'] }) {
   const [values, setValues] = useState<Values>(empty);
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
@@ -163,11 +162,7 @@ export function ContactForm({ t, privacyHref }: { t: Dictionary['contact']; priv
               </p>
             )}
             <p id="contact-privacy-note" className="mt-3 text-sm text-muted">
-              {t.privacyNote}{' '}
-              <Link href={privacyHref} className="text-accent underline underline-offset-2 hover:text-ink">
-                {t.privacyLink}
-              </Link>
-              .
+              {t.privacyNote}
             </p>
           </div>
 

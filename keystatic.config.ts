@@ -39,7 +39,7 @@ export default config({
       Pages: ['home', 'about'],
       Performances: ['schedule', 'repertoire', 'reviews'],
       Media: ['gallery', 'videos'],
-      Settings: ['settings', 'legal'],
+      Settings: ['settings'],
     },
   },
   singletons: {
@@ -190,18 +190,6 @@ export default config({
       },
     }),
 
-    legal: singleton({
-      label: 'Imprint & privacy',
-      path: 'content/legal/',
-      format: { data: 'json' },
-      schema: {
-        imprint: richText('Imprint (Impressum)', 'Legal notice: name, postal address, contact. Required for German-speaking audiences.'),
-        imprintDe: richText('Impressum (German)', germanHint),
-        privacy: richText('Privacy policy', 'Explains what data the website and contact form process.'),
-        privacyDe: richText('Datenschutzerklärung (German)', germanHint),
-      },
-    }),
-
     settings: singleton({
       label: 'Site settings & contact',
       path: 'content/settings',
@@ -270,10 +258,13 @@ export default config({
           defaultValue: true,
         }),
         venue: fields.text({ label: 'Venue', description: 'e.g. Wiener Staatsoper' }),
-        venueUrl: fields.url({ label: 'Venue / production page', description: "Optional. Link to the theatre's official page for this production." }),
         city: fields.text({ label: 'City' }),
         country: fields.text({ label: 'Country' }),
-        ticketsUrl: fields.url({ label: 'Tickets link', description: 'Optional. Adds a "Tickets" button.' }),
+        productionUrl: fields.url({
+          label: 'Production & Tickets – More Information',
+          description:
+            "One link to the theatre's official page for this production (e.g. on sh-landestheater.de). Visitors find all details there and buy tickets with the theatre's own ticket button.",
+        }),
         notes: fields.text({ label: 'Notes', description: 'Optional, e.g. "Conductor: …, Director: …"', multiline: true }),
         notesDe: fields.text({ label: 'Notes (German)', description: germanHint, multiline: true }),
       },

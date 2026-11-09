@@ -14,7 +14,7 @@ export function AddToCalendar({ performance: p, label, className }: { performanc
       time: p.time,
       location: [p.venue, p.place].filter(Boolean).join(', '),
       description: [p.composer, p.role, p.notes].filter(Boolean).join('\n'),
-      url: p.ticketsUrl,
+      url: p.productionUrl,
     });
     const url = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
     const a = document.createElement('a');

@@ -53,8 +53,8 @@ export function Hero({
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-stretch">
           {next && (
             <Link
-              href={next.ticketsUrl ?? scheduleHref}
-              {...(next.ticketsUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              href={next.productionUrl ?? scheduleHref}
+              {...(next.productionUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               className="group flex min-w-0 items-center justify-between gap-6 bg-paper py-4 pr-5 pl-6 text-ink transition-colors duration-300 hover:bg-paper-deep sm:max-w-md"
             >
               <span className="min-w-0">

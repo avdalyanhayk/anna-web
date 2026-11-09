@@ -49,8 +49,8 @@ function pastBySeason(list: PerformanceView[]): { season: string; items: PastPro
     }
     const key = `${p.title}|${p.venue}`.toLowerCase();
     const existing = group.items.find((i) => i.key === key);
-    if (existing) existing.url ??= p.venueUrl;
-    else group.items.push({ key, title: p.title, composer: p.composer, venue: p.venue, place: p.place, url: p.venueUrl });
+    if (existing) existing.url ??= p.productionUrl;
+    else group.items.push({ key, title: p.title, composer: p.composer, venue: p.venue, place: p.place, url: p.productionUrl });
   }
   return groups;
 }
@@ -176,34 +176,16 @@ export function ScheduleList({
                 </div>
 
                 <div className="col-start-2 md:col-start-auto">
-                  {p.venue &&
-                    (p.venueUrl ? (
-                      <a
-                        href={p.venueUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group/venue inline-flex items-center gap-1.5 font-medium underline decoration-champagne decoration-1 underline-offset-4 hover:decoration-ink"
-                      >
-                        {p.venue}
-                        <ArrowUpRight
-                          aria-hidden
-                          className="size-3.5 transition-transform group-hover/venue:-translate-y-0.5"
-                          strokeWidth={1.75}
-                        />
-                        <span className="sr-only">({labels.venueLink})</span>
-                      </a>
-                    ) : (
-                      <p className="font-medium">{p.venue}</p>
-                    ))}
+                  {p.venue && <p className="font-medium">{p.venue}</p>}
                   {p.place && <p className="text-sm text-muted">{p.place}</p>}
                   {p.notes && <p className="mt-2 text-sm leading-relaxed text-muted">{p.notes}</p>}
                   <p className="sr-only">{p.longDate}</p>
                 </div>
 
                 <div className="col-start-2 flex flex-wrap items-center gap-x-6 gap-y-3 md:col-start-auto md:flex-col md:items-end">
-                  {p.ticketsUrl && (
+                  {p.productionUrl && (
                     <a
-                      href={p.ticketsUrl}
+                      href={p.productionUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex min-h-11 items-center gap-2 bg-ink px-5 text-[0.8125rem] font-semibold tracking-[0.12em] text-paper uppercase transition-colors hover:bg-accent"
