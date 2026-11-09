@@ -22,7 +22,7 @@ export default function PhotoLightbox({
       index={index}
       close={onClose}
       plugins={[Captions, Zoom]}
-      slides={photos.map((p) => ({ src: p.src, alt: p.alt, title: p.caption, description: p.credit }))}
+      slides={photos.map((p) => ({ src: p.src, alt: p.alt, width: p.width, height: p.height, title: p.caption, description: p.credit }))}
       captions={{ descriptionTextAlign: 'center' }}
       zoom={{ maxZoomPixelRatio: 2.5, scrollToZoom: true }}
       controller={{ closeOnBackdropClick: true }}

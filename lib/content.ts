@@ -1,4 +1,6 @@
+import path from 'node:path';
 import { cache } from 'react';
+import { imageSizeFromFile } from 'image-size/fromFile';
 import type { DocumentRendererProps } from '@keystatic/core/renderer';
 import { reader } from './reader';
 import { localized, type Locale } from './i18n';
@@ -65,7 +67,27 @@ export type Review = {
 };
 
 export type Video = { id: string; title: string; description: string; production: string };
-export type Photo = { src: string; caption: string; credit: string; alt: string; category: PhotoCategory };
+export type Photo = {
+  src: string;
+  caption: string;
+  credit: string;
+  alt: string;
+  category: PhotoCategory;
+  /** Intrinsic size, so the gallery can show each photo uncropped at its real proportions. */
+  width: number;
+  height: number;
+};
+
+/** Reads a public/ image's dimensions (EXIF rotation applied); falls back to a 4:5 portrait. */
+async function photoSize(src: string): Promise<{ width: number; height: number }> {
+  try {
+    const { width, height, orientation } = await imageSizeFromFile(path.join(process.cwd(), 'public', src));
+    if (!width || !height) throw new Error('unknown size');
+    return orientation && orientation >= 5 ? { width: height, height: width } : { width, height };
+  } catch {
+    return { width: 4, height: 5 };
+  }
+}
 
 const isEmptyDocument = (doc: RichDocument) =>
   doc.length === 0 ||
@@ -121,13 +143,16 @@ export const getAbout = cache(async (locale: Locale) => {
 
 export const getPhotos = cache(async (): Promise<Photo[]> => {
   const g = await reader.singletons.gallery.read();
-  return (g?.photos ?? []).map((p) => ({
-    src: p.image,
-    caption: p.caption,
-    credit: p.credit,
-    alt: p.alt || p.caption || 'Anna Avdalyan',
-    category: p.category,
-  }));
+  return Promise.all(
+    (g?.photos ?? []).map(async (p) => ({
+      src: p.image,
+      caption: p.caption,
+      credit: p.credit,
+      alt: p.alt || p.caption || 'Anna Avdalyan',
+      category: p.category,
+      ...(await photoSize(p.image)),
+    })),
+  );
 });
 
 export const getVideos = cache(async (): Promise<Video[]> => {

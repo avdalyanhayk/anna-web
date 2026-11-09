@@ -11,9 +11,6 @@ const PhotoLightbox = dynamic(() => import('./PhotoLightbox'), { ssr: false });
 
 type Filter = 'all' | PhotoCategory;
 
-/** Every fifth photo (starting with the first) is shown wide, giving the grid an editorial rhythm. */
-const isFeature = (i: number) => i % 5 === 0;
-
 export function PhotoGallery({
   photos,
   labels,
@@ -48,35 +45,30 @@ export function PhotoGallery({
         </div>
       )}
 
-      <ul className="grid grid-flow-dense grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Masonry columns: every photo keeps its own proportions, so nothing (no head) is cropped. */}
+      <ul className="columns-1 gap-6 sm:columns-2 lg:columns-3">
         {visible.map((photo, i) => (
-          <li key={`${photo.src}-${i}`} className={cn(isFeature(i) && 'sm:col-span-2')}>
+          <li key={`${photo.src}-${i}`} className="mb-10 break-inside-avoid">
             <figure>
               <button
                 type="button"
                 onClick={() => setIndex(i)}
-                className={cn(
-                  'group relative block w-full cursor-zoom-in overflow-hidden bg-paper-deep',
-                  isFeature(i) ? 'aspect-[4/5] sm:aspect-[16/10]' : 'aspect-[4/5]',
-                )}
+                className="group block w-full cursor-zoom-in overflow-hidden bg-paper-deep"
               >
                 <Image
                   src={photo.src}
                   alt={photo.alt}
-                  fill
-                  sizes={
-                    isFeature(i)
-                      ? '(min-width: 1024px) 780px, 100vw'
-                      : '(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw'
-                  }
-                  className="object-cover transition-transform duration-[1200ms] ease-(--ease-out-soft) group-hover:scale-[1.03]"
+                  width={photo.width}
+                  height={photo.height}
+                  sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+                  className="h-auto w-full transition-transform duration-[1200ms] ease-(--ease-out-soft) group-hover:scale-[1.03]"
                 />
                 <span className="sr-only">
                   {labels.openPhoto}: {photo.caption || photo.alt}
                 </span>
               </button>
               {(photo.caption || photo.credit) && (
-                <figcaption className="mt-4 flex items-baseline justify-between gap-4 border-t border-champagne/60 pt-3">
+                <figcaption className="mt-3 flex items-baseline justify-between gap-4 border-t border-champagne/60 pt-3">
                   <span className="font-display text-lg leading-snug">{photo.caption}</span>
                   {photo.credit && <span className="shrink-0 text-sm text-muted">{photo.credit}</span>}
                 </figcaption>
