@@ -87,7 +87,6 @@ const en = {
     emptyUpcoming: 'No upcoming performances in this category yet.',
     emptyPast: 'No past performances in this category.',
     filterLabel: 'Filter by type',
-    stages: 'Stages',
   },
   repertoire: {
     eyebrow: 'Repertoire',
@@ -221,7 +220,6 @@ const de: Dictionary = {
     emptyUpcoming: 'In dieser Kategorie sind noch keine Termine angekündigt.',
     emptyPast: 'Keine vergangenen Termine in dieser Kategorie.',
     filterLabel: 'Nach Art filtern',
-    stages: 'Bühnen',
   },
   repertoire: {
     eyebrow: 'Repertoire',

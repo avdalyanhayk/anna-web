@@ -7,9 +7,9 @@ const photo = (caption: string, category = 'stage') => ({ caption, category });
 const gallery = [
   photo('', 'portrait'),
   photo('Adele - Die Fledermaus, Schleswig-Holsteinisches Landestheater'),
-  photo('Lisa - Jekyll and Hyde, Schleswig-Holstein State Theatre'),
-  photo('Mabel - The Pirates of Penzance, Schleswig-Holstein State Theatre'),
-  photo('Molly - Der Arme Jonathan, Schleswig-Holstein State Theatre'),
+  photo('Lisa - Jekyll and Hyde, Schleswig-Holsteinisches Landestheater'),
+  photo('Mabel - The Pirates of Penzance, Schleswig-Holsteinisches Landestheater'),
+  photo('Molly - Der Arme Jonathan, Schleswig-Holsteinisches Landestheater'),
 ];
 
 test('normalizeTitle drops accents, articles, conjunctions and subtitles', () => {

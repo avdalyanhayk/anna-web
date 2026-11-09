@@ -1,7 +1,7 @@
 /**
  * Finds a gallery photo for a production or role by reading the gallery
  * captions, which editors already write as "Role - Work, Venue"
- * (e.g. "Mabel - The Pirates of Penzance, Schleswig-Holstein State Theatre").
+ * (e.g. "Mabel - The Pirates of Penzance, Schleswig-Holsteinisches Landestheater").
  * No extra admin field is needed: a matching caption is the link.
  */
 

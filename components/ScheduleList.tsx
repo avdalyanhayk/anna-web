@@ -25,36 +25,49 @@ export type ScheduleLabels = {
   filterLabel: string;
   tickets: string;
   addToCalendar: string;
-  stages: string;
 } & CountdownLabels;
 
-type Stage = {
+type PastProduction = {
   key: string;
+  title: string;
+  composer: string;
+  role: string;
+  type: PerformanceType;
   venue: string;
   place: string;
-  productions: { key: string; title: string; composer: string; url: string | null }[];
+  url: string | null;
 };
 
 /**
- * The past archive is a wall of the stages she has sung on, without dates
- * (client request): one card per venue (most recent first) listing its
- * productions, each linking to the production page when one was entered.
+ * The past archive by opera season (newest first), without dates (client
+ * request): one row per production, venue and role in each season, with the
+ * role always shown, linking to the production page when one was entered.
  */
-function pastByStage(list: PerformanceView[]): Stage[] {
-  const stages: Stage[] = [];
+function pastBySeason(list: PerformanceView[]): { season: string; items: PastProduction[] }[] {
+  const groups: { season: string; items: PastProduction[] }[] = [];
   for (const p of list) {
-    const venue = (p.venue || p.city).trim();
-    const key = `${venue}|${p.city.trim()}`.toLowerCase();
-    let stage = stages.find((s) => s.key === key);
-    if (!stage) {
-      stage = { key, venue, place: [p.city.trim(), p.country.trim()].filter(Boolean).join(', '), productions: [] };
-      stages.push(stage);
+    let group = groups.find((g) => g.season === p.season);
+    if (!group) {
+      group = { season: p.season, items: [] };
+      groups.push(group);
     }
-    const existing = stage.productions.find((x) => x.title.trim().toLowerCase() === p.title.trim().toLowerCase());
+    const venue = (p.venue || p.city).trim();
+    const key = `${p.title.trim()}|${venue}|${p.role.trim()}`.toLowerCase();
+    const existing = group.items.find((i) => i.key === key);
     if (existing) existing.url ??= p.productionUrl;
-    else stage.productions.push({ key: p.slug, title: p.title, composer: p.composer, url: p.productionUrl });
+    else
+      group.items.push({
+        key,
+        title: p.title.trim(),
+        composer: p.composer,
+        role: p.role.trim(),
+        type: p.type,
+        venue,
+        place: [p.city.trim(), p.country.trim()].filter(Boolean).join(', '),
+        url: p.productionUrl,
+      });
   }
-  return stages;
+  return groups;
 }
 
 export function ScheduleList({
@@ -73,15 +86,15 @@ export function ScheduleList({
 
   const byType = (p: PerformanceView) => filter === 'all' || p.type === filter;
   const upcomingList = upcoming.filter(byType);
-  const pastStages = pastByStage(past.filter(byType));
-  const pastCount = pastByStage(past).reduce((n, s) => n + s.productions.length, 0);
+  const pastSeasons = pastBySeason(past.filter(byType));
+  const pastCount = pastBySeason(past).reduce((n, g) => n + g.items.length, 0);
 
   const tabs: { key: Tab; label: string; count: number }[] = [
     { key: 'upcoming', label: labels.upcoming, count: upcoming.length },
     { key: 'past', label: labels.past, count: pastCount },
   ];
   const filters: Filter[] = ['all', 'opera', 'concert'];
-  const isEmpty = tab === 'upcoming' ? upcomingList.length === 0 : pastStages.length === 0;
+  const isEmpty = tab === 'upcoming' ? upcomingList.length === 0 : pastSeasons.length === 0;
 
   const onTabKey = (e: React.KeyboardEvent) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
@@ -225,46 +238,66 @@ export function ScheduleList({
             ))}
           </ol>
         ) : (
-          <section aria-labelledby={`${baseId}-stages`}>
-            <h2 id={`${baseId}-stages`} className="mt-10 flex items-center gap-4">
-              <span className="eyebrow text-ink">{labels.stages}</span>
-              <span aria-hidden className="h-px flex-1 bg-champagne/70" />
-            </h2>
-            <ul className="mt-8 grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
-              {pastStages.map((stage) => (
-                <li key={stage.key} className="bg-paper p-7 transition-colors duration-300 hover:bg-paper-deep md:p-9">
-                  {stage.place && <p className="eyebrow text-accent">{stage.place}</p>}
-                  <h3 className="mt-3 font-display text-2xl leading-tight font-semibold text-balance">{stage.venue}</h3>
-                  <span aria-hidden className="mt-5 block h-px w-10 bg-champagne" />
-                  <ul className="mt-5 space-y-3">
-                    {stage.productions.map((prod) => (
-                      <li key={prod.key}>
-                        {prod.url ? (
-                          <a
-                            href={prod.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group/prod inline-flex items-baseline gap-2"
-                          >
-                            <span className="link-draw font-medium">{prod.title}</span>
-                            <ArrowUpRight
-                              aria-hidden
-                              className="size-3.5 shrink-0 self-center text-muted transition-transform group-hover/prod:translate-x-0.5 group-hover/prod:-translate-y-0.5"
-                              strokeWidth={1.75}
-                            />
-                            <span className="sr-only">({labels.venueLink})</span>
-                          </a>
-                        ) : (
-                          <span className="font-medium">{prod.title}</span>
-                        )}
-                        {prod.composer && <span className="block text-sm text-muted">{prod.composer}</span>}
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </section>
+          pastSeasons.map((group) => (
+            <section key={group.season} aria-labelledby={`${baseId}-season-${group.season}`}>
+              <h2 id={`${baseId}-season-${group.season}`} className="mt-14 flex items-baseline gap-5 first:mt-10">
+                <span className="eyebrow text-muted">{labels.season}</span>
+                <span className="font-display text-3xl font-semibold tabular-nums md:text-4xl">{group.season}</span>
+                <span aria-hidden className="h-px flex-1 self-center bg-champagne/70" />
+              </h2>
+              <ul className="mt-4">
+                {group.items.map((item) => {
+                  const body = (
+                    <>
+                      <span className="min-w-0">
+                        <span className="block font-display text-2xl leading-tight font-semibold">{item.title}</span>
+                        {item.composer && <span className="mt-1 block text-sm text-muted">{item.composer}</span>}
+                      </span>
+                      {/* The role is the point of the archive: always shown, in the accent serif. */}
+                      <span className="min-w-0">
+                        <span className="eyebrow block text-[0.6875rem] text-muted">{labels.role}</span>
+                        <span className="mt-0.5 block font-display text-xl font-medium text-accent">
+                          {item.role || labels[item.type]}
+                        </span>
+                      </span>
+                      <span className="min-w-0 border-l border-champagne pl-4 md:border-0 md:pl-0 md:text-right">
+                        <span className="block font-medium">{item.venue}</span>
+                        {item.place && <span className="block text-sm text-muted">{item.place}</span>}
+                      </span>
+                      {item.url ? (
+                        <ArrowUpRight
+                          aria-hidden
+                          className="hidden size-5 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 md:block"
+                          strokeWidth={1.75}
+                        />
+                      ) : (
+                        <span aria-hidden className="hidden md:block" />
+                      )}
+                    </>
+                  );
+                  const rowClass =
+                    'group grid gap-3 border-b border-rule py-6 md:grid-cols-[1.3fr_1fr_1fr_1.25rem] md:items-center md:gap-8 md:px-4';
+                  return (
+                    <li key={item.key}>
+                      {item.url ? (
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cn(rowClass, 'transition-colors duration-300 hover:bg-paper-deep')}
+                        >
+                          {body}
+                          <span className="sr-only">({labels.venueLink})</span>
+                        </a>
+                      ) : (
+                        <div className={rowClass}>{body}</div>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))
         )}
       </div>
     </div>
