@@ -1,15 +1,15 @@
 {
   "heroImage": "/images/home/heroImage.JPG",
-  "headline": "A voice of luminous warmth and dramatic truth",
+  "headline": "A voice of clarity, warmth and elegance.",
   "subheadline": "Opera · Concert",
-  "intro": "Soprano Anna Avdalyan brings a rare combination of lyric radiance and theatrical intensity to the great heroines of Mozart, Verdi and Puccini - on the opera stage and in the concert hall.",
-  "featuredVideoUrl": "https://www.youtube.com/watch?v=bfozlHuZD3c",
+  "intro": "Soprano Anna Avdalyan captivates audiences with her clear, agile voice, natural stage presence and expressive versatility. Combining sparkling vocal lightness with warmth, temperament and a natural flair for character portrayal, she brings individuality and vitality to her performances on the opera stage and in the concert hall.",
+  "featuredVideoUrl": "https://www.youtube.com/watch?v=Cbnd8bcnrug",
   "ctaText": "For engagements and press enquiries",
   "ctaLink": "/contact",
   "de": {
-    "headline": "Eine Stimme von leuchtender Wärme und dramatischer Wahrhaftigkeit",
+    "headline": "Eine Stimme voller Klarheit, Wärme und Eleganz.",
     "subheadline": "Oper · Konzert",
-    "intro": "Die Sopranistin Anna Avdalyan verbindet lyrischen Glanz mit theatralischer Intensität - in den großen Partien von Mozart, Verdi und Puccini auf der Opernbühne und im Konzertsaal.",
+    "intro": "Die Sopranistin Anna Avdalyan begeistert ihr Publikum mit ihrer klaren, beweglichen Stimme, ihrer natürlichen Bühnenpräsenz und ihrer ausdrucksvollen Vielseitigkeit. Mit einer Verbindung aus funkelnder Leichtigkeit, Wärme, Temperament und einem besonderen Gespür für die Gestaltung unterschiedlicher Charaktere verleiht sie ihren Auftritten auf der Opernbühne und im Konzertsaal eine ganz eigene Lebendigkeit und Persönlichkeit.",
     "ctaText": "Für Engagements und Presseanfragen"
   }
 }
