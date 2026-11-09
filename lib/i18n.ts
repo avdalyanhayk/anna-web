@@ -47,6 +47,13 @@ const en = {
     backToTop: 'Back to top',
     rights: 'All rights reserved.',
     nextPerformance: 'Next performance',
+    listen: 'Listen',
+    nowPlaying: 'Now playing',
+    closePlayer: 'Close player',
+    today: 'Today',
+    tomorrow: 'Tomorrow',
+    inDays: 'In {n} days',
+    scroll: 'Scroll',
     placeholderNotice: 'Placeholder content — replace in the site admin.',
   },
   home: {
@@ -80,6 +87,7 @@ const en = {
     emptyUpcoming: 'No upcoming performances in this category yet.',
     emptyPast: 'No past performances in this category.',
     filterLabel: 'Filter by type',
+    stages: 'Stages',
   },
   repertoire: {
     eyebrow: 'Repertoire',
@@ -173,6 +181,13 @@ const de: Dictionary = {
     backToTop: 'Nach oben',
     rights: 'Alle Rechte vorbehalten.',
     nextPerformance: 'Nächster Auftritt',
+    listen: 'Anhören',
+    nowPlaying: 'Es läuft',
+    closePlayer: 'Player schließen',
+    today: 'Heute',
+    tomorrow: 'Morgen',
+    inDays: 'In {n} Tagen',
+    scroll: 'Scrollen',
     placeholderNotice: 'Platzhaltertext — im Admin-Bereich ersetzen.',
   },
   home: {
@@ -206,6 +221,7 @@ const de: Dictionary = {
     emptyUpcoming: 'In dieser Kategorie sind noch keine Termine angekündigt.',
     emptyPast: 'Keine vergangenen Termine in dieser Kategorie.',
     filterLabel: 'Nach Art filtern',
+    stages: 'Bühnen',
   },
   repertoire: {
     eyebrow: 'Repertoire',

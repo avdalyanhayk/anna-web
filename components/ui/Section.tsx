@@ -22,7 +22,7 @@ export function Section({
   children: React.ReactNode;
 } & Omit<React.HTMLAttributes<HTMLElement>, 'className' | 'children'>) {
   return (
-    <section className={cn(variants[variant], 'py-20 md:py-32', className)} {...rest}>
+    <section className={cn(variants[variant], 'py-24 md:py-40', className)} {...rest}>
       <div className={cn('mx-auto w-full max-w-[1200px] px-4 sm:px-6 md:px-10', innerClassName)}>{children}</div>
     </section>
   );

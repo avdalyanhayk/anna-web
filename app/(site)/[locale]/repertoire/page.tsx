@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { PageIntro } from '@/components/PageIntro';
 import { RepertoireIndex } from '@/components/RepertoireIndex';
 import { Section } from '@/components/ui';
-import { getRepertoire } from '@/lib/content';
+import { getPhotos, getRepertoire, photoFor } from '@/lib/content';
 import { getDictionary, resolveLocale, type LocaleParams } from '@/lib/i18n';
 import { pageMetadata } from '@/lib/metadata';
 
@@ -17,7 +17,8 @@ export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
 export default async function RepertoirePage(props: LocaleParams) {
   const locale = await resolveLocale(props);
   const t = getDictionary(locale);
-  const items = await getRepertoire();
+  const [repertoire, photos] = await Promise.all([getRepertoire(), getPhotos()]);
+  const items = repertoire.map((item) => ({ ...item, photo: photoFor(photos, { works: [item.work], role: item.role }) }));
 
   return (
     <>

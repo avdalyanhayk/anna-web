@@ -1,35 +1,45 @@
 import { ArrowUpRight } from 'lucide-react';
 import type { PerformanceView } from '@/lib/content';
+import { Countdown, type CountdownLabels } from './Countdown';
+import { Reveal } from './ui';
 
-/** Compact, scannable list of the next performances (home page, right under the hero). */
+/** Playbill-style list of the next performances (home page, right under the hero). */
 export function UpcomingPerformances({
   performances,
   labels,
 }: {
   performances: PerformanceView[];
-  labels: { tickets: string; types: Record<PerformanceView['type'], string> };
+  labels: CountdownLabels & { tickets: string; types: Record<PerformanceView['type'], string> };
 }) {
   return (
     <ol className="border-t border-champagne">
-      {performances.map((p) => (
-        <li
+      {performances.map((p, i) => (
+        <Reveal
+          as="li"
           key={p.slug}
-          className="grid grid-cols-[4.5rem_1fr] items-start gap-x-5 gap-y-3 border-b border-rule py-6 md:grid-cols-[7rem_1.3fr_1fr_auto] md:items-center md:gap-x-8"
+          delay={i * 0.06}
+          className="group grid grid-cols-[4.75rem_1fr] items-start gap-x-5 gap-y-4 border-b border-rule py-8 md:grid-cols-[8rem_1.4fr_1fr_auto] md:items-center md:gap-x-10 md:py-10"
         >
           <p className="row-span-2 md:row-span-1">
-            <span className="block font-display text-4xl leading-none font-semibold tabular-nums md:text-5xl">{p.day}</span>
-            <span className="eyebrow mt-2 block text-ink">
-              {p.month} {p.year}
+            <span className="block font-display text-5xl leading-[0.85] font-semibold tabular-nums transition-colors duration-500 group-hover:text-accent md:text-7xl">
+              {p.day}
+            </span>
+            <span className="eyebrow mt-3 block text-ink">
+              {p.month} <span className="text-muted">{p.year}</span>
             </span>
           </p>
-          <div>
-            <p className="eyebrow text-accent">{labels.types[p.type]}</p>
-            <h3 className="mt-1 font-display text-2xl leading-tight font-semibold">{p.title}</h3>
-            <p className="mt-1 text-ink-soft">{[p.role, p.composer].filter(Boolean).join(' · ')}</p>
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <p className="eyebrow text-accent">{labels.types[p.type]}</p>
+              {i === 0 && <Countdown date={p.date} labels={labels} className="text-ink" />}
+            </div>
+            <h3 className="mt-2 font-display text-[1.75rem] leading-[1.1] font-semibold md:text-[2.125rem]">{p.title}</h3>
+            {p.role && <p className="mt-2 font-display text-lg font-medium text-accent">{p.role}</p>}
+            {p.composer && <p className="mt-1 text-sm text-muted">{p.composer}</p>}
           </div>
-          <div className="col-start-2 md:col-start-auto">
-            <p className="font-medium">{p.venue}</p>
-            <p className="text-muted">
+          <div className="col-start-2 border-l border-champagne pl-4 md:col-start-auto">
+            <p className="eyebrow text-ink">{p.venue}</p>
+            <p className="mt-1 text-sm text-muted">
               {p.place}
               {p.time && ` · ${p.weekday} ${p.time}`}
             </p>
@@ -48,7 +58,7 @@ export function UpcomingPerformances({
               </span>
             </a>
           )}
-        </li>
+        </Reveal>
       ))}
     </ol>
   );

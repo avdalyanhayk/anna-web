@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Hero } from '@/components/Hero';
 import { JsonLd } from '@/components/JsonLd';
-import { ReviewCarousel } from '@/components/ReviewCarousel';
+import { QuoteMoments } from '@/components/QuoteMoments';
 import { UpcomingPerformances } from '@/components/UpcomingPerformances';
 import { YouTube } from '@/components/YouTube';
 import { Button, DisplayHeading, Eyebrow, Reveal, Section } from '@/components/ui';
@@ -62,7 +62,14 @@ export default async function HomePage(props: LocaleParams) {
         subheadline={home.subheadline}
         next={upcoming[0] ?? null}
         scheduleHref={scheduleHref}
-        labels={{ nextPerformance: t.common.nextPerformance, schedule: t.nav.schedule }}
+        labels={{
+          nextPerformance: t.common.nextPerformance,
+          schedule: t.nav.schedule,
+          scroll: t.common.scroll,
+          today: t.common.today,
+          tomorrow: t.common.tomorrow,
+          inDays: t.common.inDays,
+        }}
       />
 
       <Section id="schedule" aria-labelledby="schedule-title" className="scroll-mt-16">
@@ -82,6 +89,9 @@ export default async function HomePage(props: LocaleParams) {
               performances={upcoming}
               labels={{
                 tickets: t.common.tickets,
+                today: t.common.today,
+                tomorrow: t.common.tomorrow,
+                inDays: t.common.inDays,
                 types: { opera: t.schedule.opera, concert: t.schedule.concert },
               }}
             />
@@ -90,6 +100,22 @@ export default async function HomePage(props: LocaleParams) {
           )}
         </div>
       </Section>
+
+      {featured.length > 0 && (
+        <Section variant="dark" aria-labelledby="press-title" className="py-16 md:py-24">
+          <div className="flex items-center gap-5">
+            <h2 id="press-title" className="eyebrow text-champagne">
+              {t.home.press}
+            </h2>
+            <span aria-hidden className="h-px flex-1 bg-champagne/30" />
+          </div>
+          <QuoteMoments reviews={featured} />
+          <Link href={localePath(locale, '/reviews')} className="link-draw inline-flex items-center gap-3 text-sm font-semibold tracking-[0.12em] text-paper uppercase">
+            {t.reviews.title}
+            <ArrowRight aria-hidden className="size-4" strokeWidth={1.75} />
+          </Link>
+        </Section>
+      )}
 
       {home.intro && (
         <Section id="intro" variant="deep">
@@ -125,21 +151,6 @@ export default async function HomePage(props: LocaleParams) {
               <YouTube url={featuredVideo.id} title={featuredVideo.title} playLabel={t.gallery.playVideo} />
             </Reveal>
           </div>
-        </Section>
-      )}
-
-      {featured.length > 0 && (
-        <Section aria-labelledby="press-title">
-          <Eyebrow as="h2">
-            <span id="press-title">{t.home.press}</span>
-          </Eyebrow>
-          <div className="mt-14">
-            <ReviewCarousel reviews={featured} labels={t.reviews} />
-          </div>
-          <Link href={localePath(locale, '/reviews')} className="link-draw mt-12 inline-flex items-center gap-3 text-sm font-semibold tracking-[0.12em] uppercase">
-            {t.reviews.title}
-            <ArrowRight aria-hidden className="size-4" strokeWidth={1.75} />
-          </Link>
         </Section>
       )}
 

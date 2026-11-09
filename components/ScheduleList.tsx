@@ -3,7 +3,9 @@
 import { useId, useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import type { PerformanceType, PerformanceView } from '@/lib/content';
+import Image from 'next/image';
 import { AddToCalendar } from './AddToCalendar';
+import { Countdown, type CountdownLabels } from './Countdown';
 import { cn } from './ui/cn';
 
 type Tab = 'upcoming' | 'past';
@@ -23,36 +25,36 @@ export type ScheduleLabels = {
   filterLabel: string;
   tickets: string;
   addToCalendar: string;
-};
+  stages: string;
+} & CountdownLabels;
 
-type PastProduction = {
+type Stage = {
   key: string;
-  title: string;
-  composer: string;
   venue: string;
   place: string;
-  url: string | null;
+  productions: { key: string; title: string; composer: string; url: string | null }[];
 };
 
 /**
- * The past archive lists productions, not dates (client request): one row per
- * production and venue in each opera season (newest first), linking to the
- * production page when one was entered.
+ * The past archive is a wall of the stages she has sung on, without dates
+ * (client request): one card per venue (most recent first) listing its
+ * productions, each linking to the production page when one was entered.
  */
-function pastBySeason(list: PerformanceView[]): { season: string; items: PastProduction[] }[] {
-  const groups: { season: string; items: PastProduction[] }[] = [];
+function pastByStage(list: PerformanceView[]): Stage[] {
+  const stages: Stage[] = [];
   for (const p of list) {
-    let group = groups[groups.length - 1];
-    if (!group || group.season !== p.season) {
-      group = { season: p.season, items: [] };
-      groups.push(group);
+    const venue = (p.venue || p.city).trim();
+    const key = `${venue}|${p.city.trim()}`.toLowerCase();
+    let stage = stages.find((s) => s.key === key);
+    if (!stage) {
+      stage = { key, venue, place: [p.city.trim(), p.country.trim()].filter(Boolean).join(', '), productions: [] };
+      stages.push(stage);
     }
-    const key = `${p.title}|${p.venue}`.toLowerCase();
-    const existing = group.items.find((i) => i.key === key);
+    const existing = stage.productions.find((x) => x.title.trim().toLowerCase() === p.title.trim().toLowerCase());
     if (existing) existing.url ??= p.productionUrl;
-    else group.items.push({ key, title: p.title, composer: p.composer, venue: p.venue, place: p.place, url: p.productionUrl });
+    else stage.productions.push({ key: p.slug, title: p.title, composer: p.composer, url: p.productionUrl });
   }
-  return groups;
+  return stages;
 }
 
 export function ScheduleList({
@@ -71,15 +73,15 @@ export function ScheduleList({
 
   const byType = (p: PerformanceView) => filter === 'all' || p.type === filter;
   const upcomingList = upcoming.filter(byType);
-  const pastSeasons = pastBySeason(past.filter(byType));
-  const pastCount = pastBySeason(past).reduce((n, g) => n + g.items.length, 0);
+  const pastStages = pastByStage(past.filter(byType));
+  const pastCount = pastByStage(past).reduce((n, s) => n + s.productions.length, 0);
 
   const tabs: { key: Tab; label: string; count: number }[] = [
     { key: 'upcoming', label: labels.upcoming, count: upcoming.length },
     { key: 'past', label: labels.past, count: pastCount },
   ];
   const filters: Filter[] = ['all', 'opera', 'concert'];
-  const isEmpty = tab === 'upcoming' ? upcomingList.length === 0 : pastSeasons.length === 0;
+  const isEmpty = tab === 'upcoming' ? upcomingList.length === 0 : pastStages.length === 0;
 
   const onTabKey = (e: React.KeyboardEvent) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
@@ -145,16 +147,20 @@ export function ScheduleList({
           </p>
         ) : tab === 'upcoming' ? (
           <ol>
-            {upcomingList.map((p) => (
+            {upcomingList.map((p, i) => (
               <li
                 key={p.slug}
-                className="group grid grid-cols-[4.5rem_1fr] gap-x-5 gap-y-4 border-b border-rule py-8 transition-colors duration-300 md:grid-cols-[7rem_1.4fr_1fr_auto] md:items-center md:gap-x-8 md:px-4 md:hover:bg-paper-deep"
+                className={cn(
+                  'group grid grid-cols-[4.75rem_1fr] gap-x-5 gap-y-6 border-b border-rule py-10 md:gap-x-10 md:py-14',
+                  p.photo ? 'md:grid-cols-[8.5rem_1fr_13rem]' : 'md:grid-cols-[8.5rem_1fr]',
+                )}
               >
-                <div className="row-span-2 md:row-span-1">
-                  <p className="font-display text-5xl leading-none tabular-nums transition-colors group-hover:text-accent md:text-6xl">
+                {/* Playbill date */}
+                <div>
+                  <p className="font-display text-6xl leading-[0.85] font-semibold tabular-nums transition-colors duration-500 group-hover:text-accent md:text-[6.5rem]">
                     {p.day}
                   </p>
-                  <p className="eyebrow mt-2 text-ink">
+                  <p className="eyebrow mt-3 text-ink">
                     {p.month} <span className="text-muted">{p.year}</span>
                   </p>
                   <p className="mt-1 text-sm text-muted">
@@ -163,98 +169,102 @@ export function ScheduleList({
                   </p>
                 </div>
 
-                <div>
-                  <p className="eyebrow text-accent">{labels[p.type]}</p>
-                  <h2 className="mt-2 font-display text-2xl leading-tight md:text-[1.75rem]">{p.title}</h2>
-                  {p.composer && <p className="mt-1 text-sm text-muted">{p.composer}</p>}
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+                    <p className="eyebrow text-accent">{labels[p.type]}</p>
+                    {i === 0 && <Countdown date={p.date} labels={labels} className="text-ink" />}
+                  </div>
+                  <h2 className="mt-3 font-display text-[2rem] leading-[1.05] font-semibold text-balance md:text-[2.75rem]">{p.title}</h2>
+                  {p.composer && <p className="mt-2 text-muted">{p.composer}</p>}
                   {p.role && (
-                    <p className="mt-2 text-sm">
-                      <span className="text-muted">{labels.role}: </span>
-                      {p.role}
+                    <p className="mt-5 flex flex-wrap items-baseline gap-x-3">
+                      <span className="eyebrow text-muted">{labels.role}</span>
+                      <span className="font-display text-xl font-medium text-accent md:text-2xl">{p.role}</span>
                     </p>
                   )}
-                </div>
-
-                <div className="col-start-2 md:col-start-auto">
-                  {p.venue && <p className="font-medium">{p.venue}</p>}
-                  {p.place && <p className="text-sm text-muted">{p.place}</p>}
-                  {p.notes && <p className="mt-2 text-sm leading-relaxed text-muted">{p.notes}</p>}
+                  <div className="mt-5 border-l border-champagne pl-4">
+                    {p.venue && <p className="eyebrow text-ink">{p.venue}</p>}
+                    {p.place && <p className="mt-1 text-sm text-muted">{p.place}</p>}
+                  </div>
+                  {p.notes && <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">{p.notes}</p>}
                   <p className="sr-only">{p.longDate}</p>
+
+                  <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+                    {p.productionUrl && (
+                      <a
+                        href={p.productionUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex min-h-11 items-center gap-2 bg-ink px-5 text-[0.8125rem] font-semibold tracking-[0.12em] text-paper uppercase transition-colors hover:bg-accent"
+                      >
+                        {labels.tickets}
+                        <ArrowUpRight aria-hidden className="size-3.5" strokeWidth={1.5} />
+                        <span className="sr-only">
+                          — {p.title}, {p.longDate}
+                        </span>
+                      </a>
+                    )}
+                    <AddToCalendar performance={p} label={labels.addToCalendar} />
+                  </div>
                 </div>
 
-                <div className="col-start-2 flex flex-wrap items-center gap-x-6 gap-y-3 md:col-start-auto md:flex-col md:items-end">
-                  {p.productionUrl && (
-                    <a
-                      href={p.productionUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex min-h-11 items-center gap-2 bg-ink px-5 text-[0.8125rem] font-semibold tracking-[0.12em] text-paper uppercase transition-colors hover:bg-accent"
-                    >
-                      {labels.tickets}
-                      <ArrowUpRight aria-hidden className="size-3.5" strokeWidth={1.5} />
-                      <span className="sr-only">
-                        — {p.title}, {p.longDate}
-                      </span>
-                    </a>
-                  )}
-                  <AddToCalendar performance={p} label={labels.addToCalendar} />
-                </div>
+                {/* Production photo from the gallery: comes into colour on hover. */}
+                {p.photo && (
+                  <div className="col-start-2 max-w-[13rem] overflow-hidden md:col-start-auto">
+                    <Image
+                      src={p.photo.src}
+                      alt={p.photo.alt}
+                      width={p.photo.width}
+                      height={p.photo.height}
+                      sizes="208px"
+                      className="h-auto w-full grayscale-[70%] transition-[filter,transform] duration-700 ease-(--ease-out-soft) group-hover:scale-[1.04] group-hover:grayscale-0"
+                    />
+                  </div>
+                )}
               </li>
             ))}
           </ol>
         ) : (
-          pastSeasons.map((group) => (
-            <section key={group.season} aria-labelledby={`${baseId}-season-${group.season}`}>
-              <h2 id={`${baseId}-season-${group.season}`} className="mt-12 flex items-center gap-4 first:mt-8">
-                <span className="eyebrow text-ink">
-                  {labels.season} {group.season}
-                </span>
-                <span aria-hidden className="h-px flex-1 bg-champagne/70" />
-              </h2>
-              <ul>
-                {group.items.map((item) => {
-                  const body = (
-                    <>
-                      <span className="min-w-0">
-                        <span className="block font-display text-2xl leading-tight">{item.title}</span>
-                        {item.composer && <span className="mt-1 block text-sm text-muted">{item.composer}</span>}
-                      </span>
-                      <span className="min-w-0 md:text-right">
-                        <span className="block font-medium">{item.venue}</span>
-                        {item.place && <span className="block text-sm text-muted">{item.place}</span>}
-                      </span>
-                      {item.url && (
-                        <ArrowUpRight
-                          aria-hidden
-                          className="hidden size-5 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 md:block"
-                          strokeWidth={1.75}
-                        />
-                      )}
-                    </>
-                  );
-                  const rowClass =
-                    'group grid gap-3 border-b border-rule py-6 md:grid-cols-[1.3fr_1fr_1.25rem] md:items-center md:gap-8 md:px-4';
-                  return (
-                    <li key={item.key}>
-                      {item.url ? (
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={cn(rowClass, 'transition-colors duration-300 hover:bg-paper-deep')}
-                        >
-                          {body}
-                          <span className="sr-only">({labels.venueLink})</span>
-                        </a>
-                      ) : (
-                        <div className={rowClass}>{body}</div>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ))
+          <section aria-labelledby={`${baseId}-stages`}>
+            <h2 id={`${baseId}-stages`} className="mt-10 flex items-center gap-4">
+              <span className="eyebrow text-ink">{labels.stages}</span>
+              <span aria-hidden className="h-px flex-1 bg-champagne/70" />
+            </h2>
+            <ul className="mt-8 grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
+              {pastStages.map((stage) => (
+                <li key={stage.key} className="bg-paper p-7 transition-colors duration-300 hover:bg-paper-deep md:p-9">
+                  {stage.place && <p className="eyebrow text-accent">{stage.place}</p>}
+                  <h3 className="mt-3 font-display text-2xl leading-tight font-semibold text-balance">{stage.venue}</h3>
+                  <span aria-hidden className="mt-5 block h-px w-10 bg-champagne" />
+                  <ul className="mt-5 space-y-3">
+                    {stage.productions.map((prod) => (
+                      <li key={prod.key}>
+                        {prod.url ? (
+                          <a
+                            href={prod.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/prod inline-flex items-baseline gap-2"
+                          >
+                            <span className="link-draw font-medium">{prod.title}</span>
+                            <ArrowUpRight
+                              aria-hidden
+                              className="size-3.5 shrink-0 self-center text-muted transition-transform group-hover/prod:translate-x-0.5 group-hover/prod:-translate-y-0.5"
+                              strokeWidth={1.75}
+                            />
+                            <span className="sr-only">({labels.venueLink})</span>
+                          </a>
+                        ) : (
+                          <span className="font-medium">{prod.title}</span>
+                        )}
+                        {prod.composer && <span className="block text-sm text-muted">{prod.composer}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
       </div>
     </div>

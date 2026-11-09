@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { localePath, stripLocale, type Locale } from '@/lib/i18n';
+import { ListenButton } from './ListenPlayer';
 import { cn } from './ui/cn';
 
 type NavLink = { label: string; href: string };
@@ -23,21 +24,12 @@ export function Header({
 }) {
   const pathname = usePathname();
   const [solid, setSolid] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
-  const lastY = useRef(0);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setSolid(y > 8);
-      // Hide while scrolling down past the fold, reveal on any upward scroll.
-      if (Math.abs(y - lastY.current) > 6) {
-        setHidden(y > lastY.current && y > 160);
-        lastY.current = y;
-      }
-    };
+    // The header stays put while scrolling (client request); it only turns solid.
+    const onScroll = () => setSolid(window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -94,14 +86,15 @@ export function Header({
   return (
     <>
       <header
+        style={{ viewTransitionName: 'site-header' }}
         className={cn(
-          'fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-500 ease-(--ease-out-soft)',
+          'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-500 ease-(--ease-out-soft)',
+          // Over the hero the bar is a dark, blurred band so the menu stays legible over the light photo.
           overHero
-            ? 'border-b border-transparent bg-gradient-to-b from-night/60 to-transparent text-paper'
+            ? 'border-b border-champagne/20 bg-night/80 text-paper backdrop-blur-md'
             : solid
               ? 'border-b border-rule bg-paper/90 text-ink backdrop-blur-md'
               : 'border-b border-transparent bg-transparent text-ink',
-          hidden && !open ? '-translate-y-full' : 'translate-y-0',
         )}
       >
         <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 sm:px-6 md:h-20 md:px-10">
@@ -139,6 +132,7 @@ export function Header({
           </nav>
 
           <div className="flex items-center gap-6">
+            <ListenButton className="hidden lg:inline-flex" />
             {languageSwitch('hidden lg:flex')}
             <button
               ref={toggleRef}

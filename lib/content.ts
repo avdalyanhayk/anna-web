@@ -8,6 +8,7 @@ import { dateParts, formatLongDate, seasonOf, todayIso } from './dates';
 import { parseYouTubeId } from './youtube';
 import { parseRecording, type Recording } from './media';
 import { mergeRepertoire } from './repertoire';
+import { findPhoto } from './photos';
 
 // Every loader returns plain, localized data and tolerates content that has
 // not been created yet, so a missing singleton never breaks the build.
@@ -52,6 +53,8 @@ export type RepertoireItem = {
   recordingUrl: string | null;
   /** True when (also) derived from the Schedule. */
   fromSchedule: boolean;
+  /** Gallery photo whose caption names this work/role (see lib/photos.ts). */
+  photo?: PhotoThumb | null;
 };
 
 export type Review = {
@@ -77,6 +80,9 @@ export type Photo = {
   width: number;
   height: number;
 };
+
+/** The parts of a gallery photo a card needs. */
+export type PhotoThumb = Pick<Photo, 'src' | 'alt' | 'width' | 'height'>;
 
 /** Reads a public/ image's dimensions (EXIF rotation applied); falls back to a 4:5 portrait. */
 async function photoSize(src: string): Promise<{ width: number; height: number }> {
@@ -250,6 +256,8 @@ export type PerformanceView = Performance & {
   year: string;
   place: string;
   season: string;
+  /** Gallery photo whose caption names this production (see lib/photos.ts). */
+  photo?: PhotoThumb | null;
 };
 
 /** Pre-formats dates on the server so client components never re-format (no hydration drift). */
@@ -265,4 +273,10 @@ export function toPerformanceView(p: Performance, locale: Locale): PerformanceVi
     place: [p.city, p.country].filter(Boolean).join(', '),
     season: seasonOf(p.date),
   };
+}
+
+/** A gallery photo for a production or role, matched by caption; null when none fits. */
+export function photoFor(photos: Photo[], query: { works: (string | null | undefined)[]; role?: string | null }): PhotoThumb | null {
+  const p = findPhoto(photos, query);
+  return p ? { src: p.src, alt: p.alt, width: p.width, height: p.height } : null;
 }
