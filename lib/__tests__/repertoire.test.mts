@@ -81,3 +81,41 @@ test('galas without a role, unticked entries and the "work" override', () => {
     ['Faust/opera', 'Ein deutsches Requiem/concert'],
   );
 });
+
+test('CV-style manual entries absorb the differently spelled schedule roles', () => {
+  const items = mergeRepertoire(
+    [
+      manual({ slug: 'carmelites', work: 'Dialogues des Carmélites', composer: 'Francis Poulenc', role: 'Sister Constance' }),
+      manual({ slug: 'brunnen', work: 'Der goldene Brunnen', composer: 'Peter Leipold', role: 'Nina / Schrätzel' }),
+      manual({ slug: 'jekyll', work: 'Jekyll & Hyde', composer: 'Frank Wildhorn', role: 'Lisa', inPreparation: true }),
+      manual({ slug: 'loudun', work: 'Die Teufel von Loudun', composer: 'Krzysztof Penderecki', role: 'Ursuline' }),
+      manual({ slug: 'papagena', work: 'Die Zauberflöte', composer: 'Wolfgang Amadeus Mozart', role: 'Papagena' }),
+      manual({ slug: 'queen', work: 'Die Zauberflöte', composer: 'Mozart', role: 'Queen of the Night / Papagena' }),
+    ],
+    [
+      perf({ title: 'Dialogues des Carmélites', composer: 'Francis Poulenc', role: 'Constance', date: '2026-03-26' }),
+      perf({ title: 'Der Goldene Brunnen', composer: 'Peter Leipold', role: 'Nina and Schrätzel', date: '2024-03-30' }),
+      perf({ title: 'Jekyll & Hyde – The Musical', composer: 'Frank Wildhorn', role: 'Lisa', date: '2026-12-09' }),
+      perf({ title: 'Die Teufel von Loudun (The Devils of Loudun)', composer: ' Krzysztof Penderecki', role: 'Ursuline', date: '2022-06-27' }),
+      perf({ title: 'Die Zauberflöte', composer: 'Wolfgang Amadeus Mozart', role: 'Papagena', date: '2021-11-20' }),
+      perf({ title: 'Die Zauberflöte', composer: 'Wolfgang Amadeus Mozart', role: 'Papagena and Queen of the Night', date: '2022-10-08' }),
+    ],
+    today,
+  );
+  assert.deepEqual(
+    items.map((i) => `${i.slug}:${i.role}`),
+    ['carmelites:Sister Constance', 'brunnen:Nina / Schrätzel', 'jekyll:Lisa', 'loudun:Ursuline', 'papagena:Papagena', 'queen:Queen of the Night / Papagena'],
+    'no duplicates; the manual (CV) wording wins',
+  );
+  assert.equal(items.find((i) => i.slug === 'jekyll')?.inPreparation, true, 'only future dates: still in preparation');
+  assert.ok(items.every((i) => i.fromSchedule));
+});
+
+test('a new role in a work that already has a manual entry is still added', () => {
+  const items = mergeRepertoire(
+    [manual({ role: 'Musetta' })],
+    [perf({ role: 'Mimì', date: '2027-02-01' })],
+    today,
+  );
+  assert.deepEqual(items.map((i) => i.role), ['Musetta', 'Mimì']);
+});
