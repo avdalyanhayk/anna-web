@@ -3,7 +3,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { PageIntro } from '@/components/PageIntro';
 import { ScheduleList } from '@/components/ScheduleList';
 import { Section } from '@/components/ui';
-import { getSchedule, toPerformanceView, type Performance } from '@/lib/content';
+import { getPhotos, getSchedule, photoFor, toPerformanceView, type Performance } from '@/lib/content';
 import { getDictionary, localePath, resolveLocale, type LocaleParams } from '@/lib/i18n';
 import { pageMetadata } from '@/lib/metadata';
 import { ARTIST_NAME, absoluteUrl } from '@/lib/site';
@@ -40,7 +40,7 @@ function musicEvent(p: Performance, url: string) {
 export default async function SchedulePage(props: LocaleParams) {
   const locale = await resolveLocale(props);
   const t = getDictionary(locale);
-  const { upcoming, past } = await getSchedule(locale);
+  const [{ upcoming, past }, photos] = await Promise.all([getSchedule(locale), getPhotos()]);
   const pageUrl = absoluteUrl(localePath(locale, '/schedule'));
 
   return (
@@ -49,9 +49,16 @@ export default async function SchedulePage(props: LocaleParams) {
       <PageIntro eyebrow={t.schedule.eyebrow} title={t.schedule.title} />
       <Section className="pt-0 md:pt-0">
         <ScheduleList
-          upcoming={upcoming.map((p) => toPerformanceView(p, locale))}
+          upcoming={upcoming.map((p) => ({ ...toPerformanceView(p, locale), photo: photoFor(photos, { works: [p.title], role: p.role }) }))}
           past={past.map((p) => toPerformanceView(p, locale))}
-          labels={{ ...t.schedule, tickets: t.common.tickets, addToCalendar: t.common.addToCalendar }}
+          labels={{
+            ...t.schedule,
+            tickets: t.common.tickets,
+            addToCalendar: t.common.addToCalendar,
+            today: t.common.today,
+            tomorrow: t.common.tomorrow,
+            inDays: t.common.inDays,
+          }}
         />
       </Section>
     </>

@@ -1,9 +1,9 @@
 import { cn } from './cn';
 
 const sizes = {
-  xl: 'text-[clamp(2.75rem,7vw,5.5rem)] leading-[1] tracking-[-0.01em]',
-  lg: 'text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.05] tracking-[-0.01em]',
-  md: 'text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.12]',
+  xl: 'text-[clamp(3rem,9vw,7.5rem)] leading-[0.95] tracking-[-0.015em]',
+  lg: 'text-[clamp(2.5rem,6vw,4.75rem)] leading-[1.02] tracking-[-0.01em]',
+  md: 'text-[clamp(2rem,3.8vw,3rem)] leading-[1.08]',
   sm: 'text-[1.625rem] leading-[1.2]',
 } as const;
 

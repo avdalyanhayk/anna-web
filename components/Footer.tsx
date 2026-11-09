@@ -18,7 +18,7 @@ export function Footer({
 
   return (
     <footer className="on-dark bg-night text-paper">
-      <div className="mx-auto max-w-[1200px] px-4 pt-20 pb-10 sm:px-6 md:px-10 md:pt-24">
+      <div className="mx-auto max-w-[1200px] px-4 pt-20 pb-28 sm:px-6 md:px-10 md:pt-24 md:pb-10">
         <p className="wordmark text-[clamp(2.25rem,6vw,4.5rem)] text-balance">Anna Avdalyan</p>
         <span aria-hidden className="mt-8 block h-px w-16 bg-champagne" />
 

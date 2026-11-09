@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { localePath, stripLocale, type Locale } from '@/lib/i18n';
+import { ListenButton } from './ListenPlayer';
 import { cn } from './ui/cn';
 
 type NavLink = { label: string; href: string };
@@ -94,6 +95,7 @@ export function Header({
   return (
     <>
       <header
+        style={{ viewTransitionName: 'site-header' }}
         className={cn(
           'fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-500 ease-(--ease-out-soft)',
           overHero
@@ -139,6 +141,7 @@ export function Header({
           </nav>
 
           <div className="flex items-center gap-6">
+            <ListenButton className="hidden lg:inline-flex" />
             {languageSwitch('hidden lg:flex')}
             <button
               ref={toggleRef}
