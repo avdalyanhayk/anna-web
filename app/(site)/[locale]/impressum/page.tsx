@@ -26,7 +26,7 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
 export default async function ImpressumPage(props: LocaleParams) {
   const locale = await resolveLocale(props);
   const t = getDictionary(locale).impressum;
-  const imp = await getImpressum();
+  const imp = await getImpressum(locale);
 
   const postal = (
     <address className="not-italic">

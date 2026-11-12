@@ -148,9 +148,10 @@ export const getAbout = cache(async (locale: Locale) => {
   };
 });
 
-export const getImpressum = cache(async () => {
+export const getImpressum = cache(async (locale: Locale) => {
   const i = await readImpressum();
-  const notes = i?.notes ?? [];
+  const notesDe = i?.notesDe ?? [];
+  const notes = locale === 'de' && !isEmptyDocument(notesDe) ? notesDe : (i?.notes ?? []);
   const photos = await getPhotos();
   return {
     name: i?.name || 'Anna Avdalyan',

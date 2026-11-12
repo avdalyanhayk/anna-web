@@ -216,6 +216,7 @@ export default config({
           'Additional text',
           'Optional, e.g. disclaimer or copyright notes. Shown under the contact details. Photo credits from the gallery are listed automatically.',
         ),
+        notesDe: richText('Additional text (German)', germanHint),
       },
     }),
 
