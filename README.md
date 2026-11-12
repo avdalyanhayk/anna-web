@@ -100,7 +100,9 @@ Recommended size: about **2000 px** on the longest side and **under 5 MB**. Expo
 1. Go to **Pages → About / Biography**.
 2. Edit the **full biography** as in a word processor. You can use **bold**, *italic*, headings and links.
 3. Write a **short biography** (about 80–120 words) as well. Visitors can switch between short and full, and presenters can copy the short one with one click.
-4. Optionally upload your **CV (PDF)**; visitors get a "Download CV" button under the biography.
+4. Optionally upload your **CV (PDF)**; visitors get a "Download CV" button under the biography. Upload the German version under **CV (PDF, German)** — the German site offers it, and falls back to the English CV when it is empty.
+
+**Impressum** (Pages → Impressum): fill in your postal address and an email address (both required by German law). The page lives at `/impressum` and is linked in the footer; gallery photo credits are listed there automatically.
 
 **Repertoire**
 

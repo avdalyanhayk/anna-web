@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import { PageIntro } from '@/components/PageIntro';
 import { RepertoireIndex } from '@/components/RepertoireIndex';
 import { Section } from '@/components/ui';
-import { getPhotos, getRepertoire, photoFor } from '@/lib/content';
+import { getRepertoire } from '@/lib/content';
 import { getDictionary, resolveLocale, type LocaleParams } from '@/lib/i18n';
 import { pageMetadata } from '@/lib/metadata';
 
-// Roles move from "in preparation" to "performed" once a scheduled date has passed.
+// Scheduled roles join the repertoire; re-render daily like Home/Schedule.
 export const revalidate = 86400;
 
 export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
@@ -17,15 +17,14 @@ export async function generateMetadata(props: LocaleParams): Promise<Metadata> {
 export default async function RepertoirePage(props: LocaleParams) {
   const locale = await resolveLocale(props);
   const t = getDictionary(locale);
-  const [repertoire, photos] = await Promise.all([getRepertoire(), getPhotos()]);
-  const items = repertoire.map((item) => ({ ...item, photo: photoFor(photos, { works: [item.work], role: item.role }) }));
+  const items = await getRepertoire();
 
   return (
     <>
       <PageIntro eyebrow={t.repertoire.eyebrow} title={t.repertoire.title} />
       <Section className="pt-0 md:pt-0">
         {items.length > 0 ? (
-          <RepertoireIndex items={items} labels={t.repertoire} />
+          <RepertoireIndex items={items} locale={locale} />
         ) : (
           <p className="font-display text-2xl text-muted">{t.repertoire.empty}</p>
         )}

@@ -104,6 +104,7 @@ const isEmptyDocument = (doc: RichDocument) =>
 const readSettings = cache(() => reader.singletons.settings.read());
 const readHome = cache(() => reader.singletons.home.read());
 const readAbout = cache(() => reader.singletons.about.read({ resolveLinkedFiles: true }));
+const readImpressum = cache(() => reader.singletons.impressum.read({ resolveLinkedFiles: true }));
 
 export const getSettings = cache(async (locale: Locale): Promise<Settings> => {
   const s = await readSettings();
@@ -143,7 +144,24 @@ export const getAbout = cache(async (locale: Locale) => {
     voiceType: localized(locale, a?.voiceType, a?.voiceTypeDe) || (locale === 'de' ? 'Sopran' : 'Soprano'),
     bio: isEmptyDocument(bio) ? null : bio,
     shortBio: localized(locale, a?.shortBio, a?.shortBioDe),
-    cvPdf: a?.cvPdf ?? null,
+    cvPdf: (locale === 'de' && a?.cvPdfDe) || a?.cvPdf || null,
+  };
+});
+
+export const getImpressum = cache(async () => {
+  const i = await readImpressum();
+  const notes = i?.notes ?? [];
+  const photos = await getPhotos();
+  return {
+    name: i?.name || 'Anna Avdalyan',
+    address: (i?.address ?? '').split('\n').map((l) => l.trim()).filter(Boolean),
+    email: i?.email?.trim() ?? '',
+    phone: i?.phone?.trim() ?? '',
+    notes: isEmptyDocument(notes) ? null : notes,
+    /** Unique photographers from the gallery credits, as "© Jane Doe". */
+    photoCredits: [
+      ...new Set(photos.map((p) => p.credit.replace(/^\s*(©|\(c\))\s*/i, '').trim()).filter(Boolean)),
+    ].map((name) => `© ${name}`),
   };
 });
 

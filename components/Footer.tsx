@@ -9,10 +9,12 @@ export function Footer({
   settings,
   t,
   nav,
+  impressumHref,
 }: {
   settings: Settings;
   t: Dictionary;
   nav: { label: string; href: string }[];
+  impressumHref: string;
 }) {
   const year = new Date().getFullYear();
 
@@ -57,6 +59,10 @@ export function Footer({
         <div className="mt-16 flex flex-col gap-6 border-t border-champagne/30 pt-8 text-sm text-paper/75 md:flex-row md:items-center md:justify-between">
           <p>
             © {year} Anna Avdalyan. {t.common.rights}
+            <span aria-hidden className="mx-3 text-champagne/60">·</span>
+            <Link href={impressumHref} className="link-draw hover:text-paper">
+              {t.common.impressum}
+            </Link>
           </p>
           <a href="#main" className="group inline-flex items-center gap-2 self-start hover:text-paper md:self-auto">
             {t.common.backToTop}

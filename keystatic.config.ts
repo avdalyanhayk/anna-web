@@ -36,7 +36,7 @@ export default config({
   ui: {
     brand: { name: 'Anna Avdalyan — Site admin' },
     navigation: {
-      Pages: ['home', 'about'],
+      Pages: ['home', 'about', 'impressum'],
       Performances: ['schedule', 'repertoire', 'reviews'],
       Media: ['gallery', 'videos'],
       Settings: ['settings'],
@@ -123,6 +123,12 @@ export default config({
           directory: 'public/files',
           publicPath: '/files/',
         }),
+        cvPdfDe: fields.file({
+          label: 'CV (PDF, German)',
+          description: 'Optional. Offered on the German site; leave empty and the German site offers the English CV.',
+          directory: 'public/files/de',
+          publicPath: '/files/de/',
+        }),
       },
     }),
 
@@ -186,6 +192,29 @@ export default config({
             description: 'Drag to reorder. The first video is the featured one on the Gallery page.',
             itemLabel: (props) => props.fields.title.value || 'Video',
           },
+        ),
+      },
+    }),
+
+    impressum: singleton({
+      label: 'Impressum (legal notice)',
+      path: 'content/impressum/',
+      format: { data: 'json' },
+      schema: {
+        name: fields.text({ label: 'Name', defaultValue: 'Anna Avdalyan' }),
+        address: fields.text({
+          label: 'Postal address',
+          description: 'Required by German law (§ 5 DDG): street, postcode and city. One line per row.',
+          multiline: true,
+        }),
+        email: fields.text({
+          label: 'Email',
+          description: 'Required by German law. Shown on the Impressum page only.',
+        }),
+        phone: fields.text({ label: 'Phone', description: 'Optional.' }),
+        notes: richText(
+          'Additional text',
+          'Optional, e.g. disclaimer or copyright notes. Shown under the contact details. Photo credits from the gallery are listed automatically.',
         ),
       },
     }),

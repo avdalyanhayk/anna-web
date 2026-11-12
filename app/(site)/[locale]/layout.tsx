@@ -108,7 +108,7 @@ export default async function SiteLayout({
               labels={{ menu: t.common.menu, close: t.common.close, language: t.common.language }}
             />
             <main id="main">{children}</main>
-            <Footer settings={settings} t={t} nav={nav} />
+            <Footer settings={settings} t={t} nav={nav} impressumHref={localePath(locale, "/impressum")} />
             <MobileNextBar
               next={next}
               scheduleHref={localePath(locale, '/schedule')}
